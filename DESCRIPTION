@@ -42,7 +42,7 @@ Imports:
     utils,
     validate
 Remotes: 
-    ecohealthalliance/containerTemplateUtils,
+    one-health-research-consulting/containerTemplateUtils,
     fcampelo/rdrop2,
     ropensci/ruODK
 URL: https://One-Health-Research-Consulting.github.io/ohcleandat/
