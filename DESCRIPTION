@@ -3,13 +3,13 @@ Type: Package
 Title: One Health Data Cleaning and Quality Checking Package
 Version: 0.3.12
 Authors@R: c(
-    person("Collin", "Schwantes", email = "schwantes@ecohealthalliance.org", role = c("cre", "aut"), comment = c(ORCID = "0000-0003-4014-4896")),
-    person("Johana", "Teigen", email = "teigen@ecohealthalliance.org", role = "aut", comment = c(ORCID = "0000-0002-6209-2321")),
-    person("Ernest", "Guevarra", email = "dean@wavedatalabs.com.au", role = "aut", comment = c(ORCID = "0000-0002-4887-4415")),
+    person("Collin", "Schwantes", email = "cjschwantesll@gmail.com", role = c("cre", "aut"), comment = c(ORCID = "0000-0003-4014-4896")),
+    person("Johana", "Teigen", email = "joteigen14@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-6209-2321")),
+    person("Ernest", "Guevarra", email = "ernest@guevarra.io", role = "aut", comment = c(ORCID = "0000-0002-4887-4415")),
     person("Dean", "Marchiori", email = "dean@wavedatalabs.com.au", role = "aut", comment = c(ORCID = "0000-0002-3430-7225")),
-    person("Melinda", "Rostal", email = "rostal@ecohealthalliance.org", role = "aut", comment = c(ORCID = "0000-0002-6563-5280")),
+    person("Melinda", "Rostal", email = "rostal@onehealthresearch.net", role = "aut", comment = c(ORCID = "0000-0002-6563-5280")),
     person("EcoHealth Alliance", role = c("cph", "fnd"),comment = c(RORID = "https://ror.org/02zv3m156")))
-Maintainer: Collin Schwantes <schwantes@ecohealthalliance.org>
+Maintainer: Collin Schwantes <cjschwantesll@gmail.com>
 Description: This package provides useful functions to orchestrate analytics and data cleaning pipelines for One Health projects.  
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -45,7 +45,7 @@ Remotes:
     ecohealthalliance/containerTemplateUtils,
     fcampelo/rdrop2,
     ropensci/ruODK
-URL: https://ecohealthalliance.github.io/ohcleandat/
+URL: https://One-Health-Research-Consulting.github.io/ohcleandat/
 Depends: 
     R (>= 2.10)
 Roxygen: list(markdown = TRUE)
