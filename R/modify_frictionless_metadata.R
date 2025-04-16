@@ -27,7 +27,7 @@
 #' # update structural metadata
 #' write.csv(data_codebook,"my/codebook.csv", row.names = FALSE)
 #'
-#' data_codebook_updated <- read.csv(""my/codebook.csv"")
+#' data_codebook_updated <- read.csv("my/codebook.csv")
 #'
 #' # create frictionless package - this is done automatically with the
 #' # deposits package
@@ -58,6 +58,10 @@ expand_frictionless_metadata <- function(structural_metadata,
   # get the schema for a resource in the data package
   my_data_schema <- data_package|>
     frictionless::get_schema(resource_name)
+
+  ## check that the number of fields matches
+
+  # length(my_data_schema$fields) == nrow(structural_metadata)
 
   ## build up schema based on structural metadata
 
