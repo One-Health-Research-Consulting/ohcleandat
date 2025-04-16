@@ -2,13 +2,13 @@
 #'
 #' @param data data fame  Input data to be validated
 #' @param rule_set  a rule set of class validator from the validate package
-#' @param pkey character  a character vector giving the column name of the primary key or unique row identifier in the data
+#' @param primary_key character  a character vector giving the column name of the primary key or unique row identifier in the data
 #' @param ... other arguments passed to validate::confront
 #'
 #' @return a data frame formatted as a validation log for human review
 #' @export
 #'
-create_validation_log <- function(data, pkey, rule_set, ...) {
+create_validation_log <- function(data, primary_key, rule_set, ...) {
   conf_obj <- validate::confront(data, rule_set, raise = 'all', ...)
 
   rule_sum <- validate::summary(conf_obj) |>
@@ -22,7 +22,7 @@ create_validation_log <- function(data, pkey, rule_set, ...) {
 
   issues <- rule_vals |>
     tibble::as_tibble() |>
-    dplyr::mutate(id = dplyr::pull(data, pkey), .before = 1) |>
+    dplyr::mutate(id = dplyr::pull(data, primary_key), .before = 1) |>
     tidyr::pivot_longer(cols = -id)  |>
     dplyr::filter(value == FALSE) |>
     dplyr::inner_join(rule_sum, by = dplyr::join_by(name)) |>
@@ -32,7 +32,7 @@ create_validation_log <- function(data, pkey, rule_set, ...) {
     dplyr::mutate(field = stringr::str_extract(field, pattern = "^.*?(?=\\.(\\d+)|$)")) |>
     dplyr::left_join(
       data,
-      by = c("entry" = pkey),
+      by = c("entry" = primary_key),
       na_matches = "never",
       keep = TRUE
     )
