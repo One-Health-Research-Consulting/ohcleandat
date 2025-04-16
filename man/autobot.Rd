@@ -4,7 +4,7 @@
 \alias{autobot}
 \title{Autobot Function}
 \usage{
-autobot(data, old_col, new_col, key)
+autobot(data, old_col, new_col, primary_key)
 }
 \arguments{
 \item{data}{data.frame or tibble}
@@ -13,7 +13,7 @@ autobot(data, old_col, new_col, key)
 
 \item{new_col}{The new column with corrections applied}
 
-\item{key}{column that uniquely identifies the records in data}
+\item{primary_key}{column that uniquely identifies the records in data}
 }
 \value{
 tibble formatted as validation log

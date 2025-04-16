@@ -4,12 +4,12 @@
 \alias{create_validation_log}
 \title{Create Validation Log}
 \usage{
-create_validation_log(data, pkey, rule_set, ...)
+create_validation_log(data, primary_key, rule_set, ...)
 }
 \arguments{
 \item{data}{data fame  Input data to be validated}
 
-\item{pkey}{character  a character vector giving the column name of the primary key or unique row identifier in the data}
+\item{primary_key}{character  a character vector giving the column name of the primary key or unique row identifier in the data}
 
 \item{rule_set}{a rule set of class validator from the validate package}
 
