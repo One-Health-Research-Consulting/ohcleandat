@@ -7,7 +7,7 @@
 #' This is a wrapper of `rdrop2::drop_upload()` which first reads in a local
 #' CSV file and then uploads to a DropBox path.
 #'
-#' @param log dataframe. Validation Log for OH cleaning pipelines. Will work with any tabular data.
+#' @param dataframe Data frame. Will work with any tabular data. Designed to be used with Validation Log for OH cleaning pipelines.
 #' @param file_path character. local file path for upload
 #' @param dropbox_path character. relative dropbox path
 #' @param compress logical. Should files over 300mb be compressed?
@@ -23,8 +23,8 @@
 #'     )
 #' }
 #'
-dropbox_upload <- function(log, file_path, dropbox_path,compress = TRUE) {
-  log_export <- readr::write_csv(log, file_path)
+dropbox_upload <- function(dataframe, file_path, dropbox_path,compress = TRUE) {
+  dataframe_export <- readr::write_csv(dataframe, file_path)
 
   # set file path for file to upload
   file_to_upload <- file_path
