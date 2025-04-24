@@ -12,6 +12,7 @@
 #'
 #' @param r_obj R object to be saved. Likely a data frame
 #' @param rds_file String. Path to rds file in the repo
+#' @param ... Additional arguments to pass to saveRDS
 #'
 #' @returns Path to rds file
 #' @export
@@ -24,7 +25,7 @@
 #'  # read it back in
 #'  df_from_rds < readRDS(rds_path)-
 
-write_rds <- function(r_obj, rds_file) {
+write_rds <- function(r_obj, rds_file, ...) {
 
   if(fs::file_exists(rds_file) & !is.null(r_obj)){
     dat_rds <- readRDS(file = rds_file)
@@ -41,7 +42,7 @@ write_rds <- function(r_obj, rds_file) {
 
 
     rlang::inform("writing raw data rds")
-    saveRDS(r_obj,file =  rds_file)
+    saveRDS(r_obj,file =  rds_file, ...)
   }
 
   if(!fs::file_exists(rds_file)){
