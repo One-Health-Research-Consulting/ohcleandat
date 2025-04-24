@@ -4,12 +4,14 @@
 \alias{write_rds}
 \title{Write data RDS}
 \usage{
-write_rds(r_obj, rds_file)
+write_rds(r_obj, rds_file, ...)
 }
 \arguments{
 \item{r_obj}{R object to be saved. Likely a data frame}
 
 \item{rds_file}{String. Path to rds file in the repo}
+
+\item{...}{Additional arguments to pass to saveRDS}
 }
 \value{
 Path to rds file
@@ -29,10 +31,13 @@ stored as RDS allows you to modify your pipeline to use the local copy
 of the data instead.
 }
 \examples{
- # pretend we got this from a work associated dropbox folder
+\dontrun{
+ pretend we got this from a work associated dropbox folder
  df <- data.frame(a = 1:10)
  # write rds file somewhere
  rds_path <- write_rds(df, "example.rds")
  # read it back in
  df_from_rds < readRDS(rds_path)-
+}
+
 }

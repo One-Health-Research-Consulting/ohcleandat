@@ -18,12 +18,15 @@
 #' @export
 #'
 #' @examples
-#'  # pretend we got this from a work associated dropbox folder
+#' \dontrun{
+#'  pretend we got this from a work associated dropbox folder
 #'  df <- data.frame(a = 1:10)
 #'  # write rds file somewhere
 #'  rds_path <- write_rds(df, "example.rds")
 #'  # read it back in
 #'  df_from_rds < readRDS(rds_path)-
+#' }
+#'
 
 write_rds <- function(r_obj, rds_file, ...) {
 
