@@ -4,10 +4,10 @@
 \alias{dropbox_upload}
 \title{Dropbox Upload}
 \usage{
-dropbox_upload(log, file_path, dropbox_path, compress = TRUE)
+dropbox_upload(dataframe, file_path, dropbox_path, compress = TRUE)
 }
 \arguments{
-\item{log}{dataframe. Validation Log for OH cleaning pipelines. Will work with any tabular data.}
+\item{dataframe}{Data frame. Will work with any tabular data. Designed to be used with Validation Log for OH cleaning pipelines.}
 
 \item{file_path}{character. local file path for upload}
 
