@@ -4,7 +4,7 @@
 \alias{validation_checks}
 \title{Validation Correction Checks}
 \usage{
-validation_checks(validation_log, before_data, after_data, idcol)
+validation_checks(validation_log, before_data, after_data, primary_key)
 }
 \arguments{
 \item{validation_log}{tibble Validation log}
@@ -13,7 +13,7 @@ validation_checks(validation_log, before_data, after_data, idcol)
 
 \item{after_data}{tibble Data after corrections}
 
-\item{idcol}{character the primary key for the 'after_data'}
+\item{primary_key}{character the primary key for the 'after_data'}
 }
 \value{
 NULL if passed or stops with error
@@ -57,7 +57,7 @@ corrections were made as expected, some checks are performed in this function.
     validation_log = kzn_animal_ship_existing_log,
     before_data = kzn_animal_ship,
     after_data = kzn_animal_ship_semiclean,
-    idcol = "animal_id"
+    primary_key = "animal_id"
     )
 }
 

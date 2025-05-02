@@ -3,13 +3,13 @@
 #' @param data data fame  Input data to be validated
 #' @param form_schema data frame The ODK form schema data
 #' @param rule_set  a rule set of class validator from the validate package
-#' @param pkey character  A character vector giving the column name of the primary key or unique row identifier in the data
+#' @param primary_key character  A character vector giving the column name of the primary key or unique row identifier in the data
 #' @param url The ODK submission URL excluding the uuid identifier
 #'
 #' @return a data frame formatted as a validation log for human review
 #' @export
 create_questionnaire_log <-
-  function(data, form_schema, pkey, rule_set, url) {
+  function(data, form_schema, primary_key, rule_set, url) {
     conf_obj <- validate::confront(data, rule_set, raise = 'all')
 
     rule_sum <- validate::summary(conf_obj) |>
@@ -23,7 +23,7 @@ create_questionnaire_log <-
 
     issues <- rule_vals |>
       tibble::as_tibble() |>
-      dplyr::mutate(id = dplyr::pull(data, pkey), .before = 1) |>
+      dplyr::mutate(id = dplyr::pull(data, primary_key), .before = 1) |>
       tidyr::pivot_longer(cols = -id)  |>
       dplyr::filter(value == FALSE) |>
       dplyr::inner_join(rule_sum, by = dplyr::join_by(name)) |>
@@ -33,7 +33,7 @@ create_questionnaire_log <-
       dplyr::mutate(field = stringr::str_extract(field, pattern = "^.*?(?=\\.(\\d+)|$)")) |>
       dplyr::left_join(
         data,
-        by = c("entry" = pkey),
+        by = c("entry" = primary_key),
         na_matches = "never",
         keep = TRUE
       ) |>

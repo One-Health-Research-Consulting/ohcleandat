@@ -4,14 +4,14 @@
 \alias{create_questionnaire_log}
 \title{Create Validation Log for Questionnaire data}
 \usage{
-create_questionnaire_log(data, form_schema, pkey, rule_set, url)
+create_questionnaire_log(data, form_schema, primary_key, rule_set, url)
 }
 \arguments{
 \item{data}{data fame  Input data to be validated}
 
 \item{form_schema}{data frame The ODK form schema data}
 
-\item{pkey}{character  A character vector giving the column name of the primary key or unique row identifier in the data}
+\item{primary_key}{character  A character vector giving the column name of the primary key or unique row identifier in the data}
 
 \item{rule_set}{a rule set of class validator from the validate package}
 

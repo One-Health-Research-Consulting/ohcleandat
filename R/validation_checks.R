@@ -27,7 +27,7 @@
 #' @param validation_log tibble Validation log
 #' @param before_data tibble Data before corrections
 #' @param after_data tibble Data after corrections
-#' @param idcol character the primary key for the 'after_data'
+#' @param primary_key character the primary key for the 'after_data'
 #'
 #' @return NULL if passed or stops with error
 #' @export
@@ -37,7 +37,7 @@
 #'     validation_log = kzn_animal_ship_existing_log,
 #'     before_data = kzn_animal_ship,
 #'     after_data = kzn_animal_ship_semiclean,
-#'     idcol = "animal_id"
+#'     primary_key = "animal_id"
 #'     )
 #' }
 #'
@@ -45,7 +45,7 @@ validation_checks <-
   function(validation_log,
            before_data,
            after_data,
-           idcol) {
+           primary_key) {
     if (!is.null(validation_log)) {
       # preprocess the log
       preprocess_log <- validation_log |>
@@ -92,7 +92,7 @@ validation_checks <-
         unique()
 
       val_recs_idx <-
-        which(dplyr::pull(before_data[idcol]) %in% val_recs)
+        which(dplyr::pull(before_data[primary_key]) %in% val_recs)
     }
 
     # perform dataframe comparison ----
