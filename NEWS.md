@@ -1,5 +1,8 @@
 # ohcleandat 1.0.0
 
+* changing a key field in the logs from `is_valid` to `no_change`. This will
+cause breaking changes.
+
 # ohcleandat 0.3.12
 
 * `expand_frictionless_metadata` can add and remove fields from the metadata depending
