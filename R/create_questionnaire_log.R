@@ -53,7 +53,7 @@ create_questionnaire_log <-
       dplyr::select(-name) |>
       tidyr::replace_na(list(old_value = '', question = '')) |>
       dplyr::mutate(
-        is_valid = '',
+        no_change = '',
         new_val = '',
         user_initials = '',
         comments = '',
@@ -70,7 +70,7 @@ create_questionnaire_log <-
         question,
         issue,
         old_value,
-        is_valid,
+        no_change,
         new_val,
         overwrite_old_value,
         user_initials,

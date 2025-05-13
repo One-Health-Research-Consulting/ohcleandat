@@ -24,7 +24,7 @@ autobot <- function(data, old_col, new_col, primary_key) {
       issue = "Automated field format check failed",
       old_value,
       new_val = !!rlang::sym(new_col),
-      is_valid = as.character(ifelse(is.na(!!rlang::sym(new_col)), "", "FALSE")),
+      no_change = as.character(ifelse(is.na(!!rlang::sym(new_col)), "", "FALSE")),
       user_initials = "autobot",
       comments = ""
     ) |>
@@ -32,7 +32,7 @@ autobot <- function(data, old_col, new_col, primary_key) {
            field,
            issue,
            old_value,
-           is_valid,
+           no_change,
            new_val,
            user_initials,
            comments)

@@ -1,4 +1,4 @@
-rowid,log_response_id,entry,field,issue,old_value,is_valid,new_val,user_initials,comments
+rowid,log_response_id,entry,field,issue,old_value,no_change,new_val,user_initials,comments
 1,23,id_1,animal_id,Results: animal_id (ID Number) improperly formatted,abc-123,F,ABC-123,,For testing duplicate entries
 2,51,id_2,animal_id,Results: animal_id (ID Number) improperly formatted,abc-130,F,ABC-130,,
 3,11,id_3,animal_id,Results: animal_id (ID Number) improperly formatted,abc-125,F,ABC-125,,

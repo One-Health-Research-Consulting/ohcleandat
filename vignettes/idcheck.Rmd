@@ -47,7 +47,7 @@ Below is an example of a (fake) farm_id identifier. We can see the ID checker fu
 ```
 > ohcleandat::autobot(data = test, old_col = "farm_id", new_col = "farm_id_new", key = "farm_id")
 # A tibble: 2 × 8
-  entry     field   issue                               old_value is_valid new_val  user_initials comments
+  entry     field   issue                               old_value no_change new_val  user_initials comments
   <chr>     <chr>   <chr>                               <chr>     <chr>    <chr>    <chr>         <chr>   
 1 1O3ABC010 farm_id Automated field format check failed 1O3ABC010 FALSE    103ABC0… autobot       ""      
 2 143abc010 farm_id Automated field format check failed 143abc010 FALSE    143ABC0… autobot       ""    
