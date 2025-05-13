@@ -39,7 +39,7 @@ create_translation_log <-
 
     trans_log <- other_responses |>
       dplyr::mutate(
-        is_valid = "",
+        no_change = "",
         new_val = "",
         user_initials = "",
         issue = "Free-text detected. Review and translate if required.",
@@ -60,7 +60,7 @@ create_translation_log <-
         question,
         issue,
         old_value = value,
-        is_valid,
+        no_change,
         new_val,
         overwrite_old_value,
         user_initials,

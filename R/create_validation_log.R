@@ -46,7 +46,7 @@ create_validation_log <- function(data, primary_key, rule_set, ...) {
     dplyr::select(-name) |>
     tidyr::replace_na(list(old_value = '')) |>
     dplyr::mutate(
-      is_valid = '',
+      no_change = '',
       new_val = '',
       user_initials = '',
       comments = '',
@@ -55,7 +55,7 @@ create_validation_log <- function(data, primary_key, rule_set, ...) {
                   field,
                   issue,
                   old_value,
-                  is_valid,
+                  no_change,
                   new_val,
                   user_initials,
                   comments)

@@ -17,10 +17,10 @@ correct_data <- function(validation_log, data, primary_key){
     return(data)
   }
 
-  # keeping only records for correction (is_valid = F) and removing NA or blank required info
+  # keeping only records for correction (no_change = F) and removing NA or blank required info
   validation_log <- validation_log |>
     dplyr::filter(
-      is_valid == "FALSE" | is_valid == "F",
+      no_change == "FALSE" | no_change == "F",
       !is.na(field),
       field != "",
       !is.na(entry),

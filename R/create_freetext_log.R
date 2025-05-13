@@ -73,7 +73,7 @@ create_freetext_log <- function(response_data, form_schema, url, lookup){
     dplyr::inner_join(multi_options, by = dplyr::join_by(name)) |>
     dplyr::inner_join(other_responses, by = dplyr::join_by(other_name == name)) |>
     dplyr::mutate(issue = "Is the free-text answer valid? Indicate IsValid = F to overwrite with the correct multiple choice response",
-           is_valid = "",
+           no_change = "",
            user_initials = "",
            odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
            overwrite_old_value = "FALSE",
@@ -86,7 +86,7 @@ create_freetext_log <- function(response_data, form_schema, url, lookup){
            question,
            issue,
            old_value = value,
-           is_valid,
+           no_change,
            new_val = values,
            overwrite_old_value,
            user_initials,

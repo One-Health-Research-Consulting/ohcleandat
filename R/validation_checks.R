@@ -50,7 +50,7 @@ validation_checks <-
       # preprocess the log
       preprocess_log <- validation_log |>
         dplyr::filter(
-          is_valid == "FALSE" | is_valid == "F",
+          no_change == "FALSE" | no_change == "F",
           !is.na(field),
           field != "",
           !is.na(entry),

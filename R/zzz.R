@@ -3,7 +3,7 @@ utils::globalVariables(
   "comments",
   "entry",
   "field",
-  "is_valid",
+  "no_change",
   "issue",
   "new_val",
   "old_value",

@@ -48,7 +48,7 @@ The following is a list of fields in the validation logs and their meaning:
 
 **old_value**: Indicates the current value in the data that did not pass the validation rule.
 
-**is_valid**: A very important column in the validation log. This can take two values. TRUE or FALSE (also acceptable are T and F). When a particular record in the validation log needs to be corrected a user must mark this with FALSE, indicating the current value in the data set is not valid and that it requires correction. If a user is reviewing the validation log and despite the fact that there has been an entry in the log, the old value in the data is in fact correct, the user can place a TRUE in this field to indicate that the record is valid and does not require correction.  
+**no_change**: A very important column in the validation log. This can take two values. TRUE or FALSE (also acceptable are T and F). When a particular record in the validation log needs to be corrected a user must mark this with FALSE, indicating the current value in the data set is not valid and that it requires correction. If a user is reviewing the validation log and despite the fact that there has been an entry in the log, the old value in the data is in fact correct, the user can place a TRUE in this field to indicate that the record is valid and does not require correction.  
 
 **new_val**: A column for human input to indicate the corrected value.  
 
@@ -66,6 +66,6 @@ It's important that the formatting and file format of the validation log is not 
 
 There are some special cases where the validation log can be used to do more than just simply correcting existing values that are raised. 
 
-The first example of this is **creating a new value** in the data set. If a new value is to be created the user must go to the end of the validation log and create a new entry. A new `rowid` should be provided and the appropriate entry ID should be populated. The fields `new_value` and `is_valid` columns also need to be created.
+The first example of this is **creating a new value** in the data set. If a new value is to be created the user must go to the end of the validation log and create a new entry. A new `rowid` should be provided and the appropriate entry ID should be populated. The fields `new_value` and `no_change` columns also need to be created.
 
 In the case where **a record is to be deleted**, a user can provide a keyword in the `new_val` column. Currently, this keyword is 'Delete'. This is set to be detected in the pipeline and rather than changing the value to the word 'Delete' the correction function will interpret this as an instruction to delete this particular record from the data. If this keyword needs to be changed, there is the ability to pass this argument to the correction function, in the targets pipeline.  
