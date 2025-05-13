@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ohcleandat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,7 +124,7 @@ only and provides the survey question text.</p>
 validation rule has been broken and what needs to be corrected.</p>
 <p><strong>old_value</strong>: Indicates the current value in the data
 that did not pass the validation rule.</p>
-<p><strong>is_valid</strong>: A very important column in the validation
+<p><strong>no_change</strong>: A very important column in the validation
 log. This can take two values. TRUE or FALSE (also acceptable are T and
 F). When a particular record in the validation log needs to be corrected
 a user must mark this with FALSE, indicating the current value in the
@@ -163,7 +163,7 @@ the data set. If a new value is to be created the user must go to the
 end of the validation log and create a new entry. A new
 <code>rowid</code> should be provided and the appropriate entry ID
 should be populated. The fields <code>new_value</code> and
-<code>is_valid</code> columns also need to be created.</p>
+<code>no_change</code> columns also need to be created.</p>
 <p>In the case where <strong>a record is to be deleted</strong>, a user
 can provide a keyword in the <code>new_val</code> column. Currently,
 this keyword is ‘Delete’. This is set to be detected in the pipeline and
