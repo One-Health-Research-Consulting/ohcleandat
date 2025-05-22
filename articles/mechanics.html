@@ -157,7 +157,7 @@ pipelines.</p>
 <span>  <span class="fu">targets</span><span class="fu">::</span><span class="fu">tar_target</span><span class="op">(</span></span>
 <span>    <span class="va">fs_mosquito_field_raw</span>,</span>
 <span>    <span class="fu">ohcleandat</span><span class="fu">::</span><span class="fu"><a href="../reference/read_googlesheets.html">read_googlesheets</a></span><span class="op">(</span></span>
-<span>      key_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"./key.json"</span><span class="op">)</span>,</span>
+<span>      key_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"./key.json"</span><span class="op">)</span>,</span>
 <span>      ss <span class="op">=</span> <span class="va">fs_mosquito_field_sheets</span>,</span>
 <span>      sheet <span class="op">=</span> <span class="st">"all"</span></span>
 <span>    <span class="op">)</span>,</span>
@@ -277,7 +277,7 @@ pipelines.</p>
 <span>    <span class="va">upload_fs_mosquito_field_semiclean</span>,</span>
 <span>    <span class="fu">ohcleandat</span><span class="fu">::</span><span class="fu"><a href="../reference/dropbox_upload.html">dropbox_upload</a></span><span class="op">(</span></span>
 <span>      <span class="va">fs_mosquito_field_semiclean</span>,</span>
-<span>      file_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"outputs/semiclean_fs_mosquito_field.csv"</span><span class="op">)</span>,</span>
+<span>      file_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"outputs/semiclean_fs_mosquito_field.csv"</span><span class="op">)</span>,</span>
 <span>      dropbox_path <span class="op">=</span> <span class="st">"dropbox/semi_clean_data"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    cue <span class="op">=</span> <span class="fu">targets</span><span class="fu">::</span><span class="fu">tar_cue</span><span class="op">(</span><span class="st">"always"</span><span class="op">)</span></span>
@@ -310,7 +310,7 @@ pipelines.</p>
 <span>    <span class="va">upload_log_fs_mosquito_field_dropbox</span>,</span>
 <span>    <span class="fu">ohcleandat</span><span class="fu">::</span><span class="fu"><a href="../reference/dropbox_upload.html">dropbox_upload</a></span><span class="op">(</span></span>
 <span>      log <span class="op">=</span> <span class="va">log_fs_mosquito_field_combined</span>,</span>
-<span>      file_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"outputs/log_fs_mosquito_field.csv"</span><span class="op">)</span>,</span>
+<span>      file_path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"outputs/log_fs_mosquito_field.csv"</span><span class="op">)</span>,</span>
 <span>      dropbox_path <span class="op">=</span> <span class="st">"dropbpx/validation_logs"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    cue <span class="op">=</span> <span class="fu">targets</span><span class="fu">::</span><span class="fu">tar_cue</span><span class="op">(</span><span class="st">"always"</span><span class="op">)</span></span>
@@ -319,9 +319,9 @@ pipelines.</p>
 <span>  <span class="co"># Rendering a HTML report for archival and emailing</span></span>
 <span>  <span class="fu">tarchetypes</span><span class="fu">::</span><span class="fu">tar_render</span><span class="op">(</span></span>
 <span>    <span class="va">report_fs_mosquito_field</span>,</span>
-<span>    path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"reports/RVF2_FS_Mosquito_Field.Rmd"</span><span class="op">)</span>,</span>
+<span>    path <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"reports/RVF2_FS_Mosquito_Field.Rmd"</span><span class="op">)</span>,</span>
 <span>    output_dir <span class="op">=</span> <span class="st">"outputs"</span>,</span>
-<span>    knit_root_dir <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    knit_root_dir <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  </span>
 <span>  <span class="co"># target to identify report path</span></span>
