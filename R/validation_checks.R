@@ -55,7 +55,7 @@ validation_checks <-
           field != "",
           !is.na(entry),
           entry != "",
-          new_val != ""
+          !is.na(new_val) # since "" is an allowable value
         ) |>
         dplyr::mutate("entry_field" = paste(entry,field,sep = "_")) |>
         dplyr::mutate("entry_field_dupe" =  duplicated(entry_field,

@@ -14,22 +14,24 @@ correct_data <- function(validation_log, data, primary_key){
 
   # if the log returns NULL (for example there is no existing log), then return raw data
   if(is.null(validation_log)){
+    message("Validation log doesnt exist yet. Returning raw data.")
     return(data)
   }
 
   # keeping only records for correction (no_change = F) and removing NA or blank required info
+  # is possible to have new value be an empty string e.g. ""
   validation_log <- validation_log |>
     dplyr::filter(
       no_change == "FALSE" | no_change == "F",
       !is.na(field),
       field != "",
       !is.na(entry),
-      entry != "",
-      new_val != ""
+      entry != ""
     )
 
   # if nothing to correct return raw data
   if(nrow(validation_log) == 0){
+    message("Nothing to correct. Returning data.")
     return(data)
   }
 
