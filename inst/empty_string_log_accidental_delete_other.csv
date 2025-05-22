@@ -1,0 +1,5 @@
+rowid,log_response_id,entry,field,issue,old_value,no_change,new_val,user_initials,comments
+1,2,id_4,animals_on_farm,Animals on farm is other,other,FALSE,swine,cjs,pigs are swine
+2,1,id_11,animals_on_farm,Animals on farm is other,other,FALSE,cow,cjs,cattle are cows
+3,2,id_4,other_response,other_response has characters,pig,FALSE,,cjs,pigs are swine
+4,1,id_11,other_response,other_response has characters,,FALSE,,cjs,cattle are cows - finger slipped and deleted old value
