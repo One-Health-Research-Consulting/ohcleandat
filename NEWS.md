@@ -1,4 +1,6 @@
 # ohcleandat 1.1.1
+- Fix sign issue in validation checks warning on duplication
+- Make removes_deletes robust to capitalization errors in the keyword "Delete"
 
 # ohcleandat 1.1.0
 
