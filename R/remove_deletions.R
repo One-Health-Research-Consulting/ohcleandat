@@ -14,7 +14,7 @@
 #' @param x input vector
 #' @param val The value to check for inequality. Defaults to 'Delete' with
 #' ignore case = TRUE. This is a regular expression and can be modified as such.
-#' see stringr::regex.
+#' see stringr::regex. Val is fed into stringr::str_detect as the pattern parameter.
 #'
 #' @return logical vector
 #' @export
@@ -23,7 +23,7 @@
 #' \dontrun{
 #' data |> filter(if_all(everything(), remove_deletions))
 #' }
-remove_deletions <- function(x, val = "Delete"){
+remove_deletions <- function(x, val = stringr::regex("Delete",ignore_case = TRUE)){
 
-  stringr::str_detect(string = x, pattern = stringr::regex(val,ignore_case = TRUE)) | is.na(x)
+  stringr::str_detect(string = x, pattern = val) | is.na(x)
 }

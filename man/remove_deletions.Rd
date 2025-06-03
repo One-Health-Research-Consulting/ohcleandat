@@ -4,14 +4,14 @@
 \alias{remove_deletions}
 \title{Utility function to identify records for deletion}
 \usage{
-remove_deletions(x, val = "Delete")
+remove_deletions(x, val = stringr::regex("Delete", ignore_case = TRUE))
 }
 \arguments{
 \item{x}{input vector}
 
 \item{val}{The value to check for inequality. Defaults to 'Delete' with
 ignore case = TRUE. This is a regular expression and can be modified as such.
-see stringr::regex.}
+see stringr::regex. Val is fed into stringr::str_detect as the pattern parameter.}
 }
 \value{
 logical vector

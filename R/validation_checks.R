@@ -68,7 +68,7 @@ validation_checks <-
           row_ids_cat <- paste(row_ids,collapse = "\n")
 
           msg <- sprintf("%s:\n%s", body,row_ids_cat)
-          rlang::warn("Detected duplicate entry-field combination. The same item has been corrected at least twice in the log")
+          rlang::warn(msg)
         }
 
       ## message about reversions
