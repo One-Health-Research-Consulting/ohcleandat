@@ -9,7 +9,9 @@ remove_deletions(x, val = "Delete")
 \arguments{
 \item{x}{input vector}
 
-\item{val}{The value to check for inequality. Defaults to 'Delete'}
+\item{val}{The value to check for inequality. Defaults to 'Delete' with
+ignore case = TRUE. This is a regular expression and can be modified as such.
+see stringr::regex.}
 }
 \value{
 logical vector
