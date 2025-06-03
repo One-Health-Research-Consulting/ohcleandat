@@ -62,7 +62,12 @@ validation_checks <-
                                                        fromLast = TRUE)) # check for duplicate entry-field combos.
 
         ## warning message for duplicate field and entry items
-        if(any(!preprocess_log$entry_field_dupe)){
+        if(any(preprocess_log$entry_field_dupe)){
+          body <- stringr::str_wrap("Detected duplicate entry-field combination. The same item has been corrected at least twice in the log")
+          row_ids <- preprocess_log[preprocess_log$entry_field_dupe,"rowid"]
+          row_ids_cat <- paste(row_ids,collapse = "\n")
+
+          msg <- sprintf("%s:\n%s", body,row_ids_cat)
           rlang::warn("Detected duplicate entry-field combination. The same item has been corrected at least twice in the log")
         }
 
