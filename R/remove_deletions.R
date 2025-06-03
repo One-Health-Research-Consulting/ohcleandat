@@ -12,7 +12,9 @@
 #' columns in a data frame. See examples
 #'
 #' @param x input vector
-#' @param val The value to check for inequality. Defaults to 'Delete'
+#' @param val The value to check for inequality. Defaults to 'Delete' with
+#' ignore case = TRUE. This is a regular expression and can be modified as such.
+#' see stringr::regex.
 #'
 #' @return logical vector
 #' @export
@@ -22,5 +24,6 @@
 #' data |> filter(if_all(everything(), remove_deletions))
 #' }
 remove_deletions <- function(x, val = "Delete"){
-  x != val | is.na(x)
+
+  stringr::str_detect(string = x, pattern = stringr::regex(val,ignore_case = TRUE)) | is.na(x)
 }
