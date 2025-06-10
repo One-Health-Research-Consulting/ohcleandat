@@ -12,15 +12,20 @@
 #' columns in a data frame. See examples
 #'
 #' @param x input vector
-#' @param val The value to check for inequality. Defaults to 'Delete'
+#' @param val Character or regex. The value to check for inequality. Val is fed into
+#' stringr::str_detect as the pattern parameter. Defaults to 'Delete' with
+#' ignore case = TRUE. See stringr::str_detect for more details.
 #'
 #' @return logical vector
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' data |> filter(if_all(everything(), remove_deletions))
-#' }
-remove_deletions <- function(x, val = "Delete"){
-  x != val | is.na(x)
+#' data <- data.frame("a" = sample(c("Delete", "Keep",NA),size = 10,replace = TRUE))
+#'
+#' data |>
+#'   dplyr::filter(dplyr::if_all(everything(), remove_deletions))
+#'
+remove_deletions <- function(x, val = stringr::regex("Delete",ignore_case = TRUE)){
+
+  stringr::str_detect(string = x, pattern = val,negate = TRUE) | is.na(x)
 }

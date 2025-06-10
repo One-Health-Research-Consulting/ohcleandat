@@ -4,12 +4,14 @@
 \alias{remove_deletions}
 \title{Utility function to identify records for deletion}
 \usage{
-remove_deletions(x, val = "Delete")
+remove_deletions(x, val = stringr::regex("Delete", ignore_case = TRUE))
 }
 \arguments{
 \item{x}{input vector}
 
-\item{val}{The value to check for inequality. Defaults to 'Delete'}
+\item{val}{Character or regex. The value to check for inequality. Val is fed into
+stringr::str_detect as the pattern parameter. Defaults to 'Delete' with
+ignore case = TRUE. See stringr::str_detect for more details.}
 }
 \value{
 logical vector
@@ -26,7 +28,9 @@ Used within verbs such as \code{tidyselect::all_of()} this can work effectively 
 columns in a data frame. See examples
 }
 \examples{
-\dontrun{
-data |> filter(if_all(everything(), remove_deletions))
-}
+data <- data.frame("a" = sample(c("Delete", "Keep",NA),size = 10,replace = TRUE))
+
+data |>
+  dplyr::filter(dplyr::if_all(everything(), remove_deletions))
+
 }
