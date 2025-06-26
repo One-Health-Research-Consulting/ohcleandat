@@ -9,6 +9,11 @@ vignette: >
 
 # Encryption
 
+Adapted from:
+
+Collin Schwantes, Alix Augusto Armero Villanueva, Nathan Layman, Kevin J. Olival, Ernest Guevarra, Evan Eskew, Maëlle Salmon, Shirley X. Chen, & Noam Ross. (2023). EHA Modeling & Analytics Handbook (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.8408552
+
+
 - _How do we share data in git repositories that needs to be secure?_
 
 Sometimes we need to store and share secure information, such as passwords or API keys, to
