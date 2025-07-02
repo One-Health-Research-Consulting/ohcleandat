@@ -1,0 +1,85 @@
+---
+title: "Getting Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting_started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(ohcleandat)
+```
+
+## Introduction:
+The ohcleandat R package is designed to help researchers clean, validate, and organize data for One Health studies. It provides an easy-to-use system for transforming raw data while keeping track of any changes made. This ensures data quality and makes the process more transparent and repeatable. The package is flexible and can handle different types of data, making it a useful tool for managing and preparing data for analysis in One Health projects.
+
+## Install the package:
+``` r
+# install.packages("devtools")
+devtools::install_github("one-health-research-consulting/ohcleandat")
+```
+
+## Create a new repo for automated data cleaning and validation:
+We've created a repository [`template`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template#) for the ohcleandat package using GitHub automations and targets workflow. This template includes examples of writing validation rules and example scripts and functions for using the ohcleandat package in an automated workflow. The package was built to be used within this workflow, however the package can be used outside of this workflow to fit the users need in whatever automated you prefer. 
+
+#########
+INSERT PICTURE OF REPO
+#########
+
+## Write your rules:
+Each data collection tool to be cleaned requires specific rules to be written that tailored to the data verification checks and quality checks required for your data. The ohcleandat package has been built to  uses the [`{validate}`](https://github.com/data-cleaning/validate) package which also has a a great guide called the [`Data Validation Cookbook`](https://data-cleaning.github.io/validate/index.html#acknowledgements) that can be used to learn how to use the package.
+
+While each data tool is different and will require different rules to validate collected data, here are some of the common rules this package has written to check data:
+
+1) Checking for missing variables
+2) Standardization of data keys (i.e. human ids, animal ids, household ids)
+3) Checking dates
+4) Checking numeric ranges for expected values (i.e. if your collecting data from persons 18-25 their age entered should fall between 18-25)
+5) Checking for uniqueness and flagging repeated values where relevant
+
+
+## Create Scripts:
+This packages recommends uses [`{targets}`](https://books.ropensci.org/targets/) to manage the validation and cleaning code execution.
+
+Within the [`{ohcleandat-template}`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template#) as described above there are three main types of scripts that are used and described below:
+
+ - **target workflow scripts** – naming system is "_targets.R" and live in the main working directory of the repository. These contain the targets that are named using nouns to describe the outputs of the targets. Within the target itself, functions are used to execute the different actions of the workflow. See a specific example of a target workflow script [`here`](https://github.com/) from the ohcleandat-template repository.
+
+ - **R function scripts** – these .R files live in the "R" folder. The naming system system uses a verb and then description naming system (ex. preprocessing_questionnare). Common functions written outside of the ohcleandat package are functions to get/pull raw data from it's original source, pre-processing to format data, and other specific cleaning functions outside the scope of the ohcleandat package.  See a specific example of an R function script [`here`](https://github.com/) from the ohcleandat-template repository.
+ 
+ - **rule scripts** – these .R files live in the "R" folder and are used to define the rules that will then be used in the targets to flag any errors or mistakes. These are written using the validate R package as described above. See a specific example of a rules script [`here`](https://github.com/) from the ohcleandat-template repository.
+ 
+ - **integration markdown reports** – these .Rmd files live in the "reports" folder. These are used for the integration validations. These reports compare IDs that don’t match between data sets that are to be integrated as well as other cross-checks for data quality. See a specific example of a rules script [`here`](https://github.com/) from the ohcleandat-template repository.
+ 
+ - **dashboards scripts** – these .Rmd files live in the "dashboards" folder. The targets workflow script contains code for deploying dashboards. Dashboards can be created in .Rmd files based off of data pulled and cleaned from the workflow and summarized to show research progress and other evaluation or program indicators that require monitoring. There are no specific templates or formats created and teams are suggested to look into [`Rmarkdown`](https://rmarkdown.rstudio.com/lesson-12.html) documentation for further support. 
+ 
+
+## Set up folder:
+This workflow uses a shared folder system to upload the validation logs and data into a a cloud based system to allow multiple users to access and participate in the cleaning and validating process. This package is set up currently to upload these files to Dropbox, however the system can be tailored to be uploaded to other cloud-based shared folder systems.
+
+This is the recommended file structure is as follows:
+
+ - **validation_logs** – Folder where validation excel files are store and accessed by teams to complete the initial cleaning process.
+ 
+ - **raw_data** – Folder where single copies of the raw data can be stored as back-ups.
+ 
+ - **semi_clean_data** – Folder where single data sets that have been cleaned by the data validation log are stored. They are called semi-clean because if the validation logs aren't compelte these values have not been cleaned.
+ 
+ - **integrated_data** – Folder where the integrated data sets that are semi-clean are stored. These might have missing values because integrated cleaning hasn’t been completed (i.e. missing ELISA results for a questionnaire because of mis-matching IDs or because a sample was missed being tested).
+ 
+- **clean_data** – Folder where single clean and integrated data sets are stored. These are data sets that are clean but might not be complete because the final cleaning process removes values that not validated in the validation logs.
+
+- **codebooks** - the package also includes functions what will create codebooks from questionnaire data collected in ODK 
+
+## Citations:
+
+- MPJ van der Loo and E de Jonge (2021). Data Validation Infrastructure for R. Journal of Statistical Software, 97(10) paper.
+
