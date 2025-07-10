@@ -1,0 +1,10 @@
+rowid,log_response_id,entry,field,issue,old_value,no_change,new_val,user_initials,comments
+1,1,id_1,animal_id,Results: animal_id (ID Number) improperly formatted,abc-123-154,FALSE,ABC-123,CJS,entry of interest
+2,2,id_2,animal_id,Results: animal_id (ID Number) improperly formatted,abc-130,FALSE,ABC-130,CJS,
+3,3,id_3,animal_id,Results: animal_id (ID Number) improperly formatted,abc-125,FALSE,ABC-125,CJS,
+4,4,id_4,animal_id,Results: animal_id (ID Number) improperly formatted,abc-126,FALSE,ABC-126,CJS,
+5,5,id_5,animal_id,Results: animal_id (ID Number) improperly formatted,abc-127,FALSE,ABC-127,CJS,
+6,6,id_6,animal_id,Results: animal_id (ID Number) improperly formatted,abc-128,FALSE,ABC-128,CJS,
+7,7,id_7,animal_id,Results: animal_id (ID Number) improperly formatted,abc-129,FALSE,ABC-129,CJS,
+8,8,id_9,animal_id,Results: animal_id (ID Number) improperly formatted,abc-131,FALSE,ABC-131,CJS,
+9,1,id_1,animal_id,Results: animal_id (ID Number) should be 7 characters long,abc-123-154,FALSE,ABC-154,CJS,expect to use second log entry
