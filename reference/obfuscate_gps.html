@@ -113,7 +113,7 @@ distribution <code>runif(1,min = -fuzz, max = fuzz)</code></p></dd>
 <span class="r-in"><span>  <span class="fu">obfuscate_gps</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The data have a max precision of: 1e-05</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The max shift from the combination of precision and fuzz is: 0.225 degrees</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.90 10.12  3.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.88 10.11  3.89</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Obfuscation can be made more or less precise by changing the number of</span></span></span>
 <span class="r-in"><span><span class="co"># decimal points included or modifying the amount of fuzz (error)</span></span></span>
@@ -124,7 +124,7 @@ distribution <code>runif(1,min = -fuzz, max = fuzz)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The max shift from the combination of precision and fuzz is: 0.012 degrees</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The majority of the obfuscation is coming from rounding, this</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     potentially makes re-identification easier</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]   2.3973   4.5083 -60.0987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]   2.3949   4.5058 -60.1011</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### working at the poles</span></span></span>
 <span class="r-in"><span><span class="va">gps_data_poles</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">89.0001</span>, <span class="fl">89.22223</span>, <span class="op">-</span><span class="fl">89.8881</span><span class="op">)</span>,</span></span>
@@ -135,7 +135,7 @@ distribution <code>runif(1,min = -fuzz, max = fuzz)</code></p></dd>
 <span class="r-in"><span>  <span class="fu">obfuscate_gps</span><span class="op">(</span>fuzz <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The data have a max precision of: 1e-05</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The max shift from the combination of precision and fuzz is: 1.1 degrees</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  89.20  89.42 -89.69</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  88.60  88.82 -89.79</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### working at the 180th meridian</span></span></span>
@@ -145,7 +145,7 @@ distribution <code>runif(1,min = -fuzz, max = fuzz)</code></p></dd>
 <span class="r-in"><span>  <span class="fu">obfuscate_gps</span><span class="op">(</span>fuzz <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"lon"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The data have a max precision of: 1e-08</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The max shift from the combination of precision and fuzz is: 1.1 degrees</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  178.71  179.81 -178.79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -179.71 -178.61 -177.20</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### working NA GPS data</span></span></span>
 <span class="r-in"><span><span class="va">gps_data_180</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span></span>
@@ -154,7 +154,7 @@ distribution <code>runif(1,min = -fuzz, max = fuzz)</code></p></dd>
 <span class="r-in"><span>  <span class="fu">obfuscate_gps</span><span class="op">(</span>fuzz <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"lon"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The data have a max precision of: 1e-08</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The max shift from the combination of precision and fuzz is: 1.1 degrees</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  178.41      NA -179.09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  178.76      NA -178.74</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### GPS is on the fritz!</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
