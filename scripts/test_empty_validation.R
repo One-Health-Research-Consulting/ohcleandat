@@ -55,7 +55,7 @@ validation_checks(validation_log = val_log_ordered,after_data = dummy_survey_sem
 
 
 
-##### EXPECT FAILURE --- accidentally delte old value in other response
+##### EXPECT FAILURE --- accidentally delete old value in other response
 
 library(validate)
 
@@ -114,7 +114,7 @@ validation_checks(validation_log = val_log_ordered,after_data = dummy_survey_sem
 
 
 
-##### EXPECT FAILURE --- accidentally delte old value in other response
+##### EXPECT FAILURE --- accidentally delete old value in other response
 
 library(validate)
 
