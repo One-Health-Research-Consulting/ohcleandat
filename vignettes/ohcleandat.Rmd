@@ -30,9 +30,25 @@ devtools::install_github("one-health-research-consulting/ohcleandat")
 ## Create a new repo for automated data cleaning and validation:
 We've created a repository [`template`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template#) for the ohcleandat package using GitHub automations and targets workflow. This template includes examples of writing validation rules and example scripts and functions for using the ohcleandat package in an automated workflow. The package was built to be used within this workflow, however the package can be used outside of this workflow to fit the users need in whatever automated you prefer. 
 
-#########
-INSERT PICTURE OF REPO
-#########
+![](img/repo.png){width=75%}
+
+The main folder structure within the repo is as follows:
+
+ - **.github** – this folder contains yaml files for creating and testing the automations within Github actions.
+ 
+ - **R** – this folder contains .R files for creating targets outside of the ohcleandat package. This could include writing rule scripts or pre-processing functions required to complete the cleaning and data validation process.
+
+ - **auth** – this folder keeps token that stored as a json file. An example of a json file token used in this workflow is for pulling data from Google Drive.
+
+ - **data** – this folder could be a place to store data files if your team desires but also is a place to temporary download data that gets used within the workflow. This folder should be encrypted if it will actually store data. See XXX for information about encrypting your repository. 
+
+ - **outputs** – this folder to put temporary store data or validation log files that get created within the cleaning process and need to uploaded remotely to shared file system (ex. place export validation log in order to have a source to then upload the file to dropbox).
+ 
+ - **renv** – this folder installed for the renv, a R package that helps you create reproducible environments for your R projects.
+
+- **reports** – this folder stores integration validation reports.
+
+- **dashboards** – this folder stores any dashboard created.
 
 ## Write your rules:
 Each data collection tool to be cleaned requires specific rules to be written that tailored to the data verification checks and quality checks required for your data. The ohcleandat package has been built to  uses the [`{validate}`](https://github.com/data-cleaning/validate) package which also has a a great guide called the [`Data Validation Cookbook`](https://data-cleaning.github.io/validate/index.html#acknowledgements) that can be used to learn how to use the package.
@@ -53,9 +69,9 @@ Within the [`{ohcleandat-template}`](https://github.com/One-Health-Research-Cons
 
  - **target workflow scripts** – naming system is "_targets.R" and live in the main working directory of the repository. These contain the targets that are named using nouns to describe the outputs of the targets. Within the target itself, functions are used to execute the different actions of the workflow. See a specific example of a target workflow script [`here`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template/blob/main/_targets.R) from the ohcleandat-template repository.
 
- - **R function scripts** – these .R files live in the "R" folder. The naming system system uses a verb and then description naming system (ex. preprocessing_questionnare). Common functions written outside of the ohcleandat package are functions to get/pull raw data from it's original source, pre-processing to format data, and other specific cleaning functions outside the scope of the ohcleandat package.  See a specific example of an R function script [`here`](https://github.com/One-Health-Research-Consulting/remit-automation/blob/main/R/create_example_target.R) from the ohcleandat-template repository.
+ - **R function scripts** – these .R files live in the "R" folder. The naming system system uses a verb and then description naming system (ex. preprocessing_questionnare). Common functions written outside of the ohcleandat package are functions to get/pull raw data from it's original source, pre-processing to format data, and other specific cleaning functions outside the scope of the ohcleandat package.  See a specific example of an R function script [`here`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template/blob/main/R/create_example_target.R) from the ohcleandat-template repository.
  
- - **rule scripts** – these .R files live in the "R" folder and are used to define the rules that will then be used in the targets to flag any errors or mistakes. These are written using the validate R package as described above. See a specific example of a rules script [`here`](https://github.com/One-Health-Research-Consulting/remit-automation/blob/main/R/create_example_rules.R) from the ohcleandat-template repository.
+ - **rule scripts** – these .R files live in the "R" folder and are used to define the rules that will then be used in the targets to flag any errors or mistakes. These are written using the validate R package as described above. See a specific example of a rules script [`here`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template/blob/main/R/create_example_rules.R) from the ohcleandat-template repository.
  
  - **integration markdown reports** – these .Rmd files live in the "reports" folder. These are used for the integration validations. These reports compare IDs that don’t match between data sets that are to be integrated as well as other cross-checks for data quality. See a specific example of a integration markdown script [`here`](https://github.com/One-Health-Research-Consulting/ohcleandat-repo-template/blob/main/reports/integration_report_example.Rmd) from the ohcleandat-template repository.
  
