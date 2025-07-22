@@ -1,5 +1,5 @@
 ---
-title: "encryption"
+title: "Encryption"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{encryption}
@@ -7,14 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Encryption
-
 Adapted from:
 
 Collin Schwantes, Alix Augusto Armero Villanueva, Nathan Layman, Kevin J. Olival, Ernest Guevarra, Evan Eskew, Maëlle Salmon, Shirley X. Chen, & Noam Ross. (2023). EHA Modeling & Analytics Handbook (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.8408552
 
 
-- _How do we share data in git repositories that needs to be secure?_
+## _How do we share data in git repositories that needs to be secure?_
 
 Sometimes we need to store and share secure information, such as passwords or API keys, to
 online service accounts.  One of our methods of choice for this is to
@@ -28,15 +26,106 @@ a _private_ key that you use to decrypt data encrypted with your public key.
 We also use [Keybase](https://keybase.io/), a service that helps you publish and
 verify a public key for this purpose.
 
-Instructions for setting this up are below.
+### Tables of Contents for Encryption Set up
 
-## Set up Keybase
+[Set up for Windows](#Windows)
+
+[Set up for macos](#macos) 
+
+[Set up for Linux](#Linux)
+
+[Storage, Use, and Mangement of GPG Keys](#use)
+
+# <a id="Windows"></a>
+# Windows
+
+### Set up Keybase
 
 Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
 installing it on your computer.
 
 Note that if you switch computers, you need to have another device associated with the  keybase account and/or a copy of your paper key in order to recover your key.  
-A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://team-ecohealthalliance.1password.com/signin)) - EHA provides account, ([Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key. 
+A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key.  
+
+### Installing Keybase on Windows
+
+For installing on Windows, the easiest way is to download and install the
+graphical user interface available from the Keybase 
+[download page](https://keybase.io/download). This will also install the necessary
+command line tools.
+
+### Install `gpg` and `git-crypt`
+
+`gpg` is the program that implements encryption, and `git-crypt` sets up git
+repos for encrypted sharing using `gpg.`
+
+For Windows there are two alternative approaches.
+
+### Using Windows Subsystem for Linux (WSL)
+
+The first approach is to utilize the Windows Subsystem for Linux (WSL). This method requires Windows 10 or higher.  You must first install WSL.  Do so following this guide: <https://docs.microsoft.com/en-us/windows/wsl/install>. 
+
+Once WSL is set up, the necessary packages can be installed through the WSL command line shell.  Run the following in the shell:
+ 
+```
+sudo apt update
+sudo apt install keybase gpg git-crypt
+```
+
+### Using Windows: install binaries
+
+The second method is to install pre-compiled Windows binaries for GPG and git-crypt.
+
+First download a Windows-compatible binary for GPG which can be found (here)<https://gnupg.org/download/>. The 'Simple installer for the current GnuPG' binary on that page is the recommended choice.
+
+Then install git-crypt by via the following steps:
+
+ - Downloading `git-crypt-*.exe` from <https://github.com/AGWA/git-crypt/releases>.
+     - This may generate the warning "git-crypt-*.exe is not commonly downloaded and may be dangerous". Click the up arrow next to 'Discard' and select 'Keep'. 
+     - Even after this the download may fail with the message 'Failed - Virus detected'. Do not worry this is a false positive. If this occurs, search for 'Virus & thread protection' in the task bar and click on 'Manage settings' under 'Virus & thread protection settings'. Once there, turn off "real-time protection" and try downloading again. Please make sure to turn it back on again when done.
+ - Once downloaded, rename the file to `gpg-crypt.exe`.
+ - Move the resulting `gpg-crypt.exe` into a folder recognized by the Windows PATH environment variable. A convenient location is `C:\Program Files\Git\cmd\`.
+
+Once Keybase and GPG are installed, the terminal commands related to exporting keys from Keybase into GPG are the same regardless of operating system.
+
+### Create your Keybase keys 
+
+If you are just starting to use Keybase, you can generate new keys for use on
+your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
+That guide also helps set up using your key to sign GitHub commits, which you
+should do for added security.
+
+Create a password associated with your keys when asked.  You can store
+this in your password manager such as 1Password or BitWarden.
+Once your keys are created, visit your Keybase account at and verify your keys via as
+many other services, devices, or online identities as you want.  We suggest
+at least three. It is also a good idea to generate a physical 'paper key' and store it in
+a secure location.
+
+### Import your keys to your local keychain
+
+If you have a Keybase account set and keys already generated, you can now import
+your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
+
+
+### Configure gpg
+
+Windows needs to inform git of the location of the gpg executable. This can be done by opening cmd or PowerShell and entering the following command:
+```
+git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+```
+Note that if GnuPG is installed in a different location the command should be altered to reflect this change.
+
+# <a id="Linux"></a>
+# Linux
+
+### Set up Keybase
+
+Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
+installing it on your computer.
+
+Note that if you switch computers, you need to have another device associated with the  keybase account and/or a copy of your paper key in order to recover your key.  
+A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key. 
 
 
 ### Installing Keybase on Linux
@@ -54,65 +143,13 @@ Follow the instructions to install Keybase on Linux, available [here](https://ke
 making sure to use the section relevant to the architecture and distribution 
 information identified above.
 
-### Installing Keybase on macOS and Windows
-
-For installing on Windows and macOS, the easiest way is to download and install the
-graphical user interface available from the Keybase 
-[download page](https://keybase.io/download). This will also install the necessary
-command line tools.
-
-You may also use `homebrew` to install keybase on macOS
-
-## Install `gpg` and `git-crypt`
+### Install `gpg` and `git-crypt`
 
 `gpg` is the program that implements encryption, and `git-crypt` sets up git
-repos for encrypted sharing using `gpg.` These are already installed on EHA servers.  
+repos for encrypted sharing using `gpg.`
 
-### Install `gpg` and `git-crypt` on macOS
 
-Use [`homebrew`](https://docs.brew.sh/Installation) to install `gpg`, `git-crypt`. You should also install `pinentry`,
-which is a helper program for entering passwords securely.  Run the following in the terminal:
-
-```
-brew install gpg
-brew install pinentry
-brew install git-crypt
-```
-
-Homebrew automatically updates when you run it so if you haven't used it in a while there may be a somewhat lengthy update
-
-### Install `gpg` and `git-crypt` on Windows
-
-For Windows there are two alternative approaches.
-
-#### Using Windows Subsystem for Linux (WSL)
-
-The first approach is to utilize the Windows Subsystem for Linux (WSL). This method requires Windows 10 or higher.  You must first install WSL.  Do so following this guide: <https://docs.microsoft.com/en-us/windows/wsl/install>. 
-
-Once WSL is set up, the necessary packages can be installed through the WSL command line shell.  Run the following in the shell:
- 
-```
-sudo apt update
-sudo apt install keybase gpg git-crypt
-```
-
-#### Using Windows: install binaries
-
-The second method is to install pre-compiled Windows binaries for GPG and git-crypt.
-
-First download a Windows-compatible binary for GPG which can be found (here)<https://gnupg.org/download/>. The 'Simple installer for the current GnuPG' binary on that page is the recommended choice.
-
-Then install git-crypt by via the following steps:
-
- - Downloading `git-crypt-*.exe` from <https://github.com/AGWA/git-crypt/releases>.
-     - This may generate the warning "git-crypt-*.exe is not commonly downloaded and may be dangerous". Click the up arrow next to 'Discard' and select 'Keep'. 
-     - Even after this the download may fail with the message 'Failed - Virus detected'. Do not worry this is a false positive. If this occurs, search for 'Virus & thread protection' in the task bar and click on 'Manage settings' under 'Virus & thread protection settings'. Once there, turn off "real-time protection" and try downloading again. Please make sure to turn it back on again when done.
- - Once downloaded, rename the file to `gpg-crypt.exe`.
- - Move the resulting `gpg-crypt.exe` into a folder recognized by the Windows PATH environment variable. A convenient location is `C:\Program Files\Git\cmd\`.
-
-Once Keybase and GPG are installed, the terminal commands related to exporting keys from Keybase into GPG are the same regardless of operating system.
-
-## Create your Keybase keys 
+### Create your Keybase keys 
 
 If you are just starting to use Keybase, you can generate new keys for use on
 your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
@@ -120,24 +157,20 @@ That guide also helps set up using your key to sign GitHub commits, which you
 should do for added security.
 
 Create a password associated with your keys when asked.  You can store
-this in your password manager such as [1Password](https://team-ecohealthalliance.1password.com/signin) or BitWarden.
+this in your password manager such as 1Password or BitWarden.
 Once your keys are created, visit your Keybase account at and verify your keys via as
 many other services, devices, or online identities as you want.  We suggest
 at least three. It is also a good idea to generate a physical 'paper key' and store it in
 a secure location.
 
-## Import your keys to your local keychain
+### Import your keys to your local keychain
 
 If you have a Keybase account set and keys already generated, you can now import
 your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
 
+### Configure gpg on Linux
 
-## Configure gpg
-
-
-### Configure gpg on macOS (and Linux)
-
-A common source of errors for macOS (and Linux) users is that the text entry for `gpg` isn't set properly. This means that `gpg` and your terminal aren't speaking the same language. You can fix this by setting the `GPG_TTY` environment variable in your shell configuration.
+A common source of errors for Linux users is that the text entry for `gpg` isn't set properly. This means that `gpg` and your terminal aren't speaking the same language. You can fix this by setting the `GPG_TTY` environment variable in your shell configuration.
 
     export GPG_TTY=$(tty)
     
@@ -164,18 +197,93 @@ In the nano editor, press Ctrl-O to write ("write-Out") to save your changes, th
 echo "export GPG_TTY=$(tty)" >> ~/.zshrc && source ~/.zshrc
 ```
 
-### Configure gpg on Windows
+# <a id="macOS"></a>
+# macOS
 
-Windows needs to inform git of the location of the gpg executable. This can be done by opening cmd or PowerShell and entering the following command: 
+### Set up Keybase
+
+Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
+installing it on your computer.
+
+Note that if you switch computers, you need to have another device associated with the  keybase account and/or a copy of your paper key in order to recover your key.  
+A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key. 
+
+### Installing Keybase on macOS
+
+For installing on macOS, the easiest way is to download and install the
+graphical user interface available from the Keybase 
+[download page](https://keybase.io/download). This will also install the necessary
+command line tools.
+
+You may also use `homebrew` to install keybase on macOS
+
+### Install `gpg` and `git-crypt`
+
+`gpg` is the program that implements encryption, and `git-crypt` sets up git
+repos for encrypted sharing using `gpg.`
+
+Use [`homebrew`](https://docs.brew.sh/Installation) to install `gpg`, `git-crypt`. You should also install `pinentry`,
+which is a helper program for entering passwords securely.  Run the following in the terminal:
 
 ```
-git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"`
+brew install gpg
+brew install pinentry
+brew install git-crypt
 ```
 
-Note that if GnuPG is installed in a different location the command should be altered to reflect this change. 
+Homebrew automatically updates when you run it so if you haven't used it in a while there may be a somewhat lengthy update
+
+### Create your Keybase keys 
+
+If you are just starting to use Keybase, you can generate new keys for use on
+your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
+That guide also helps set up using your key to sign GitHub commits, which you
+should do for added security.
+
+Create a password associated with your keys when asked.  You can store
+this in your password manager such as 1Password or BitWarden.
+Once your keys are created, visit your Keybase account at and verify your keys via as
+many other services, devices, or online identities as you want.  We suggest
+at least three. It is also a good idea to generate a physical 'paper key' and store it in
+a secure location.
+
+### Import your keys to your local keychain
+
+If you have a Keybase account set and keys already generated, you can now import
+your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
+
+### Configure gpg on macOS
+
+A common source of errors for macOS users is that the text entry for `gpg` isn't set properly. This means that `gpg` and your terminal aren't speaking the same language. You can fix this by setting the `GPG_TTY` environment variable in your shell configuration.
+
+    export GPG_TTY=$(tty)
+    
+Adding this to your `.profile`, `.bashrc`, `.zshrc` or other settings files prevents
+having to run the command when you use git-crypt or sign commits. U
+
+Use a text editor to modify the settings file for your shell.  These are set in one of the files `~/.profile`, `~/.bashrc`, `~/.zshrc`. For most macOS users, it is `~/.zshrc`. Here are instructions using `nano`, an editor available on most machines. 
 
 
-## Backing up and Recovering GPG Keys
+In the terminal, run:
+```
+nano ~/.zshrc
+```
+
+Then, in the nano text editor that comes up, add the following line to the file:
+
+```
+export GPG_TTY=$(tty)
+```
+
+In the nano editor, press Ctrl-O to write ("write-Out") to save your changes, then press Ctrl-X to exit. Alternatively, run the following line in the terminal to change your `.zshrc` file without using nano or any other editor:
+
+```
+echo "export GPG_TTY=$(tty)" >> ~/.zshrc && source ~/.zshrc
+```
+
+# <a id="use"></a>Storage, Use, & Mangement of GPG Keys
+
+### Backing up and Recovering GPG Keys
 
 GPG private keys are stored locally and vulnerable to loss in the event of a problem with a user's local machine. There are two potential ways to do this, and a belt-and-suspenders approach is best:
 
@@ -183,8 +291,8 @@ GPG private keys are stored locally and vulnerable to loss in the event of a pro
 
 ![host private key on keybase](assets/gpg_keybase_host_private_key.png)
 
-2) Store a copy of your private key in [1Password](https://team-ecohealthalliance.1password.com/signin)
-![Store an encrypted File in 1password](assets/gpg_1password_store_file.png)
+2) Store a copy of your private key in [1Password](https://1password.com/)
+![Store an encrypted File in 1password](img/gpg_1password_store_file.png)
 
 
 ### How do I save a key?
@@ -238,7 +346,7 @@ gpg --list-keys
 
 ```
 
-## Use git-crypt to unlock a repository
+### Use git-crypt to unlock a repository
 
 The [`git-crypt` README](https://github.com/AGWA/git-crypt) outlines the basics
 of using `git-crypt` to encrypted and decrypt files in a git repository.
@@ -266,9 +374,9 @@ If `git-crypt unlock` fails, try the following steps:
 
 <!-- This should really come after the unlocking step. More people I think will need to clone and unlock than manage users !-->
 
-## Managing which users can decrypt files in a repository
+### Managing which users can decrypt files in a repository
 
-If you've made it this far and you only need to unlock a repository that has already been set up you're done! The instructions below will help you go further by outlining how to grant access to encrypted files on a repository, add your key to the EHA servers, and to initialize a new repository to use git-crypt.
+If you've made it this far and you only need to unlock a repository that has already been set up you're done! The instructions below will help you go further by outlining how to grant access to encrypted files on a repository and to initialize a new repository to use git-crypt.
 
 ### Set up encryption for a repo that did not previously use git-crypt 
 
@@ -308,7 +416,6 @@ auth/** filter=git-crypt diff=git-crypt
 .gitattributes !filter !diff
 
 ```
-
 
 ### Allow contributors access to encrypted files
 
@@ -364,24 +471,7 @@ access encrypted files.
 git crypt unlock
 ```
 
-<!-- Moved down from up above. This won't apply to everyone and interrupts the main flow of getting git-crypt working. -->
-### Import your keys to the EHA server
-
-You will probably want the ability to decrypt files when working remotely,
-so place them on the EHA server.  You can do this by copying over your whole
-`gpg` keys directory to the server, like so:
-
-    scp -rp ~/.gnupg url.of.server:
-
-Note that the main EHA analysis servers share user file systems so you only
-have to do this on one of them.
-
-You may have to edit the file `~/.gnupg/gpg-agent.conf` on the server.  If
-its first line is `pinentry-program /usr/local/bin/pinentry-mac`, change it to
-`pinentry-program /usr/bin/pinentry`. Note that it may not exist at all, which
-is fine - it means the program is just using default behavior.
-
-## Use a symmetric key for automated processes
+### Use a symmetric key for automated processes
 
 If you are using continuous integration on a repository with encrypted files,
 you'll need to provide a way for the CI system to unlock them.  An easy, but
@@ -413,9 +503,7 @@ system image, and (2) to run these commands after the CI clones your repository:
     echo $GIT_ENCRYPT_KEY64 > git_crypt_key.key64 && base64 -d git_crypt_key.key64 > git_crypt_key.key && git-crypt unlock git_crypt_key.key
     
 
-* Note that encryption and this step of "unlocking" the repo are **NOT** included in the EHA [container-template](https://github.com/ecohealthalliance/container-template) repository.
-
-## Unlocking encrypted repos with a Symmetric key
+### Unlocking encrypted repos with a Symmetric key
 
 **Danger zone**. This method makes key leak more likely and should be avoided. 
 Once a key leaks, there is no method for rotating keys, so the leaked key 
@@ -449,7 +537,7 @@ Send the file securely to your Collaborator. Your collaborator should run:
 git-crypt unlock git_crypt_key.key
 ```
 
-## Removing sensitive files from git history
+### Removing sensitive files from git history
 
 AKA What to do if you accidentally committed sensitive files (data, keys, etc.) to your repository either before encryption or our outside the scope of your `.gitattributes` file. 
 
