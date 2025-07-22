@@ -14,15 +14,13 @@ Collin Schwantes, Alix Augusto Armero Villanueva, Nathan Layman, Kevin J. Olival
 
 ## _How do we share data in git repositories that needs to be secure?_
 
-Sometimes we need to store and share secure information, such as passwords or API keys, to
-online service accounts.  One of our methods of choice for this is to
-keep these files stored in git/GitHub repositories, but to encrypt them.  We
-do this using PGP (Pretty Good Privacy) encryption, implemented by the program
-[`git-crypt`](https://github.com/AGWA/git-crypt).  It takes a bit to set up
-but once activated makes sharing secure and seamless.
+Sometimes we need to store and share secure information, such as passwords or API keys, to online service accounts.  
+One of our methods of choice for this is to keep these files stored in git/GitHub repositories, but to encrypt them.
+We do this using PGP (Pretty Good Privacy) encryption, implemented by the program
+[`git-crypt`](https://github.com/AGWA/git-crypt).  
+It takes a bit to set up but once activated makes sharing secure and seamless.
 
-The PGP encryption scheme involves making a _public_ key that you share and
-a _private_ key that you use to decrypt data encrypted with your public key.
+The PGP encryption scheme involves making a _public_ key that you share and a _private_ key that you use to decrypt data encrypted with your public key.
 We also use [Keybase](https://keybase.io/), a service that helps you publish and
 verify a public key for this purpose.
 
@@ -45,6 +43,7 @@ Sign up for [Keybase](https://keybase.io/), and follow the instructions for
 installing it on your computer.
 
 Note that if you switch computers, you need to have another device associated with the  keybase account and/or a copy of your paper key in order to recover your key.  
+<<<<<<< HEAD
 A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key.  
 
 ### Installing Keybase on Windows
@@ -126,13 +125,63 @@ installing it on your computer.
 
 Note that if you switch computers, you need to have another device associated with the  keybase account and/or a copy of your paper key in order to recover your key.  
 A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key. 
+=======
+A [password manager](https://www.theguardian.com/technology/2022/mar/19/not-using-password-manager-why-you-should-online-security) like ([Bitwarden](https://bitwarden.com/) would be helpful for securely storing a paper key. 
+>>>>>>> 8d1a14057301df8bad3d286d576a91017e68f36c
 
+
+## Windows Instructions
+
+### Install Keybase
+
+<<<<<<< HEAD
+=======
+For installing on Windows, the easiest way is to download and install the
+graphical user interface available from the Keybase 
+[download page](https://keybase.io/download). This will also install the necessary
+command line tools.
+
+### Install `gpg` and `git-crypt`
+
+For Windows there are two alternative approaches.
+
+#### Using Windows Subsystem for Linux (WSL)
+
+The first approach is to utilize the Windows Subsystem for Linux (WSL). This method requires Windows 10 or higher.  You must first install WSL.  Do so following this guide: <https://docs.microsoft.com/en-us/windows/wsl/install>. 
+
+Once WSL is set up, the necessary packages can be installed through the WSL command line shell.  Run the following in the shell:
+ 
+```
+sudo apt update
+sudo apt install keybase gpg git-crypt
+```
+
+#### Using Windows: install binaries
+
+The second method is to install pre-compiled Windows binaries for GPG and git-crypt.
+
+First download a Windows-compatible binary for GPG which can be found (here)<https://gnupg.org/download/>. The 'Simple installer for the current GnuPG' binary on that page is the recommended choice.
+
+Then install git-crypt by via the following steps:
+
+ - Downloading `git-crypt-*.exe` from <https://github.com/AGWA/git-crypt/releases>.
+     - This may generate the warning "git-crypt-*.exe is not commonly downloaded and may be dangerous". Click the up arrow next to 'Discard' and select 'Keep'. 
+     - Even after this the download may fail with the message 'Failed - Virus detected'. Do not worry this is a false positive. If this occurs, search for 'Virus & thread protection' in the task bar and click on 'Manage settings' under 'Virus & thread protection settings'. Once there, turn off "real-time protection" and try downloading again. Please make sure to turn it back on again when done.
+ - Once downloaded, rename the file to `gpg-crypt.exe`.
+ - Move the resulting `gpg-crypt.exe` into a folder recognized by the Windows PATH environment variable. A convenient location is `C:\Program Files\Git\cmd\`.
+
+Once Keybase and GPG are installed, the terminal commands related to exporting keys from Keybase into GPG are the same regardless of operating system.
+
+
+
+## Mac/Linux Instructions
 
 ### Installing Keybase on Linux
 
 For installing on linux, first identify the distribution by entering
 the following command into a terminal and noting down the Distributor ID.
 
+>>>>>>> 8d1a14057301df8bad3d286d576a91017e68f36c
     lsb_release -a
 
 Next identify the architecture via,
@@ -143,6 +192,7 @@ Follow the instructions to install Keybase on Linux, available [here](https://ke
 making sure to use the section relevant to the architecture and distribution 
 information identified above.
 
+<<<<<<< HEAD
 ### Install `gpg` and `git-crypt`
 
 `gpg` is the program that implements encryption, and `git-crypt` sets up git
@@ -150,6 +200,37 @@ repos for encrypted sharing using `gpg.`
 
 
 ### Create your Keybase keys 
+=======
+### Installing Keybase on macOS 
+
+For installing on Windows and macOS, the easiest way is to download and install the
+graphical user interface available from the Keybase 
+[download page](https://keybase.io/download). This will also install the necessary
+command line tools.
+
+You may also use `homebrew` to install keybase on macOS
+
+## Install `gpg` and `git-crypt`
+
+`gpg` is the program that implements encryption, and `git-crypt` sets up git
+repos for encrypted sharing using `gpg.` These are already installed on EHA servers.  
+
+### Install `gpg` and `git-crypt` on macOS
+
+Use [`homebrew`](https://docs.brew.sh/Installation) to install `gpg`, `git-crypt`. You should also install `pinentry`,
+which is a helper program for entering passwords securely.  Run the following in the terminal:
+
+```
+brew install gpg
+brew install pinentry
+brew install git-crypt
+```
+
+Homebrew automatically updates when you run it so if you haven't used it in a while there may be a somewhat lengthy update.
+
+
+## Create your Keybase keys 
+>>>>>>> 8d1a14057301df8bad3d286d576a91017e68f36c
 
 If you are just starting to use Keybase, you can generate new keys for use on
 your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
