@@ -61,9 +61,19 @@ get_dropbox_val_logs <-
     }
 
     if (stringr::str_detect(file_name, ".csv")) {
+
+      temp_df <- readr::read_csv(file = here::here(local_path))
+
+      temp_df_cols  <- ncol(temp_df)
+
+      char_cols <- rep("c",times = (temp_df_cols-2) ) |>
+        paste(collapse = "")
+
+      col_types <- sprintf("ii%s",char_cols)
+
       df <-
         readr::read_csv(here::here(local_path),
-                        col_types = "iiccccccccc",
+                        col_types = col_types,
                         na = character())
     }
 
