@@ -1,3 +1,7 @@
+# ohcleandat 1.1.2
+- validation logs vary in the number of columns they have based on type so
+we added a flexible col_type variable.
+
 # ohcleandat 1.1.1
 - Fix sign issue in validation checks warning on duplication
 - Make removes_deletes robust to capitalization errors in the keyword "Delete"
