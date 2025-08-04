@@ -39,7 +39,7 @@ verify a public key for this purpose.
 # <a id="Windows"></a>
 # Windows
 
-### Set up Keybase
+### Set up Keybase on Windows
 
 Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
 installing it on your computer.
@@ -54,7 +54,7 @@ graphical user interface available from the Keybase
 [download page](https://keybase.io/download). This will also install the necessary
 command line tools.
 
-### Install `gpg` and `git-crypt`
+### Install `gpg` and `git-crypt` on Windows
 
 `gpg` is the program that implements encryption, and `git-crypt` sets up git
 repos for encrypted sharing using `gpg.`
@@ -88,7 +88,7 @@ Then install git-crypt by via the following steps:
 
 Once Keybase and GPG are installed, the terminal commands related to exporting keys from Keybase into GPG are the same regardless of operating system.
 
-### Create your Keybase keys 
+### Create your Keybase keys for Windows
 
 If you are just starting to use Keybase, you can generate new keys for use on
 your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
@@ -102,13 +102,13 @@ many other services, devices, or online identities as you want.  We suggest
 at least three. It is also a good idea to generate a physical 'paper key' and store it in
 a secure location.
 
-### Import your keys to your local keychain
+### Import your keys to your local keychain for Windows
 
 If you have a Keybase account set and keys already generated, you can now import
 your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
 
 
-### Configure gpg
+### Configure gpg for Windows
 
 Windows needs to inform git of the location of the gpg executable. This can be done by opening cmd or PowerShell and entering the following command:
 ```
@@ -119,7 +119,7 @@ Note that if GnuPG is installed in a different location the command should be al
 # <a id="Linux"></a>
 # Linux
 
-### Set up Keybase
+### Set up Keybase for Linux
 
 Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
 installing it on your computer.
@@ -143,13 +143,13 @@ Follow the instructions to install Keybase on Linux, available [here](https://ke
 making sure to use the section relevant to the architecture and distribution 
 information identified above.
 
-### Install `gpg` and `git-crypt`
+### Install `gpg` and `git-crypt` for Linux
 
 `gpg` is the program that implements encryption, and `git-crypt` sets up git
 repos for encrypted sharing using `gpg.`
 
 
-### Create your Keybase keys 
+### Create your Keybase keys for Linux
 
 If you are just starting to use Keybase, you can generate new keys for use on
 your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
@@ -163,7 +163,7 @@ many other services, devices, or online identities as you want.  We suggest
 at least three. It is also a good idea to generate a physical 'paper key' and store it in
 a secure location.
 
-### Import your keys to your local keychain
+### Import your keys to your local keychain for Linux
 
 If you have a Keybase account set and keys already generated, you can now import
 your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
@@ -200,7 +200,7 @@ echo "export GPG_TTY=$(tty)" >> ~/.zshrc && source ~/.zshrc
 # <a id="macOS"></a>
 # macOS
 
-### Set up Keybase
+### Set up Keybase for macOS
 
 Sign up for [Keybase](https://keybase.io/), and follow the instructions for 
 installing it on your computer.
@@ -217,7 +217,7 @@ command line tools.
 
 You may also use `homebrew` to install keybase on macOS
 
-### Install `gpg` and `git-crypt`
+### Install `gpg` and `git-crypt` for macOS
 
 `gpg` is the program that implements encryption, and `git-crypt` sets up git
 repos for encrypted sharing using `gpg.`
@@ -233,7 +233,7 @@ brew install git-crypt
 
 Homebrew automatically updates when you run it so if you haven't used it in a while there may be a somewhat lengthy update
 
-### Create your Keybase keys 
+### Create your Keybase keys for macOS
 
 If you are just starting to use Keybase, you can generate new keys for use on
 your computer using this guide: <https://github.com/pstadler/keybase-gpg-github>.
@@ -247,7 +247,7 @@ many other services, devices, or online identities as you want.  We suggest
 at least three. It is also a good idea to generate a physical 'paper key' and store it in
 a secure location.
 
-### Import your keys to your local keychain
+### Import your keys to your local keychain for macOS
 
 If you have a Keybase account set and keys already generated, you can now import
 your Keybase keys to use.  Instruction are found at <https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/>.  When followng those instructions, set your keys to maximum trust level.
@@ -289,9 +289,9 @@ GPG private keys are stored locally and vulnerable to loss in the event of a pro
 
 1) Use [KeyBase](https://keybase.io/)  to host an encrypted version of the key. 
 
-![host private key on keybase](assets/gpg_keybase_host_private_key.png)
+![host private key on keybase](img/gpg_keybase_host_private_key.png)
 
-2) Store a copy of your private key in [1Password](https://1password.com/)
+2) Store a copy of your private key in your password manager like [1Password](https://1password.com/) or [Bitwarden](https://bitwarden.com/products/send/). 
 ![Store an encrypted File in 1password](img/gpg_1password_store_file.png)
 
 
@@ -360,23 +360,9 @@ pull or clone the repo then run,
 from the terminal or command line in the repository folder.  If all goes well, congrats! Encryption and decryption for pushing and
 pulling should now happen automatically.
 
-
-### Troubleshooting
-
-If `git-crypt unlock` fails, try the following steps:
-
-1. Verify that GPG has successfully imported your private key from Keybase by opening a shell and entering
-`gpg --list-secret-keys`. If no keys are found, follow the [guide](https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/) for importing keys. This might fail for mac and linux users if `export GPG_TTY=$(tty)` is not in your .bashrc or .zshrc.
-2. Make sure that your GPG private key has actually been added to the repository. Navigate to the `~/.git-crypt/keys/default/0/` directory on github and look for a file that matches your public key.
-3. Once your key has been added, pull from the remote to make sure the key is available to your local repository.
-4. Windows users need to let git know where to find the gpg executable. Double check that the gpg.exe really is in the folder you specified above. If not find it's location or try re-installing gpg.
-5. Make sure that GIT [knows about your signing key](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key#telling-git-about-your-gpg-key)
-
-<!-- This should really come after the unlocking step. More people I think will need to clone and unlock than manage users !-->
-
 ### Managing which users can decrypt files in a repository
 
-If you've made it this far and you only need to unlock a repository that has already been set up you're done! The instructions below will help you go further by outlining how to grant access to encrypted files on a repository and to initialize a new repository to use git-crypt.
+The instructions below will help you go further by outlining how to grant access to encrypted files on a repository and to initialize a new repository to use git-crypt.
 
 ### Set up encryption for a repo that did not previously use git-crypt 
 
@@ -417,7 +403,7 @@ auth/** filter=git-crypt diff=git-crypt
 
 ```
 
-### Allow contributors access to encrypted files
+### Give contributors access to encrypted files
 
 First add their public key to your keychain. Visit their Keybase profiles (e.g., <https://keybase.io/noamross>) and click on the key - it will show several ways to import the keys. Two methods are shown below,
 
@@ -505,6 +491,8 @@ system image, and (2) to run these commands after the CI clones your repository:
 
 ### Unlocking encrypted repos with a Symmetric key
 
+[!CAUTION]
+
 **Danger zone**. This method makes key leak more likely and should be avoided. 
 Once a key leaks, there is no method for rotating keys, so the leaked key 
 would have to be scrubbed from the git history and a new key put in its place. 
@@ -563,3 +551,15 @@ git reflog expire --expire=now --all
 git gc --prune=now
 ```
 10) Breathe a sigh of relief. 
+
+### Troubleshooting
+
+If `git-crypt unlock` fails, try the following steps:
+
+1. Verify that GPG has successfully imported your private key from Keybase by opening a shell and entering
+`gpg --list-secret-keys`. If no keys are found, follow the [guide](https://blog.scottlowe.org/2017/09/06/using-keybase-gpg-macos/) for importing keys. This might fail for mac and linux users if `export GPG_TTY=$(tty)` is not in your .bashrc or .zshrc.
+2. Make sure that your GPG private key has actually been added to the repository. Navigate to the `~/.git-crypt/keys/default/0/` directory on github and look for a file that matches your public key.
+3. After verifying your key is on the remote github repo, pull from the remote to make sure the key is available to your local repository.
+4. Windows users need to let git know where to find the gpg executable. Double check that the gpg.exe really is in the folder you specified above. If not find it's location or try re-installing gpg.
+5. Make sure that GIT [knows about your signing key](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key#telling-git-about-your-gpg-key)
+
