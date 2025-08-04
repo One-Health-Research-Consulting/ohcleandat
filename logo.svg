@@ -15,6 +15,30 @@
   <defs
      id="defs2">
     <linearGradient
+       id="linearGradient87"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#adb9e5;stop-opacity:0.70756644;"
+         offset="0"
+         id="stop88" />
+      <stop
+         style="stop-color:#adc8e5;stop-opacity:0.52941173;"
+         offset="0.23380727"
+         id="stop90" />
+      <stop
+         style="stop-color:#d1ade5;stop-opacity:0.45603272;"
+         offset="0.53080565"
+         id="stop91" />
+      <stop
+         style="stop-color:#cdade5;stop-opacity:0.32156864;"
+         offset="0.76145339"
+         id="stop92" />
+      <stop
+         style="stop-color:#adb9e5;stop-opacity:0;"
+         offset="1"
+         id="stop89" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient3"
        inkscape:collect="always">
       <stop
@@ -43,64 +67,17 @@
        x2="145.80327"
        y2="65.290382"
        gradientUnits="userSpaceOnUse" />
-    <meshgradient
+    <radialGradient
        inkscape:collect="always"
-       id="meshgradient12"
-       gradientUnits="userSpaceOnUse"
-       x="38.947186"
-       y="89.515442">
-      <meshrow
-         id="meshrow12">
-        <meshpatch
-           id="meshpatch12">
-          <stop
-             path="c 40.1657,0  80.3313,0  120.497,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop13" />
-          <stop
-             path="c 0,26.4951  0,52.9902  0,79.4853"
-             style="stop-color:#bc62d3;stop-opacity:1"
-             id="stop14" />
-          <stop
-             path="c -40.1657,0  -80.3313,0  -120.497,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop15" />
-          <stop
-             path="c 0,-26.4951  0,-52.9902  0,-79.4853"
-             style="stop-color:#bc62d3;stop-opacity:1"
-             id="stop16" />
-        </meshpatch>
-      </meshrow>
-    </meshgradient>
-    <meshgradient
-       inkscape:collect="always"
-       id="meshgradient16"
-       gradientUnits="userSpaceOnUse"
-       x="38.226364"
-       y="42.501678">
-      <meshrow
-         id="meshrow16">
-        <meshpatch
-           id="meshpatch16">
-          <stop
-             path="c 12.4525,0  24.9051,0  37.3576,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop17" />
-          <stop
-             path="c 0,22.3825  0,44.7651  0,67.1476"
-             style="stop-color:#3957b1;stop-opacity:1"
-             id="stop18" />
-          <stop
-             path="c -12.4525,0  -24.9051,0  -37.3576,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop19" />
-          <stop
-             path="c 0,-22.3825  0,-44.7651  0,-67.1476"
-             style="stop-color:#3957b1;stop-opacity:1"
-             id="stop20" />
-        </meshpatch>
-      </meshrow>
-    </meshgradient>
+       xlink:href="#linearGradient87"
+       id="radialGradient89"
+       cx="99.195678"
+       cy="129.2581"
+       fx="99.195678"
+       fy="129.2581"
+       r="60.248492"
+       gradientTransform="matrix(1,0,0,0.65964572,0,43.993547)"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="namedview2"
@@ -112,8 +89,8 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="3.9763134"
-     inkscape:cx="70.794218"
-     inkscape:cy="88.649954"
+     inkscape:cx="70.794219"
+     inkscape:cy="129.39121"
      inkscape:window-width="1648"
      inkscape:window-height="938"
      inkscape:window-x="172"
@@ -143,7 +120,7 @@
        y="129.39163"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.6936px;font-family:Krungthep;-inkscape-font-specification:'Krungthep, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#fdfdfd;fill-opacity:1;stroke:none;stroke-width:41.6288">OhCleanDat</tspan></text>
   <path
-     style="mix-blend-mode:lighten;fill:url(#meshgradient16);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+     style="mix-blend-mode:lighten;fill:#548ac9;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
      d="M 75.446769,42.50168 39.23232,63.878265 38.226363,109.6493 c 0,0 39.986788,-18.861688 37.220406,-67.14762 z"
      id="path16" />
   <path
@@ -163,7 +140,7 @@
      id="path8"
      sodipodi:nodetypes="cc" />
   <path
-     style="mix-blend-mode:color-burn;fill:url(#meshgradient12);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+     style="mix-blend-mode:color-burn;fill:url(#radialGradient89);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
      d="m 39.23232,132.78631 59.854437,36.21445 60.105923,-34.957 0.25149,-30.4302 c 0,0 -47.03487,-38.409744 -119.960361,11.56851 -1.037233,0.71085 -0.251489,17.60424 -0.251489,17.60424 z"
      id="path9"
      sodipodi:nodetypes="ccccsc"
