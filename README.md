@@ -1,11 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ohcleandat
+# ohcleandat <a href="https://One-Health-Research-Consulting.github.io/ohcleandat/"><img src="man/figures/logo.svg" align="right" height="139" alt="ohcleandat website" /></a>
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ecohealthalliance/ohcleandat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecohealthalliance/ohcleandat/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/one-health-research-consulting/ohcleandat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecohealthalliance/ohcleandat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 This package provides useful functions to orchestrate analytics and data
@@ -14,11 +14,12 @@ cleaning pipelines for One Health projects.
 ## Installation
 
 You can install the development version of ohcleandat from
-[GitHub](https://github.com/ecohealthalliance/ohcleandat) with:
+[GitHub](https://github.com/one-health-research-consulting/ohcleandat)
+with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ecohealthalliance/ohcleandat")
+devtools::install_github("one-health-research-consulting/ohcleandat")
 ```
 
 ## Getting Started
