@@ -2,12 +2,13 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
+  encryption: encryption.html
   idcheck: idcheck.html
   integration: integration.html
   mechanics: mechanics.html
   metadata: metadata.html
   outputs: outputs.html
-last_built: 2025-09-18T18:07Z
+last_built: 2025-09-18T18:11Z
 urls:
   reference: https://One-Health-Research-Consulting.github.io/ohcleandat/reference
   article: https://One-Health-Research-Consulting.github.io/ohcleandat/articles
