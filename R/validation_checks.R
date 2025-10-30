@@ -67,7 +67,7 @@ validation_checks <-
           # row_ids <- preprocess_log[preprocess_log$entry_field_dupe,"rowid"]
           # row_ids_cat <- paste(row_ids,collapse = "\n")
 
-          msg <- sprintf("%s:\n%s", body)
+          msg <- sprintf("%s:\n%s", "duplicate entries", body)
           rlang::warn(msg)
         }
 
