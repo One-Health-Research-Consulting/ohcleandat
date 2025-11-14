@@ -21,6 +21,8 @@
 #'
 create_translation_log <-
   function(response_data, form_schema, url) {
+
+    # get items from schema that are free text.
     other_q <- form_schema |>
       dplyr::select(name, type, labels = `label_english_(en)`, choices = `choices_english_(en)`) |>
       dplyr::filter(
@@ -31,12 +33,15 @@ create_translation_log <-
       dplyr::pull(name) |>
       unique()
 
+    # get free text responses
     other_responses <- response_data |>
       dplyr::select(id, tidyselect::contains(other_q)) |>
       tidyr::pivot_longer(-id) |>
       dplyr::filter(!is.na(value)) |>
+      # add language to comments
       dplyr::mutate(comments = purrr::map_chr(value, detect_language))
 
+    # make complete log
     trans_log <- other_responses |>
       dplyr::mutate(
         no_change = "",
