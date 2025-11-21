@@ -5,12 +5,24 @@
 #' to XML before uploading to ODK.
 #'
 #' @param file_path String. Path to excel file.
+#' @param ... Additional arguments for dpylr::summarize. Generally used to supply
+#' paired arguments for creating lists of choices in a given language. See example.
 #'
 #' @returns Data frame. In same format as
 #' @export
 #'
 #' @examples
-schema_from_odk_xlsx_template <- function(file_path){
+#' \dontrun{
+#' schema_from_odk_xlsx_template(file_path = "inst/RVF2_participant_survey_20220302.xlsx",
+#'                               `choices_english_(en)` = list(`label_english_(en)`),
+#'                                `choices_zulu_(zu)` = list(`label_zulu_(zu)`)
+#' )
+#' }
+#'
+
+#'
+#'
+schema_from_odk_xlsx_template <- function(file_path,...){
 
  survey <- readxl::read_excel(file_path,sheet = "survey")
 
@@ -57,9 +69,8 @@ schema_from_odk_xlsx_template <- function(file_path){
     dplyr::filter(!is.na(list_name)) |>
     dplyr::group_by(list_name) |>
     dplyr::summarise(choices = list(name),
-                     `choices_english_(en)` = list(`label_english_(en)`),
-                     `choices_zulu_(zu)` = list(`label_zulu_(zu)`),
-                     .groups = "drop")
+                     ...
+                     )
 
 
   out <- dplyr::left_join(survey_out, choices_no_na, "list_name")
