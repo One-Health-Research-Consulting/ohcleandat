@@ -1,4 +1,4 @@
-#' Create Free Text Log
+#' Create Other Choice Log
 #'
 #' Creates custom validation log for 'other: explain' free text responses that may contain valid
 #' multi-choice options.
@@ -22,7 +22,7 @@
 #' @examples
 #' \dontrun{
 #' # Using othertext_lookup helper
-#' test_a <- create_freetext_log(response_data = animal_owner_semiclean,
+#' test_a <- other_choice_log(response_data = animal_owner_semiclean,
 #'                               form_schema = animal_owner_schema,
 #'                               url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
 #'                               lookup = ohcleandat::othertext_lookup(questionnaire = "animal_owner")
@@ -34,14 +34,14 @@
 #'   "f2_species_own", "f2a_species_own_oexp"
 #'   )
 #'
-#'   test_b <- create_freetext_log(response_data = animal_owner_semiclean,
+#'   test_b <- other_choice_log(response_data = animal_owner_semiclean,
 #'                                 form_schema = animal_owner_schema,
 #'                                 url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
 #'                                 lookup = mylookup
 #'                                 )
 #' }
 #'
-create_freetext_log <- function(response_data, form_schema, url, lookup){
+other_choice_log <- function(response_data, form_schema, url, lookup){
 
   # identify questions with some free text response
   other_q <- form_schema |>
@@ -96,4 +96,18 @@ create_freetext_log <- function(response_data, form_schema, url, lookup){
 
   return(freetext_log)
 
+}
+
+#' create other choice log
+#'
+#' use `other_choice_log()`
+#'
+#' `r lifecycle::badge('deprecated')`
+#'
+#' @param ... arguments passed to other_choice_log
+#' @export
+create_freetext_log <- function(...){
+  lifecycle::deprecate_warn(when = "1.1.6",what = "create_freetext_log()",with = "other_choice_log()")
+
+    other_choice_log(...)
 }

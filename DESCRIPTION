@@ -28,6 +28,7 @@ Imports:
     googledrive,
     googlesheets4,
     here,
+    lifecycle,
     purrr,
     rdrop2 (>= 0.8.2.2),
     readr,
