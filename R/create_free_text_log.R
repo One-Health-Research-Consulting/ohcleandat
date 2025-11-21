@@ -105,6 +105,9 @@ create_free_text_log <-
 create_translation_log <-
   function(response_data, form_schema, url) {
 
+    lifecycle::deprecate_warn(when = "1.1.5",
+                              what = "create_translation_log()",
+                              with = "create_free_text_log()")
     # get items from schema that are free text.
     other_q <- form_schema |>
       dplyr::select(name, type, labels = `label_english_(en)`, choices = `choices_english_(en)`) |>

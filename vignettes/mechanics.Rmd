@@ -327,10 +327,10 @@ targets::tar_target(
   )
 ),
 
-# create validation log records for free text requiring translation
+# create validation log records for free text noting if they may require translation
 targets::tar_target(
   animal_owner_translation_log,
-  ohcleandat::create_translation_log(
+  ohcleandat::create_free_text_log(
     response_data = animal_owner_semiclean,
     form_schema = animal_owner_schema,
     url = "https://odk.xyz.io/#/projects/5/forms/survey/submissions",
@@ -340,7 +340,7 @@ targets::tar_target(
 # create validation log records for free text 'other' responses that may contain valid multi-options
 targets::tar_target(
   animal_owner_text_log,
-  ohcleandat::create_freetext_log(
+  ohcleandat::other_choice_log(
     response_data = animal_owner_semiclean,
     form_schema = animal_owner_schema,
     url = "https://odk.xyz.io/#/projects/5/forms/survey/submissions",
