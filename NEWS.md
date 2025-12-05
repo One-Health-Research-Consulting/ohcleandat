@@ -1,3 +1,6 @@
+# ohcleandat 1.1.5
+- Adds a function for converting odk xlsx templates to RuODK schema tibbles.
+
 # ohcleandat 1.1.4
 
 # ohcleandat 1.1.3
