@@ -4,7 +4,13 @@
 \alias{create_free_text_log}
 \title{Create Translation Log}
 \usage{
-create_free_text_log(response_data, form_schema, url, type_to_keep = "text")
+create_free_text_log(
+  response_data,
+  form_schema,
+  url,
+  type_to_keep = "text",
+  existing_log
+)
 }
 \arguments{
 \item{response_data}{data.frame of ODK questionnaire responses}
@@ -14,6 +20,9 @@ create_free_text_log(response_data, form_schema, url, type_to_keep = "text")
 \item{url}{The ODK submission URL excluding the uuid identifier}
 
 \item{type_to_keep}{String. Regex pattern passed to \code{stringr::str_detect}.}
+
+\item{existing_log}{data.frame Existing log used to create semi-clean data.
+Used to prevent double entry of items.}
 }
 \value{
 data.frame validation log
@@ -23,6 +32,14 @@ Collates free text responses from text fields in the survey
 data. Some language detection is performed and placed in the log notes section
 for possible translation.
 }
+\details{
+Since this a "type" based validation, we must provide the existing log to
+prevent the perptual addition of entries. Unlike other logs, this log
+looks for specific types of data in the schema. If they are found,
+a new record is created. Even if a record is marked validated, its type will
+not change and so we must ensure the record is only added to the log if it is
+unvalidated in the current log.
+}
 \examples{
 \dontrun{
 
@@ -30,7 +47,8 @@ odk_schema_data <- schema_from_odk_xlsx_template(file_path = "inst/example_odk_s
 
 create_free_text_log(response_data = semi_clean_data,
                       form_schema = odk_schema_data,
-                      url = "https://odk.xyz.io/#/projects/project-name/submissions")
+                      url = "https://odk.xyz.io/#/projects/project-name/submissions",
+                      existing_log = existing_log)
 }
 
 }

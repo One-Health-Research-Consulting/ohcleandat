@@ -3,11 +3,24 @@
 #' Creates custom validation log for 'other: explain' free text responses that may contain valid
 #' multi-choice options.
 #'
+#' create_other_choice_log creates log entries for a special case of free text
+#' fields. These are the entries that coincide with select_multiple questions
+#' that have an other option which leads to a free text entry (e.g. what animals do you own? cattle, goat, sheep,
+#' other --> other explain: "free text response here").
+#'
+#' Because these log entries are based on data type, and not data value, we need
+#' to provide additional inputs to keep them from being entered twice into the log.
+#' By providing the free_text_log, we can look for validated entries in the existing log
+#' and only add
+#'
 #' @param response_data data.frame ODK questionnaire response data
 #' @param form_schema data.frame ODK flattened form schema data
 #' @param url The ODK submission URL excluding the uuid identifier
 #' @param lookup a tibble formatted as a lookup to match questions with their free text responses. The format must match
 #' the output of `othertext_lookup()`. This function can be passed to this function argument as a convenient handler for this value.
+#' @param free_text_log data.frame The output of the `create_free_text_log`.
+#' @param existing_log data.frame Existing log for this data set. Should be the same
+#' log that was used to create the semi-clean data.
 #'
 #' @return data.frame validation log
 #' @details
@@ -18,14 +31,16 @@
 #'  question_1, question_1_other
 #'  )
 #' @export
-#' @seealso [ohcleandat::othertext_lookup()]
+#' @seealso [ohcleandat::othertext_lookup()] [ohcleandat::keep_validated_entries()]
 #' @examples
 #' \dontrun{
 #' # Using othertext_lookup helper
 #' test_a <- other_choice_log(response_data = animal_owner_semiclean,
 #'                               form_schema = animal_owner_schema,
 #'                               url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
-#'                               lookup = ohcleandat::othertext_lookup(questionnaire = "animal_owner")
+#'                               lookup = ohcleandat::othertext_lookup(questionnaire = "animal_owner"),
+#'                               existing_log,
+#'                               free_text_log
 #'                               )
 #'
 #' # using custom lookup table
@@ -37,28 +52,48 @@
 #'   test_b <- other_choice_log(response_data = animal_owner_semiclean,
 #'                                 form_schema = animal_owner_schema,
 #'                                 url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
-#'                                 lookup = mylookup
+#'                                 lookup = mylookup,
+#'                                 existing_log,
+#'                                 free_text_log
 #'                                 )
+#'
+#' # using odk excel schema
+#' xlsx_lookup  <- othertext_lookup_from_odk_excel(file_path = "animal_owner_schema.xlsx")
+#'
+#' test_c <- other_choice_log(response_data = animal_owner_semiclean,
+#'                                 form_schema = animal_owner_schema,
+#'                                 url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
+#'                                 lookup = xlsx_lookup
+#'                                 )
+#'
 #' }
 #'
-other_choice_log <- function(response_data, form_schema, url, lookup){
+create_other_choice_log <- function(response_data, form_schema, url, lookup,
+                                     existing_log, free_text_log){
 
   # identify questions with some free text response
-  other_q <- form_schema |>
-    dplyr::select(name, type, labels = `label_english_(en)`, choices = `choices_english_(en)`) |>
-    dplyr::filter(stringr::str_detect(labels, "other|Other|note|Note"),
-           choices == "NA",
-           type == "string") |>
-    dplyr::pull(name) |>
-    unique()
+  # other_q <- form_schema |>
+  #   dplyr::select(name, type, labels = `label_english_(en)`, choices = `choices_english_(en)`) |>
+  #   dplyr::filter(stringr::str_detect(labels, "other|Other|note|Note"),
+  #          choices == "NA",
+  #          type == "string") |>
+  #   dplyr::pull(name) |>
+  #   unique()
 
-  # identidy responses to the questions with free text responses
+  validated_free_text_entries <- keep_validated_entries(existing_log,free_text_log) |>
+    dplyr::select()
+
+  other_q <- lookup |>
+    dplyr::pull(other_name)
+
+  # identify responses to the questions with free text responses
   other_responses <- response_data |>
     dplyr::select(id, tidyselect::contains(other_q)) |>
     tidyr::pivot_longer(-id) |>
     dplyr::filter(!is.na(value))
 
   # Identify questions with multi-response options
+  ### should we just join with the lookup table?
   multi <- form_schema |>
     dplyr::select(name, type, labels = `label_english_(en)`, choices = `choices_english_(en)`) |>
     dplyr::filter(choices != "NA" & choices != "NULL")
@@ -69,10 +104,10 @@ other_choice_log <- function(response_data, form_schema, url, lookup){
 
   # Read in pre-defined lookup of free text responses and the base multi-option question.
   # Join these with actual responses to form a validation log
-  freetext_log <- lookup |>
+  other_choice_log <- lookup |>
     dplyr::inner_join(multi_options, by = dplyr::join_by(name)) |>
     dplyr::inner_join(other_responses, by = dplyr::join_by(other_name == name)) |>
-    dplyr::mutate(issue = "Is the free-text answer valid? Indicate IsValid = F to overwrite with the correct multiple choice response",
+    dplyr::mutate(issue = "Is the free-text answer valid? Indicate no_change = F to overwrite with the correct multiple choice response",
            no_change = "",
            user_initials = "",
            odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
@@ -94,7 +129,23 @@ other_choice_log <- function(response_data, form_schema, url, lookup){
            comments) |>
     dplyr::arrange(entry, field)
 
-  return(freetext_log)
+
+  # keep only items that have been validated in free text
+
+  validated_free_text <- keep_validated_entries(existing_log = existing_log,
+                                                new_log = free_text_log) |>
+    dplyr::select(entry,field)
+
+  other_choice_log_out <- dplyr::inner_join(other_choice_log,validated_free_text, by = c("entry","field"))
+
+  # drop any items that have been validated in other choice --- this should
+  # happen with combine logs since items are being added to the log once
+  # they clear the free_text_log so there shouldnt be "old value" mismatches
+
+  # drop unvalidated items that already exist in the log --- this should
+  # happen with combine logs
+
+  return(other_choice_log_out)
 
 }
 
@@ -107,7 +158,5 @@ other_choice_log <- function(response_data, form_schema, url, lookup){
 #' @param ... arguments passed to other_choice_log
 #' @export
 create_freetext_log <- function(...){
-  lifecycle::deprecate_warn(when = "1.1.6",what = "create_freetext_log()",with = "other_choice_log()")
-
-    other_choice_log(...)
+  lifecycle::deprecate_stop(when = "1.1.6",what = "create_freetext_log()",with = "create_other_choice_log()")
 }

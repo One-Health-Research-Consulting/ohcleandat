@@ -4,10 +4,19 @@
 #' data. Some language detection is performed and placed in the log notes section
 #' for possible translation.
 #'
+#' Since this a "type" based validation, we must provide the existing log to
+#' prevent the perptual addition of entries. Unlike other logs, this log
+#' looks for specific types of data in the schema. If they are found,
+#' a new record is created. Even if a record is marked validated, its type will
+#' not change and so we must ensure the record is only added to the log if it is
+#' unvalidated in the current log.
+#'
 #' @param response_data data.frame of ODK questionnaire responses
 #' @param form_schema data.frame or flattened ODK form schema
 #' @param url The ODK submission URL excluding the uuid identifier
 #' @param type_to_keep String. Regex pattern passed to `stringr::str_detect`.
+#' @param existing_log data.frame Existing log used to create semi-clean data.
+#' Used to prevent double entry of items.
 #'
 #' @export
 #'
@@ -20,11 +29,12 @@
 #'
 #' create_free_text_log(response_data = semi_clean_data,
 #'                       form_schema = odk_schema_data,
-#'                       url = "https://odk.xyz.io/#/projects/project-name/submissions")
+#'                       url = "https://odk.xyz.io/#/projects/project-name/submissions",
+#'                       existing_log = existing_log)
 #' }
 #'
 create_free_text_log <-
-  function(response_data, form_schema, url, type_to_keep = "text") {
+  function(response_data, form_schema, url, type_to_keep = "text", existing_log) {
 
     # get items from schema that are free text.
     other_q <- form_schema |>
@@ -75,7 +85,16 @@ create_free_text_log <-
         comments
       )
 
-    return(free_text_log)
+    # get un-validated records --- this function includes issue in its
+    # join so we don't need it here.
+    unvalidated_entries <- drop_validated_entries(existing_log, free_text_log) |>
+      dplyr::select(entry, field)
+
+    ## keep only unvalidated items in log
+
+    free_text_log_out<- dplyr::inner_join(free_text_log, unvalidated_entries, by = c("entry","field"))
+
+    return(free_text_log_out)
 
   }
 
@@ -105,7 +124,7 @@ create_free_text_log <-
 create_translation_log <-
   function(response_data, form_schema, url) {
 
-    lifecycle::deprecate_warn(when = "1.1.5",
+    lifecycle::deprecate_stop(when = "1.1.5",
                               what = "create_translation_log()",
                               with = "create_free_text_log()")
     # get items from schema that are free text.

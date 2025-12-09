@@ -15,3 +15,9 @@ tibble. Tibble with fields name and other name
 \description{
 Create other text lookup from ODK excel template
 }
+\examples{
+\dontrun{
+othertext_lookup_from_odk_excel(file_path = "my/odk_template.xlsx")
+}
+
+}
