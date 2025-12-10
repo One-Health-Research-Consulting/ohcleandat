@@ -1,4 +1,4 @@
-#' Create Translation Log
+#' Create Free Text Log
 #'
 #'  Collates free text responses from text fields in the survey
 #' data. Some language detection is performed and placed in the log notes section
@@ -124,7 +124,7 @@ create_free_text_log <-
 create_translation_log <-
   function(response_data, form_schema, url) {
 
-    lifecycle::deprecate_stop(when = "1.1.5",
+    lifecycle::deprecate_stop(when = "1.1.6",
                               what = "create_translation_log()",
                               with = "create_free_text_log()")
     # get items from schema that are free text.

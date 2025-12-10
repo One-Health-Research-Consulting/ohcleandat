@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_free_text_log.R
 \name{create_free_text_log}
 \alias{create_free_text_log}
-\title{Create Translation Log}
+\title{Create Free Text Log}
 \usage{
 create_free_text_log(
   response_data,
