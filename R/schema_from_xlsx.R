@@ -22,7 +22,7 @@
 
 #'
 #'
-schema_from_odk_xlsx_template <- function(file_path,...){
+schema_from_odk_xlsx_template <- function(file_path,label_choices = TRUE,...){
 
  survey <- readxl::read_excel(file_path,sheet = "survey")
 
@@ -71,6 +71,24 @@ schema_from_odk_xlsx_template <- function(file_path,...){
     dplyr::summarise(choices = list(name),
                      ...
                      )
+
+  ## label names?
+  if(label_choices){
+    # check that label was added
+    # make properly shaped label list -- choices en is harded coded in other spots
+    # will make more flexible in the future
+    choices_no_na$`choices_english_(en)` <- purrr::map2(choices_no_na$`choices_english_(en)`,
+                                                        choices_no_na$choices,
+                                                        function(label, value){
+      if(is.null(label)){
+        return(NULL)
+      }
+
+      list("label" = label,
+           "value" = value)
+    })
+  }
+
 
 
   out <- dplyr::left_join(survey_out, choices_no_na, "list_name")
