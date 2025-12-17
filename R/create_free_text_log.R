@@ -17,6 +17,7 @@
 #' @param type_to_keep String. Regex pattern passed to `stringr::str_detect`.
 #' @param existing_log data.frame Existing log used to create semi-clean data.
 #' Used to prevent double entry of items.
+#' @param columns_to_exclude Character. Character vector of columns to exclude from the log.
 #'
 #' @export
 #'
@@ -34,7 +35,7 @@
 #' }
 #'
 create_free_text_log <-
-  function(response_data, form_schema, url, type_to_keep = "text", existing_log) {
+  function(response_data, form_schema, url, type_to_keep = "text", existing_log, columns_to_exclude = NULL) {
 
     # get items from schema that are free text.
     other_q <- form_schema |>
@@ -44,6 +45,18 @@ create_free_text_log <-
       ) |>
       dplyr::pull(name) |>
       unique()
+
+    # exclude certain columns
+    if(is.character(columns_to_exclude)){
+
+      # warn user if a column to be excluded is not in the schema as free text
+      if(!all(columns_to_exclude %in% other_q)){
+        rlang::warn("Not all values in columns_to_exclude are stored as free text in the schema. Check spelling and column type.")
+      }
+
+      exclude_these <- other_q %in% columns_to_exclude
+      other_q <- other_q[!exclude_these]
+    }
 
     # get free text responses
     other_responses <- response_data |>
