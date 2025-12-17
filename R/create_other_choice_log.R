@@ -131,7 +131,7 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
 
 
   # keep only items that have been validated in free text
-
+ ### this may not work!
   validated_free_text <- keep_validated_entries(existing_log = existing_log,
                                                 new_log = free_text_log) |>
     dplyr::select(entry,field)
