@@ -5,7 +5,8 @@
 #' to XML before uploading to ODK.
 #'
 #' @param file_path String. Path to excel file.
-#' @param ... Additional arguments for dpylr::summarize. Generally used to supply
+#' @param label_choices Logical. Should choices be named vectors? Default is true, downstream functions may require vectors have names
+#' @param ... Additional arguments for `dpylr::summarize`. Generally used to supply
 #' paired arguments for creating lists of choices in a given language. See example.
 #'
 #' @returns Data frame. In same format as
@@ -18,8 +19,6 @@
 #'                                `choices_zulu_(zu)` = list(`label_zulu_(zu)`)
 #' )
 #' }
-#'
-
 #'
 #'
 schema_from_odk_xlsx_template <- function(file_path,label_choices = TRUE,...){

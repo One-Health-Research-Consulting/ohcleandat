@@ -9,7 +9,8 @@ create_free_text_log(
   form_schema,
   url,
   type_to_keep = "text",
-  existing_log
+  existing_log,
+  columns_to_exclude = NULL
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ create_free_text_log(
 
 \item{existing_log}{data.frame Existing log used to create semi-clean data.
 Used to prevent double entry of items.}
+
+\item{columns_to_exclude}{Character. Character vector of columns to exclude from the log.}
 }
 \value{
 data.frame validation log
