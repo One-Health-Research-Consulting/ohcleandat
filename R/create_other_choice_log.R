@@ -108,25 +108,25 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
     dplyr::inner_join(multi_options, by = dplyr::join_by(name)) |>
     dplyr::inner_join(other_responses, by = dplyr::join_by(other_name == name)) |>
     dplyr::mutate(issue = "Is the free-text answer valid? Indicate no_change = F to overwrite with the correct multiple choice response",
-           no_change = "",
-           user_initials = "",
-           odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
-           overwrite_old_value = "FALSE",
-           comments = ifelse(stringr::str_detect(string = tolower(value), pattern = tolower(values)), "Text contains a valid multiple choice option.", "")) |>
+                  no_change = "",
+                  user_initials = "",
+                  odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
+                  overwrite_old_value = "FALSE",
+                  comments = ifelse(stringr::str_detect(string = tolower(value.y), pattern = tolower(value.x)), "Text contains a valid multiple choice option.", "")) |>
     dplyr::left_join(
       dplyr::select(form_schema, name, question = "label_english_(en)") , by = c("name" = "name")
     ) |>
     dplyr::select(entry = id,
-           field = name,
-           question,
-           issue,
-           old_value = value,
-           no_change,
-           new_val = values,
-           overwrite_old_value,
-           user_initials,
-           odk_url,
-           comments) |>
+                  field = name,
+                  question,
+                  issue,
+                  old_value = value.y,
+                  no_change,
+                  new_val = value.x,
+                  overwrite_old_value,
+                  user_initials,
+                  odk_url,
+                  comments) |>
     dplyr::arrange(entry, field)
 
 
