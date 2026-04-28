@@ -112,7 +112,7 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
            user_initials = "",
            odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
            overwrite_old_value = "FALSE",
-           comments = ifelse(stringr::str_detect(string = tolower(value), pattern = tolower(values)), "Text contains a valid multiple choice option.", "")) |>
+           comments = ifelse(stringr::str_detect(string = tolower(value.y), pattern = tolower(value.x)), "Text contains a valid multiple choice option.", "")) |>
     dplyr::left_join(
       dplyr::select(form_schema, name, question = "label_english_(en)") , by = c("name" = "name")
     ) |>
@@ -120,9 +120,9 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
            field = name,
            question,
            issue,
-           old_value = value,
+           old_value = value.y,
            no_change,
-           new_val = values,
+           new_val = value.x,
            overwrite_old_value,
            user_initials,
            odk_url,
