@@ -130,11 +130,17 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
     dplyr::arrange(entry, field)
 
 
-  # keep only items that have been validated in free text
- ### this may not work!
-  validated_free_text <- keep_validated_entries(existing_log = existing_log,
-                                                new_log = free_text_log) |>
+  # keep only  items that have been validated in free text
+  ## existing_log filtered to lookup$other_name
+  ## filter to validated entries
+  ## keep entry and field
+
+
+  validated_existing_log <- keep_validated_entries(existing_log = existing_log,
+                                                new_log = NULL) |>
     dplyr::select(entry,field)
+
+  validated_free_text <- dplyr::inner_join(validated_existing_log, lookup, by = c("field" = "other_name"))
 
   other_choice_log_out <- dplyr::inner_join(other_choice_log,validated_free_text, by = c("entry","field"))
 

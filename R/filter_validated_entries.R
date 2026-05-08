@@ -13,7 +13,8 @@
 #'
 #'
 #' @param existing_log data.frame A log created with the ohcleandat package
-#' @param new_log data.frame A different log created with the ohcleandat package
+#' @param new_log data.frame A different log created with the ohcleandat package.
+#' Set to NULL to return validated entries from existing log.
 #'
 #' @returns data.frame An ohcleandat log based on the existing log.
 #' @importFrom rlang .data
@@ -40,6 +41,30 @@ keep_validated_entries <- function(existing_log,
   if(is.null(existing_log)){
     message("Existing log is null. Returning new_log")
     return(new_log)
+  }
+
+  ### if we only want to get validated entries from the existing log
+  if(is.null(new_log)){
+    existing_log_for_join <- existing_log |>
+      dplyr::mutate(dup_id = sprintf("%s_%s_%s",entry,field,issue)) |>
+      dplyr::filter(!duplicated(.data$dup_id, fromLast = TRUE)) |> # keep last non-duplicate entry
+      dplyr::select(-.data$dup_id)
+
+    validated_log_entries <- existing_log_for_join |>
+      dplyr::filter(
+        stringr::str_detect(no_change,pattern = stringr::regex("F|FALSE|T|TRUE",ignore_case = TRUE)),
+        !is.na(field),
+        field != "",
+        !is.na(entry),
+        entry != ""
+      )
+
+    if(nrow(validated_log_entries) == 0){
+      message("Nothing valdiated. Returning an empty df")
+    }
+
+    return(validated_log_entries)
+
   }
 
   # trim new log to only fields for join.
@@ -108,6 +133,10 @@ keep_validated_entries <- function(existing_log,
 #'
 drop_validated_entries <- function(existing_log,
                                    new_log){
+
+  if(is.null(existing_log)){
+    return(new_log)
+  }
 
   ## keep last entry for a entry field issue combo
   existing_log_for_join <- existing_log |>
