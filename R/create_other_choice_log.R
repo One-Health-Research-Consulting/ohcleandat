@@ -79,10 +79,6 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
   #          type == "string") |>
   #   dplyr::pull(name) |>
   #   unique()
-
-  validated_free_text_entries <- keep_validated_entries(existing_log,free_text_log) |>
-    dplyr::select()
-
   other_q <- lookup |>
     dplyr::pull(other_name)
 
