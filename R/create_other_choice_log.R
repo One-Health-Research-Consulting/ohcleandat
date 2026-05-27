@@ -69,7 +69,11 @@
 #' }
 #'
 create_other_choice_log <- function(response_data, form_schema, url, lookup,
-                                     existing_log, free_text_log){
+                                     existing_log){
+
+  if(is.null(x = existing_log)){
+    return(NULL)
+  }
 
   # identify questions with some free text response
   # other_q <- form_schema |>
