@@ -144,14 +144,13 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
     dplyr::select(-field) |>
     dplyr::rename("field" = "name")
 
-  other_choice_log_out <- dplyr::inner_join(other_choice_log,validated_free_text, by = c("entry","field"))
+  # other choice items with associated validated free text (vft)
+  other_choice_log_vft <- dplyr::inner_join(other_choice_log,validated_free_text, by = c("entry","field"))
 
-  # drop any items that have been validated in other choice --- this should
-  # happen with combine logs since items are being added to the log once
-  # they clear the free_text_log so there shouldnt be "old value" mismatches
+  # drop any items other choice items already in the log ---
+  other_choice_log_out <- dplyr::anti_join(other_choice_log_vft,existing_log,
+                                           by = c("entry","field"))
 
-  # drop unvalidated items that already exist in the log --- this should
-  # happen with combine logs
 
   return(other_choice_log_out)
 
