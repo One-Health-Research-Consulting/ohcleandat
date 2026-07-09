@@ -11,7 +11,7 @@
 #' Because these log entries are based on data type, and not data value, we need
 #' to provide additional inputs to keep them from being entered twice into the log.
 #' By providing the free_text_log, we can look for validated entries in the existing log
-#' and only add
+#' and only add items that have been validated. 
 #'
 #' @param response_data data.frame ODK questionnaire response data
 #' @param form_schema data.frame ODK flattened form schema data
