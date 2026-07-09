@@ -347,28 +347,28 @@ targets::tar_target(
 ## been validated in a slightly different way. Under the rules based logs, validated
 ## values are corrected when we create the semi-clean data and will pass validation
 ## when confronted with the rules again. Here, the data will always be of type 
-## text so we need to use validation status (no_change) from the logs to determine whether ## or not the item should be validated further.
-##
-##  `keep_validated_entries` inner_join the free_text_log with the existing_log and keeps validated entries.
-## This allows us to identify which records to check with the multiple choice log.
-## Similar accounting will need to be done with the "other_choice_log".
-targets::tar_target(
-  animal_owner_free_text_log_validated,
-  ohcleandat::keep_validated_entries(existing_log = animal_owner_existing_log,
-                         new_log = animal_owner_free_text_log)
-    
-  )
-)
+## text so we need to use validation status (no_change) from the logs to determine whether 
+## or not the item should be validated further.
 
-## create_other_choice_log creates log entries for a special case of free text
+
+## `create_other_choice_log` creates log entries for a special case of free text
 ## fields. These are the entries that coincide with select_multiple questions
 ## that have an other option which leads to a free text entry (e.g. cattle, goat, sheep, 
-## other --> other explain: "free text response here").
+## other --> other explain: "free text response here"). 
 ## 
-##  
+## Unlike other logs, these entries are only ever added once.
+## This is because free text values may change, making it difficult to properly assess what the proper multiple choice values are. 
+
+## For example, a question about animals owned contains a select multiple type question
+## with the a free text option other.
+## The choices are Cattle, Sheep, Pigs, Horse, and Other.
+## The enumerator records Other: Cattle and Donkeys.
+## The a person correcting the data will add the cattle selection and change the text in Other to Donkeys. 
+
+
 # create validation log records for free text 'other' responses that may contain valid multi-options
 # only create log entries for entries that have already been validated in the
-# free text log
+# free text log and only create them one time.
 
 targets::tar_target(
   animal_owner_other_choice_log,
@@ -376,8 +376,7 @@ targets::tar_target(
     response_data = animal_owner_semiclean,
     form_schema = animal_owner_schema,
     url = "https://odk.xyz.io/#/projects/5/forms/survey/submissions",
-    lookup = animal_owner_look_up,
-    corrected_free_text_log = animal_owner_free_text_log_validated
+    lookup = animal_owner_look_up
   )
 ),
 

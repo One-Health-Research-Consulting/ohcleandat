@@ -32,6 +32,14 @@
 #'                       form_schema = odk_schema_data,
 #'                       url = "https://odk.xyz.io/#/projects/project-name/submissions",
 #'                       existing_log = existing_log)
+#'
+#' # exclude certain columns from the free text log
+#' create_free_text_log(response_data = semi_clean_data,
+#'                       form_schema = odk_schema_data,
+#'                       url = "https://odk.xyz.io/#/projects/project-name/submissions",
+#'                       existing_log = existing_log,
+#'                       columns_to_exclude = c("household_id", "human_id")
+#'                       )
 #' }
 #'
 create_free_text_log <-

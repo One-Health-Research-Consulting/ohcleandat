@@ -6,6 +6,8 @@
 \alias{ohcleandat-package}
 \title{ohcleandat: One Health Data Cleaning and Quality Checking Package}
 \description{
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
 This package provides useful functions to orchestrate analytics and data cleaning pipelines for One Health projects.
 }
 \seealso{
@@ -20,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Collin Schwantes \email{cjschwantesll@gmail.com} (\href{https://orcid.org/0000-0003-4014-4896}{ORCID})
   \item Johana Teigen \email{joteigen14@gmail.com} (\href{https://orcid.org/0000-0002-6209-2321}{ORCID})
   \item Ernest Guevarra \email{ernest@guevarra.io} (\href{https://orcid.org/0000-0002-4887-4415}{ORCID})
   \item Dean Marchiori \email{dean@wavedatalabs.com.au} (\href{https://orcid.org/0000-0002-3430-7225}{ORCID})
@@ -28,7 +31,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item EcoHealth Alliance (https://ror.org/02zv3m156) [copyright holder, funder]
+  \item EcoHealth Alliance (RORID: https://ror.org/02zv3m156) [copyright holder, funder]
 }
 
 }

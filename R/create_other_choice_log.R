@@ -22,6 +22,7 @@
 #' log that was used to create the semi-clean data.
 #'
 #' @return data.frame validation log
+#' @importFrom rlang .data
 #' @details
 #' This function needs to link a survey question with its corresponding free text response. Users can use the
 #' `othertext_lookup()` function to handle this, or provide their own tibble in the same format. See below:
@@ -109,7 +110,7 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
                   user_initials = "",
                   odk_url = paste(url, stringr::str_replace(id, pattern = ":", replacement = "%3A"), sep = "/"),
                   overwrite_old_value = "FALSE",
-                  comments = ifelse(stringr::str_detect(string = tolower(value.y), pattern = tolower(value.x)), "Text contains a valid multiple choice option.", "")) |>
+                  comments = ifelse(stringr::str_detect(string = tolower(.data$value.y), pattern = tolower(.data$value.x)), "Text contains a valid multiple choice option.", "")) |>
     dplyr::left_join(
       dplyr::select(form_schema, name, question = "label_english_(en)") , by = c("name" = "name")
     ) |>
@@ -117,9 +118,9 @@ create_other_choice_log <- function(response_data, form_schema, url, lookup,
                   field = name,
                   question,
                   issue,
-                  old_value = value.y,
+                  old_value = .data$value.y,
                   no_change,
-                  new_val = value.x,
+                  new_val = .data$value.x,
                   overwrite_old_value,
                   user_initials,
                   odk_url,
