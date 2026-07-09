@@ -10,8 +10,13 @@
 #'
 #' Because these log entries are based on data type, and not data value, we need
 #' to provide additional inputs to keep them from being entered twice into the log.
-#' By providing the free_text_log, we can look for validated entries in the existing log
-#' and only add items that have been validated. 
+#' By providing the existing_log, we can look for validated entries in the existing log
+#' and only add items that have been validated.
+#'
+#' Unlike other logs, responses are only ever added one time.
+#' So even if the free text associated with the multiple select question changes,
+#' the multiple select options will not be added again.
+#'
 #'
 #' @param response_data data.frame ODK questionnaire response data
 #' @param form_schema data.frame ODK flattened form schema data

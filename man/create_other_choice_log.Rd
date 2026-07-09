@@ -34,8 +34,12 @@ other --> other explain: "free text response here").
 
 Because these log entries are based on data type, and not data value, we need
 to provide additional inputs to keep them from being entered twice into the log.
-By providing the free_text_log, we can look for validated entries in the existing log
-and only add
+By providing the existing_log, we can look for validated entries in the existing log
+and only add items that have been validated.
+
+Unlike other logs, responses are only ever added one time.
+So even if the free text associated with the multiple select question changes,
+the multiple select options will not be added again.
 
 This function needs to link a survey question with its corresponding free text response. Users can use the
 \code{othertext_lookup()} function to handle this, or provide their own tibble in the same format. See below:
