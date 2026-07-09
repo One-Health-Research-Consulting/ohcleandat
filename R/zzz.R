@@ -32,6 +32,8 @@ utils::globalVariables(
   "path", # used in download_googledrive_files in mutate
   "rowid",
   "entry_field",
-  "entry_field_dupe"
+  "entry_field_dupe",
+  "dup_id",
+  "relevant"
   )
 )

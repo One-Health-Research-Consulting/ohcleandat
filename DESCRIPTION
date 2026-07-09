@@ -1,7 +1,7 @@
 Package: ohcleandat
 Type: Package
 Title: One Health Data Cleaning and Quality Checking Package
-Version: 1.1.5
+Version: 1.1.6
 Authors@R: c(
     person("Collin", "Schwantes", email = "cjschwantesll@gmail.com", role = c("cre", "aut"), comment = c(ORCID = "0000-0003-4014-4896")),
     person("Johana", "Teigen", email = "joteigen14@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-6209-2321")),
@@ -11,10 +11,10 @@ Authors@R: c(
     person("EcoHealth Alliance", role = c("cph", "fnd"),comment = c(RORID = "https://ror.org/02zv3m156")))
 Maintainer: Collin Schwantes <cjschwantesll@gmail.com>
 Description: This package provides useful functions to orchestrate analytics and data cleaning pipelines for One Health projects.  
-License: MIT + file LICENSE
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2.9000
+RoxygenNote: 8.0.0
 Suggests: 
     knitr,
     rmarkdown
@@ -28,6 +28,7 @@ Imports:
     googledrive,
     googlesheets4,
     here,
+    lifecycle,
     purrr,
     rdrop2 (>= 0.8.2.2),
     readr,

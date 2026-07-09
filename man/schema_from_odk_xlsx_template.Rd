@@ -4,12 +4,14 @@
 \alias{schema_from_odk_xlsx_template}
 \title{Create ODK Schema from XLSX template}
 \usage{
-schema_from_odk_xlsx_template(file_path, ...)
+schema_from_odk_xlsx_template(file_path, label_choices = TRUE, ...)
 }
 \arguments{
 \item{file_path}{String. Path to excel file.}
 
-\item{...}{Additional arguments for dpylr::summarize. Generally used to supply
+\item{label_choices}{Logical. Should choices be named vectors? Default is true, downstream functions may require vectors have names}
+
+\item{...}{Additional arguments for \code{dpylr::summarize}. Generally used to supply
 paired arguments for creating lists of choices in a given language. See example.}
 }
 \value{
@@ -27,7 +29,6 @@ schema_from_odk_xlsx_template(file_path = "inst/RVF2_participant_survey_20220302
                                `choices_zulu_(zu)` = list(`label_zulu_(zu)`)
 )
 }
-
 
 
 }
