@@ -4,14 +4,7 @@
 \alias{create_other_choice_log}
 \title{Create Other Choice Log}
 \usage{
-create_other_choice_log(
-  response_data,
-  form_schema,
-  url,
-  lookup,
-  existing_log,
-  free_text_log
-)
+create_other_choice_log(response_data, form_schema, url, lookup, existing_log)
 }
 \arguments{
 \item{response_data}{data.frame ODK questionnaire response data}
@@ -25,8 +18,6 @@ the output of \code{othertext_lookup()}. This function can be passed to this fun
 
 \item{existing_log}{data.frame Existing log for this data set. Should be the same
 log that was used to create the semi-clean data.}
-
-\item{free_text_log}{data.frame The output of the \code{create_free_text_log}.}
 }
 \value{
 data.frame validation log
@@ -60,8 +51,7 @@ test_a <- other_choice_log(response_data = animal_owner_semiclean,
                               form_schema = animal_owner_schema,
                               url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
                               lookup = ohcleandat::othertext_lookup(questionnaire = "animal_owner"),
-                              existing_log,
-                              free_text_log
+                              existing_log
                               )
 
 # using custom lookup table
@@ -74,8 +64,7 @@ mylookup <- tibble::tribble(
                                 form_schema = animal_owner_schema,
                                 url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
                                 lookup = mylookup,
-                                existing_log,
-                                free_text_log
+                                existing_log
                                 )
 
 # using odk excel schema

@@ -18,7 +18,6 @@
 #' @param url The ODK submission URL excluding the uuid identifier
 #' @param lookup a tibble formatted as a lookup to match questions with their free text responses. The format must match
 #' the output of `othertext_lookup()`. This function can be passed to this function argument as a convenient handler for this value.
-#' @param free_text_log data.frame The output of the `create_free_text_log`.
 #' @param existing_log data.frame Existing log for this data set. Should be the same
 #' log that was used to create the semi-clean data.
 #'
@@ -39,8 +38,7 @@
 #'                               form_schema = animal_owner_schema,
 #'                               url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
 #'                               lookup = ohcleandat::othertext_lookup(questionnaire = "animal_owner"),
-#'                               existing_log,
-#'                               free_text_log
+#'                               existing_log
 #'                               )
 #'
 #' # using custom lookup table
@@ -53,8 +51,7 @@
 #'                                 form_schema = animal_owner_schema,
 #'                                 url = "https://odk.xyz.io/#/projects/5/forms/project/submissions",
 #'                                 lookup = mylookup,
-#'                                 existing_log,
-#'                                 free_text_log
+#'                                 existing_log
 #'                                 )
 #'
 #' # using odk excel schema

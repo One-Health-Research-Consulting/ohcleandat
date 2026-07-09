@@ -9,7 +9,8 @@ keep_validated_entries(existing_log, new_log)
 \arguments{
 \item{existing_log}{data.frame A log created with the ohcleandat package}
 
-\item{new_log}{data.frame A different log created with the ohcleandat package}
+\item{new_log}{data.frame A different log created with the ohcleandat package.
+Set to NULL to return validated entries from existing log.}
 }
 \value{
 data.frame An ohcleandat log based on the existing log.
