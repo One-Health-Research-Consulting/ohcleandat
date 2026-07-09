@@ -18,15 +18,15 @@
 
 ## Citation
 
-Schwantes C, Teigen J, Guevarra E, Marchiori D, Rostal M (2025).
+Schwantes C, Teigen J, Guevarra E, Marchiori D, Rostal M (2026).
 *ohcleandat: One Health Data Cleaning and Quality Checking Package*. R
-package version 1.1.5,
+package version 1.1.6,
 <https://One-Health-Research-Consulting.github.io/ohcleandat/>.
 
     @Manual{,
       title = {ohcleandat: One Health Data Cleaning and Quality Checking Package},
       author = {Collin Schwantes and Johana Teigen and Ernest Guevarra and Dean Marchiori and Melinda Rostal},
-      year = {2025},
-      note = {R package version 1.1.5},
+      year = {2026},
+      note = {R package version 1.1.6},
       url = {https://One-Health-Research-Consulting.github.io/ohcleandat/},
     }

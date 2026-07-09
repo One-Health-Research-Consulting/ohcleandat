@@ -1,6 +1,7 @@
 # Mechanics: Data Cleaning and Validation Pipeline
 
 ``` r
+
 library(ohcleandat)
 ```
 
@@ -69,6 +70,7 @@ vary, much of this code can be re-used as a template for future
 pipelines.
 
 ``` r
+
 fs_mosquito_field_targets <- tar_plan(
   # FS mosquito field data googlesheets ids
   targets::tar_target(
@@ -325,10 +327,13 @@ violation are appended to the existing log and uploaded to Dropbox.
 In some cases, such as with questionnaire data, multiple different logs
 are created and combined together - increasing the complexity.
 
+These logs are different from other logs in that they are looking for
+specific types of data, not valid or invalid values in the data.
+
 Below is an example of combining multiple log types together:
 
 ``` r
-# mapping through rules to create a validation log
+# mapping through rules to create a validation log -- standard validation log
 targets::tar_target(
   log_animal_owner,
   map_df(
@@ -343,27 +348,54 @@ targets::tar_target(
   )
 ),
 
-# create validation log records for free text requiring translation
+# create validation log records for free text noting if they may require translation
+## this log uses the data types in "animal_owner_schema" to identify fields that 
+## need to be curated because they are free text. 
 targets::tar_target(
-  animal_owner_translation_log,
-  ohcleandat::create_translation_log(
+  animal_owner_free_text_log,
+  ohcleandat::create_free_text_log(
     response_data = animal_owner_semiclean,
     form_schema = animal_owner_schema,
     url = "https://odk.xyz.io/#/projects/5/forms/survey/submissions",
   )
 ),
 
+
+## Because we are looking at types and not values, we need to keep track of whats
+## been validated in a slightly different way. Under the rules based logs, validated
+## values are corrected when we create the semi-clean data and will pass validation
+## when confronted with the rules again. Here, the data will always be of type 
+## text so we need to use validation status (no_change) from the logs to determine whether 
+## or not the item should be validated further.
+
+
+## `create_other_choice_log` creates log entries for a special case of free text
+## fields. These are the entries that coincide with select_multiple questions
+## that have an other option which leads to a free text entry (e.g. cattle, goat, sheep, 
+## other --> other explain: "free text response here"). 
+## 
+## Unlike other logs, these entries are only ever added once.
+## This is because free text values may change, making it difficult to properly assess what the proper multiple choice values are. 
+
+## For example, a question about animals owned contains a select multiple type question
+## with the a free text option other.
+## The choices are Cattle, Sheep, Pigs, Horse, and Other.
+## The enumerator records Other: Cattle and Donkeys.
+## The a person correcting the data will add the cattle selection and change the text in Other to Donkeys. 
+
+
 # create validation log records for free text 'other' responses that may contain valid multi-options
+# only create log entries for entries that have already been validated in the
+# free text log and only create them one time.
+
 targets::tar_target(
-  animal_owner_text_log,
-  ohcleandat::create_freetext_log(
+  animal_owner_other_choice_log,
+  ohcleandat::create_other_choice_log(
     response_data = animal_owner_semiclean,
     form_schema = animal_owner_schema,
     url = "https://odk.xyz.io/#/projects/5/forms/survey/submissions",
-    ,
-    questionnaire = "animal_owner"
+    lookup = animal_owner_look_up
   )
-  
 ),
 
 # unite current-run logs

@@ -1,6 +1,7 @@
 # Metadata: Creating Standard Metadata with \`{ohcleandat}\` and \`{deposits}\`
 
 ``` r
+
 library(ohcleandat)
 library(deposits)
 library(frictionless)
@@ -45,6 +46,7 @@ binding an empty `data.frame` to the basic structure.
 
 ``` r
 
+
 ## read in your data
 data_to_describe <- tibble::tibble(date = as.Date(19961:19970),
                                    measurement = sample(1:100,10),
@@ -71,6 +73,7 @@ Do I have to re-write my metadata? Maybe! But in certain cirucumstances
 you can just update the metadata.
 
 ``` r
+
 
 ## oops I forgot to add a primary key
 data_to_describe$key <- 1:10
@@ -121,6 +124,7 @@ descriptive metadata. Only certain DCMI terms can be included in the
 descriptive metadata and their formatting can be a little tricky.
 
 ``` r
+
 
 
 # set deposits token 

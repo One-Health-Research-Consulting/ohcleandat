@@ -34,6 +34,7 @@ Nathan Layman
 ## Examples
 
 ``` r
+
 x <- c(1,100,1.11)
 get_precision(x,func = min)
 #> [1] 0.01

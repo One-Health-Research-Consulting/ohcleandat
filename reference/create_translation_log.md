@@ -1,8 +1,8 @@
 # Create Translation Log
 
-Collates free text responses from 'other' and 'notes' fields in the
-survey data. Some language detection is performed and placed in the log
-notes section for possible translation.
+**\[deprecated\]** Collates free text responses from 'other' and 'notes'
+fields in the survey data. Some language detection is performed and
+placed in the log notes section for possible translation.
 
 ## Usage
 

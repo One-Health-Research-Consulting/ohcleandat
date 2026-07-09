@@ -1,6 +1,7 @@
 # Integrating Different Datasets
 
 ``` r
+
 library(ohcleandat)
 ```
 
@@ -36,6 +37,7 @@ Also below is the relevant target that performs the joining operation
 and integrates these data sets together.
 
 ``` r
+
   tar_target(integrated_mosq_field,
              left_join(
                x = fs_mosquito_field_semiclean,

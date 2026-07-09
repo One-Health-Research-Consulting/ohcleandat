@@ -59,6 +59,7 @@ Numeric vector
 ## Examples
 
 ``` r
+
 # make data
 gps_data  <- data.frame(lat = c(1.0001, 10.22223, 4.00588),
                         lon = c(2.39595, 4.506930, -60.09999901))
@@ -68,7 +69,7 @@ gps_data$lat |>
   obfuscate_gps(type = "lat")
 #> The data have a max precision of: 1e-05
 #> The max shift from the combination of precision and fuzz is: 0.225 degrees
-#> [1]  0.88 10.11  3.89
+#> [1]  0.90 10.12  3.90
 
 # Obfuscation can be made more or less precise by changing the number of
 # decimal points included or modifying the amount of fuzz (error)
@@ -79,7 +80,7 @@ gps_data$lon |>
 #> The max shift from the combination of precision and fuzz is: 0.012 degrees
 #> The majority of the obfuscation is coming from rounding, this
 #>     potentially makes re-identification easier
-#> [1]   2.3949   4.5058 -60.1011
+#> [1]   2.3973   4.5083 -60.0987
 
 ### working at the poles
 gps_data_poles  <- data.frame(lat = c(89.0001, 89.22223, -89.8881),
@@ -90,7 +91,7 @@ gps_data_poles$lat |>
   obfuscate_gps(fuzz = 1, type = "lat")
 #> The data have a max precision of: 1e-05
 #> The max shift from the combination of precision and fuzz is: 1.1 degrees
-#> [1]  88.60  88.82 -89.79
+#> [1]  89.20  89.42 -89.69
 
 
 ### working at the 180th meridian
@@ -100,7 +101,7 @@ gps_data_180$lon |>
   obfuscate_gps(fuzz = 1, type = "lon")
 #> The data have a max precision of: 1e-08
 #> The max shift from the combination of precision and fuzz is: 1.1 degrees
-#> [1] -179.71 -178.61 -177.20
+#> [1]  178.71  179.81 -178.79
 
 ### working NA GPS data
 gps_data_180  <- data.frame(lat = c(2, 3, 4),
@@ -109,7 +110,7 @@ gps_data_180$lon |>
   obfuscate_gps(fuzz = 1, type = "lon")
 #> The data have a max precision of: 1e-08
 #> The max shift from the combination of precision and fuzz is: 1.1 degrees
-#> [1]  178.76      NA -178.74
+#> [1]  178.41      NA -179.09
 
 ### GPS is on the fritz!
 if (FALSE) { # \dontrun{

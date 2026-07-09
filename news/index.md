@@ -1,5 +1,9 @@
 # Changelog
 
+## ohcleandat 1.1.6
+
+- handles type based validation more gracefully.
+
 ## ohcleandat 1.1.5
 
 - Adds a function for converting odk xlsx templates to RuODK schema

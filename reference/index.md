@@ -12,8 +12,12 @@
   : Combine Validation Logs
 - [`correct_data()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/correct_data.md)
   : Correct data using validation log
-- [`create_freetext_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_freetext_log.md)
+- [`create_free_text_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_free_text_log.md)
   : Create Free Text Log
+- [`create_freetext_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_freetext_log.md)
+  : create other choice log
+- [`create_other_choice_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_other_choice_log.md)
+  : Create Other Choice Log
 - [`create_questionnaire_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_questionnaire_log.md)
   : Create Validation Log for Questionnaire data
 - [`create_rules_from_template()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_rules_from_template.md)
@@ -21,7 +25,7 @@
 - [`create_structural_metadata()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_structural_metadata.md)
   : Create Structural Metadata from a dataframe
 - [`create_translation_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_translation_log.md)
-  : Create Translation Log
+  **\[deprecated\]** : Create Translation Log
 - [`create_validation_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_validation_log.md)
   : Create Validation Log
 - [`detect_language()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/detect_language.md)
@@ -30,6 +34,8 @@
   : Download Drop Box Files
 - [`download_googledrive_files()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/download_googledrive_files.md)
   : Download Google Drive Files
+- [`drop_validated_entries()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/drop_validated_entries.md)
+  : Drop Validated Entries in Log
 - [`dropbox_upload()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/dropbox_upload.md)
   : Dropbox Upload
 - [`expand_frictionless_metadata()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/expand_frictionless_metadata.md)
@@ -48,6 +54,8 @@
   : Guess the column type
 - [`id_checker()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/id_checker.md)
   : ID Checker
+- [`keep_validated_entries()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/keep_validated_entries.md)
+  : Keep Validated Entries in Log for Further Validation
 - [`make_report_urls()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_report_urls.md)
   : Make the URLs for the reports
 - [`make_zip_path()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_zip_path.md)
@@ -58,6 +66,8 @@
   : Obfuscate GPS
 - [`othertext_lookup()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/othertext_lookup.md)
   : Look-up table for 'Other' questions
+- [`othertext_lookup_from_odk_excel()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/othertext_lookup_from_odk_excel.md)
+  : Create other text lookup from ODK excel template
 - [`prune_datapackage()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/prune_datapackage.md)
   : Prune field properties in a data package
 - [`read_excel_all_sheets()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/read_excel_all_sheets.md)

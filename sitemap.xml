@@ -16,7 +16,9 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/class_to_col_type.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/combine_logs.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/correct_data.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_free_text_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_freetext_log.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_other_choice_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_questionnaire_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_rules_from_template.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_structural_metadata.html</loc></url>
@@ -25,6 +27,7 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/detect_language.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/download_dropbox.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/download_googledrive_files.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/drop_validated_entries.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/dropbox_upload.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/expand_frictionless_metadata.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/get_dropbox_val_logs.html</loc></url>
@@ -35,10 +38,13 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/guess_col_type.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/id_checker.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/index.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/keep_validated_entries.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_report_urls.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_zip_path.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/obfuscate_gps.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/ohcleandat-package.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/othertext_lookup.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/othertext_lookup_from_odk_excel.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/prune_datapackage.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/read_excel_all_sheets.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/read_googlesheets.html</loc></url>

@@ -45,10 +45,10 @@ data |>
   dplyr::filter(dplyr::if_all(everything(), remove_deletions))
 #>      a
 #> 1 Keep
-#> 2 Keep
+#> 2 <NA>
 #> 3 <NA>
-#> 4 Keep
+#> 4 <NA>
 #> 5 Keep
 #> 6 <NA>
-#> 7 Keep
+#> 7 <NA>
 ```

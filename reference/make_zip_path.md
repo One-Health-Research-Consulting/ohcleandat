@@ -21,6 +21,7 @@ character. String where extension is replaced by zip
 ## Examples
 
 ``` r
+
 file_path <- "hello.csv"
 make_zip_path(file_path)
 #> [1] "hello.zip"
