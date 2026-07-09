@@ -80,7 +80,7 @@ create_free_text_log <-
         no_change = "",
         new_val = "",
         user_initials = "",
-        issue = "Free-text detected. Review and translate if required.",
+        issue = "Free-text detected. Review and add translation to the comments if needed.",
         odk_url = paste(
           url,
           stringr::str_replace(id, pattern = ":", replacement = "%3A"),
