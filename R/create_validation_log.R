@@ -9,6 +9,8 @@
 #' @export
 #'
 create_validation_log <- function(data, primary_key, rule_set, ...) {
+
+
   conf_obj <- validate::confront(data, rule_set, raise = 'all', ...)
 
   rule_sum <- validate::summary(conf_obj) |>
@@ -19,6 +21,34 @@ create_validation_log <- function(data, primary_key, rule_set, ...) {
     )
 
   rule_vals <- validate::values(conf_obj)
+
+
+  # reserved names -----
+  ## change names after confronting because
+  # the ohcleandat log fields should not dictate the contents of the data
+  # collection instrument
+  reserved_field_names <- c("entry",
+                            "field",
+                            "issue",
+                            "old_value",
+                            "no_change",
+                            "new_val",
+                            "user_initials",
+                            "comments"
+  )
+
+  filter_data_names <- names(data) %in% reserved_field_names
+
+  if(any(filter_data_names)){
+    data <- dplyr::rename_with(data,
+                               ~paste0("reserved_ohcleandat_",.x),
+                               tidyselect::contains(
+                                 names(data)[filter_data_names]
+                               ))
+
+  }
+
+  ## create issues ----
 
   issues <- rule_vals |>
     tibble::as_tibble() |>
@@ -37,11 +67,15 @@ create_validation_log <- function(data, primary_key, rule_set, ...) {
       keep = TRUE
     )
 
+  # create log ----
+
   log <- issues |>
     dplyr::mutate(dplyr::across(tidyselect::everything(), as.character)) |>
     tidyr::pivot_longer(-c(entry, field, issue),
                         values_to = "old_value",
                         values_transform = as.character) |>
+    # drop prefix from name if its there
+    dplyr::mutate(name = stringr::str_remove(name,"reserved_ohcleandat_")) |>
     dplyr::filter(field == name) |>
     dplyr::select(-name) |>
     tidyr::replace_na(list(old_value = '')) |>
@@ -59,6 +93,7 @@ create_validation_log <- function(data, primary_key, rule_set, ...) {
                   new_val,
                   user_initials,
                   comments)
+
 
   return(log)
 
