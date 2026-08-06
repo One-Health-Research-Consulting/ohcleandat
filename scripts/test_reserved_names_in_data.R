@@ -97,3 +97,16 @@ val_log <- purrr::map_df(dummy_rules,
                                                 primary_key = "primary_key",
                                                 rule_set = .x))
 
+# add a column with reserved field prefix
+
+bf_data_2 <- before_data %>%
+  dplyr::mutate(reserved_ohcleandat_ = "why?")
+
+val_log <- purrr::map_df(dummy_rules,
+                         ~create_validation_log(data = bf_data_2,
+                                                primary_key = "primary_key",
+                                                rule_set = .x))
+
+
+
+
