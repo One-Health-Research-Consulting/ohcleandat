@@ -95,6 +95,31 @@ This is the recommended file structure is as follows:
 
 - **codebooks** - the package also includes functions what will create codebooks from questionnaire data collected in ODK 
 
+## Getting Connected: Credentials and Access Setup
+
+This project uses GitHub Actions to automatically pull data from our source systems and store it in the designated storage location. Before the automations can run, a few pieces need to be in place:
+
+1. **API tokens for your data sources:** Each tool we pull from (e.g., REDCap, ODK) requires its own API token. Request a token from your project administrator or generate one through your account settings in that tool. Tokens are tied to your individual access level, so make sure your account has export permissions for the relevant project.
+
+2. **Repository secrets:**  API tokens and credentials are never written directly into code. Instead, they're stored as encrypted secrets in the [`GitHub repository`](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets) (Settings → Secrets and variables → Actions). The automation workflows reference these secrets by name at runtime. If you're adding a new data source, add its token as a repository secret and use the same naming convention as the existing entries.
+
+3. **Storage access:** The workflows are set to write output to DropBox. Confirm the automation's service account or token has write permissions to this location.
+
+Once these are in place, the workflows will run on their defined schedule with no further action needed. See the next section for how to verify a successful run.
+
+## Recommended Targets Workflow:
+
+This workflow uses the [`targets`](http://books.ropensci.org/targets/) package to manage the data cleaning and validation process. Rather than running scripts manually in sequence, targets defines the entire workflow as a pipeline of interdependent steps, each producing a defined output (a "target").
+
+The pipeline is specified in _targets.R files, where each target calls a function from the project's function library (stored in the R/ folder). The core flow looks like this:
+
+1. Pull raw data
+2. pre-edit
+3. read in existing validation log
+4. Clean data
+5. Cleaning checks
+
+
 ## Citations:
 
 - MPJ van der Loo and E de Jonge (2021). Data Validation Infrastructure for R. Journal of Statistical Software, 97(10) paper.
