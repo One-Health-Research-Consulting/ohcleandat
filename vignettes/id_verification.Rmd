@@ -1,0 +1,135 @@
+---
+title: "id_verification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{id_verification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ohcleandat)
+library(dplyr)
+```
+
+## The problem
+
+Before two datasets can be integrated, the IDs that link them have to match.
+Some mismatches are expected in field-collected data: a household recorded in
+a sampling roster but not yet in the survey, a typo introduced during entry, a record
+entered twice.
+
+`create_id_log()` takes two "semi-clean" datasets and returns a **validation
+log** — one row per problem ID, formatted so a human can review it, decide what
+the correct value is, and initial the change.
+
+## Example data
+
+Two small datasets linked by household ID. The household file uses `hh_id`;
+the individual roster calls the same thing `household_id`.
+
+```{r}
+households <- tibble::tibble(
+  hh_record = 1:4,
+  hh_id     = c("H001", "H002", "H003", "H004"),
+  village   = c("Kisumu", "Kisumu", "Siaya", "Siaya")
+)
+
+sampling_roster <- tibble::tibble(
+  person_record = 1:5,
+  household_id  = c("H001", "H002", "H002", "H005", "H006"),
+  age           = c(34, 12, 41, 27, 8)
+)
+```
+
+`H003` and `H004` have no one in the sampling roster. `H005` and `H006` are in the
+sampling roster but not in the household file. Those four are what we want flagged.
+
+## Creating the log
+
+```{r creating log}
+# id_log <- ohcleandat::create_id_log(
+#   semiclean_x   = households,
+#   semiclean_y   = roster,
+#   by            = c("hh_id" = "household_id"),
+#   primary_key_x = "hh_record",
+#   primary_key_y = "person_record",
+#   name_x        = "data/raw/households_2026.csv",
+#   name_y        = "data/raw/roster_2026.csv"
+# )
+# 
+# id_log
+```
+
+Each row is one unmatched ID. The columns are:
+
+| Column | What it holds |
+|---|---|
+| `dataset` | Which file the problem ID came from |
+| `entry` | The primary key of the offending row, so you can find it |
+| `field` | The ID column being checked |
+| `issue` | A plain-language description of the mismatch |
+| `old_value` | The ID as it currently appears |
+| `no_change`, `new_val`, `user_initials`, `comments` | Blank — filled in by the reviewer |
+
+The last four are intentionally empty. The log is meant to be written out,
+handed to whoever knows the data, and returned with decisions recorded.
+
+Although `create_id_log()` compares two datasets at a time, a study rarely stops at
+two. When the same ID appears across several files — a household ID shared by
+the survey, the roster, and the visit records — run the function once per pair
+and combine the results with `dplyr::bind_rows()`. The output schema is the
+same every time, and the `dataset` column identifies where each flagged ID came
+from, so a combined log reads as one review task rather than several. Which
+pairs to run is a study design question, not a technical one: if one file serves
+as the authoritative source of IDs, compare each of the others against it and
+leave it at that; if the files are meant to be integrated in sequence, compare
+each pair in the order they will be joined. Comparing every possible pair is an
+option, but on more than three or four datasets it produces overlapping rows
+that ask a reviewer to resolve the same ID more than once. Match the set of
+comparisons to the integration you actually intend to perform.
+
+## Handing it off for review
+
+```{r handing off, eval = FALSE}
+readr::write_csv(id_log, "logs/id_validation_2026-08-19.csv")
+```
+
+A reviewer marks `no_change` for IDs that are legitimately absent (a household
+that genuinely enrolled no one) with a "T" or "True", or enters a "F" or "False"
+ and fills `new_val` with the corrected ID where it's a typo. 
+`user_initials` and `comments` keep the audit trail.
+
+## Matching columns with the same name
+
+When both datasets use the same column name, `by` is just a string:
+
+```{r, eval = FALSE}
+create_id_log(
+  semiclean_x   = households,
+  semiclean_y   = roster,
+  by            = "hh_id",
+  primary_key_x = "hh_record",
+  primary_key_y = "person_record",
+  name_x        = "households.csv",
+  name_y        = "roster.csv"
+)
+```
+
+## Where this fits
+
+`create_id_log()` is a another checking step that gets integrating into the ohcleandat
+cleaning mechanics. The intended loop is: run the log, review it, apply the corrections to
+your semi-clean files, then run it again. When the all the rows within the log 
+have been filled out, the cleaning task is compelte.
+
+## See also
+
+`dplyr::anti_join()`, which does the underlying comparison.
