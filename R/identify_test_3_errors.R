@@ -23,10 +23,10 @@
 test_3_show_mismatch <- function(validation_log, before_data, after_data, primary_key){
 
   validation_log_val <- validation_log%>%
-    filter(!no_change == "",
+    dplyr::filter(!no_change == "",
            !no_change == "TRUE",
            !no_change == "T")%>%
-    mutate(checked = NA,
+    dplyr::mutate(checked = NA,
            after_val = NA,
            orig = NA)
 
@@ -146,10 +146,10 @@ test_3_arsenal_check <- function(validation_log, before_data, after_data, primar
 
   #Filter log
   validation_log_filtered <- validation_log%>%
-    filter(!no_change == "",
+    dplyr::filter(!no_change == "",
            !no_change == "TRUE",
            !no_change == "T")%>%
-    mutate(checked = NA,
+    dplyr::mutate(checked = NA,
            after_val = NA,
            orig = NA)
 
