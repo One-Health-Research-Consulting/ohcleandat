@@ -1,10 +1,9 @@
 source("R/create_id_log.R")
 
+debugonce(create_id_log)
 #testing no differences and no duplicates
 semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
 semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[1:10])
-
-debugonce(create_id_log)
 
 test_no_mm<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
                     "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
@@ -14,8 +13,6 @@ test_no_mm<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"
 #testing 2 differences
 semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
 semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[2:11])
-
-debugonce(create_id_log)
 
 test_mm_2<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
                     "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
@@ -92,3 +89,10 @@ test_x_dupes<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_i
 
 
 #we expect that there are 10 rows for the 5 duplicated IDsn data set x for "hhid"
+
+#testing mismatched types
+semiclean_x<-data.frame("primary_key_x" = 1:5, "hhid" = 1:5)
+semiclean_y<-data.frame("primary_key_y" = 1:5, "household_id" = as.character(1:5))
+
+test_x_dupes<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
+                            "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")

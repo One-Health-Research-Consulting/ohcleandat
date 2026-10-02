@@ -18,14 +18,28 @@
 #' @param name_x character of file name for semiclean_x
 #' @param name_y character of file name for semiclean_y
 #'
-#' @param ... other variables passed to dplyr::anti_join
-#'
 #' @export
 #'
 #' @return tibble formatted as a validation log for human review
 #'
 #' @examples \dontrun{
-
+#' #testing no differences and no duplicates
+#'semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
+#'semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[1:10])
+#'
+#'test_no_mm<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
+#'                          "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
+#'
+#'#should be an empty log
+#'
+#'#testing 2 differences
+#'semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
+#'semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[2:11])
+#'
+#'test_mm_2<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
+#'                         "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
+#'
+#'#should have a log with 2 rows of IDs, one from y (household_id) and one from x (hhid)
 #' }
 #' @seealso `dplyr::anti_join`
 create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_key_y, name_x, name_y){
@@ -75,9 +89,9 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
   anti_y <- safe_anti_join(semiclean_y, semiclean_x, by_y, y_names, dataset_y, dataset_x)
 
   validation_log_x<-anti_x|>
-    dplyr::select(!all_of(x_names))
+    dplyr::select(!tidyselect::all_of(x_names))
   validation_log_y<-anti_y|>
-    dplyr::select(!all_of(y_names))
+    dplyr::select(!tidyselect::all_of(y_names))
 
   if(nrow(anti_x)>0){
   validation_log_x<-anti_x|>
@@ -91,7 +105,7 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
                   user_initials = '',
                   comments = ''
     ) |>
-    dplyr::select(!all_of(x_names))}
+    dplyr::select(!tidyselect::all_of(x_names))}
 
   if(nrow(anti_y)>0){
     #browser()
@@ -106,10 +120,10 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
                   user_initials = '',
                   comments = ''
     ) |>
-    dplyr::select(!all_of(y_names))}
+    dplyr::select(!tidyselect::all_of(y_names))}
 
   dupes_x <- semiclean_x |>
-    dplyr::group_by(across(all_of(names(by)))) |>
+    dplyr::group_by(dplyr::across(tidyselect::all_of(names(by)))) |>
     dplyr::filter(dplyr::n() > 1) |>
     dplyr::ungroup() |>
     dplyr::select(tidyselect::all_of(x_names)) |>
@@ -124,10 +138,10 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
       user_initials = '',
       comments      = ''
     ) |>
-    dplyr::select(!all_of(x_names))
+    dplyr::select(!tidyselect::all_of(x_names))
 
   dupes_y <- semiclean_y |>
-    dplyr::group_by(across(all_of(by))) |>
+    dplyr::group_by(dplyr::across(tidyselect::all_of(by))) |>
     dplyr::filter(dplyr::n() > 1) |>
     dplyr::ungroup() |>
     dplyr::select(tidyselect::all_of(y_names)) |>
@@ -142,7 +156,7 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
       user_initials = '',
       comments      = ''
     ) |>
-    dplyr::select(!all_of(y_names))
+    dplyr::select(!tidyselect::all_of(y_names))
 
   log_list <- list(validation_log_x, validation_log_y, dupes_x, dupes_y) |>
     purrr::keep(~ nrow(.x) > 0)
