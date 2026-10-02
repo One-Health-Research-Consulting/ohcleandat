@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, include = FALSE}
 library(ohcleandat)
 library(dplyr)
 ```
@@ -28,7 +28,9 @@ entered twice.
 
 `create_id_log()` takes two "semi-clean" datasets and returns a **validation
 log** — one row per problem ID, formatted so a human can review it, decide what
-the correct value is, and initial the change.
+the correct value is, and initial the change. The function checks for two
+classes of problem: IDs that exist in one dataset but not the other, and IDs
+that appear more than once within a single dataset.
 
 ## Example data
 
@@ -37,9 +39,9 @@ the individual roster calls the same thing `household_id`.
 
 ```{r}
 households <- tibble::tibble(
-  hh_record = 1:4,
-  hh_id     = c("H001", "H002", "H003", "H004"),
-  village   = c("Kisumu", "Kisumu", "Siaya", "Siaya")
+  hh_record = 1:5,
+  hh_id     = c("H001", "H002", "H003", "H004", "H002"),
+  village   = c("Kisumu", "Kisumu", "Siaya", "Siaya", "Kisumu")
 )
 
 sampling_roster <- tibble::tibble(
@@ -49,52 +51,65 @@ sampling_roster <- tibble::tibble(
 )
 ```
 
-`H003` and `H004` have no one in the sampling roster. `H005` and `H006` are in the
-sampling roster but not in the household file. Those four are what we want flagged.
+`H003` and `H004` have no one in the sampling roster. `H005` and `H006` are in
+the sampling roster but not in the household file. Those four are what we want
+flagged as cross-dataset mismatches. In addition, `H002` appears twice in the
+household file — that duplicate is flagged separately.
 
 ## Creating the log
 
-```{r creating log}
-# id_log <- ohcleandat::create_id_log(
-#   semiclean_x   = households,
-#   semiclean_y   = roster,
-#   by            = c("hh_id" = "household_id"),
-#   primary_key_x = "hh_record",
-#   primary_key_y = "person_record",
-#   name_x        = "data/raw/households_2026.csv",
-#   name_y        = "data/raw/roster_2026.csv"
-# )
-# 
-# id_log
+```{r creating log, eval=FALSE}
+id_log <- ohcleandat::create_id_log(
+  semiclean_x   = households,
+  semiclean_y   = roster,
+  by            = c("hh_id" = "household_id"),
+  primary_key_x = "hh_record",
+  primary_key_y = "person_record",
+  name_x        = "data/raw/households_2026.csv",
+  name_y        = "data/raw/roster_2026.csv"
+)
+
+id_log
 ```
 
-Each row is one unmatched ID. The columns are:
+Each row is one problem ID. The columns are:
 
 | Column | What it holds |
 |---|---|
 | `dataset` | Which file the problem ID came from |
 | `entry` | The primary key of the offending row, so you can find it |
 | `field` | The ID column being checked |
-| `issue` | A plain-language description of the mismatch |
+| `issue` | A plain-language description of the mismatch or duplication |
 | `old_value` | The ID as it currently appears |
 | `no_change`, `new_val`, `user_initials`, `comments` | Blank — filled in by the reviewer |
 
 The last four are intentionally empty. The log is meant to be written out,
 handed to whoever knows the data, and returned with decisions recorded.
 
-Although `create_id_log()` compares two datasets at a time, a study rarely stops at
-two. When the same ID appears across several files — a household ID shared by
-the survey, the roster, and the visit records — run the function once per pair
-and combine the results with `dplyr::bind_rows()`. The output schema is the
-same every time, and the `dataset` column identifies where each flagged ID came
-from, so a combined log reads as one review task rather than several. Which
-pairs to run is a study design question, not a technical one: if one file serves
-as the authoritative source of IDs, compare each of the others against it and
-leave it at that; if the files are meant to be integrated in sequence, compare
-each pair in the order they will be joined. Comparing every possible pair is an
-option, but on more than three or four datasets it produces overlapping rows
-that ask a reviewer to resolve the same ID more than once. Match the set of
-comparisons to the integration you actually intend to perform.
+## Duplicate IDs
+
+In addition to cross-dataset mismatches, `create_id_log()` checks each dataset
+independently for IDs that appear more than once. Duplicates are flagged in the
+same log under a distinct issue description, so a reviewer sees all ID problems
+in one place.
+
+A duplicate row in the log does not mean the record should be deleted. It means
+the same ID was recorded more than once and a human needs to decide whether the
+two rows represent the same event entered twice, or two genuinely different
+records that were assigned the same ID by mistake. The reviewer uses `no_change`
+and `new_val` to record that decision, just as they would for a cross-dataset
+mismatch.
+
+```{r duplicates, eval=FALSE}
+# H002 appears twice in households — both rows will appear in the log
+# with issue = "household_id in dataset_x does not match any HHID in dataset_y"
+id_log |>
+  dplyr::filter(grepl("does not match", issue)) 
+```
+
+When the same ID is duplicated in both datasets, two separate rows appear in
+the log — one flagged against each dataset — so the reviewer can assess each
+side independently.
 
 ## Handing it off for review
 
@@ -104,8 +119,11 @@ readr::write_csv(id_log, "logs/id_validation_2026-08-19.csv")
 
 A reviewer marks `no_change` for IDs that are legitimately absent (a household
 that genuinely enrolled no one) with a "T" or "True", or enters a "F" or "False"
- and fills `new_val` with the corrected ID where it's a typo. 
-`user_initials` and `comments` keep the audit trail.
+and fills `new_val` with the corrected ID where it's a typo.
+`user_initials` and `comments` keep the audit trail. The same convention applies
+to duplicates: if both rows are legitimate, the reviewer assigns a corrected ID
+to one of them in `new_val`; if one is a true duplicate entry, they mark it
+`no_change = "T"` to indicate it can be dropped.
 
 ## Matching columns with the same name
 
@@ -121,15 +139,36 @@ create_id_log(
   name_x        = "households.csv",
   name_y        = "roster.csv"
 )
+
+# by is a character variable containing match id, or if named different, 
+# a named character vector like c("a" = "b")
+# this function assumes that the named character vector follows the convention of
+# c("variable in semiclean_x" = "variable in semiclean_y")
 ```
+
+## Combining logs across multiple datasets
+
+Although `create_id_log()` compares two datasets at a time, a study rarely stops
+at two. When the same ID appears across several files — a household ID shared by
+the survey, the roster, and the visit records — run the function once per pair
+and combine the results with `dplyr::bind_rows()`. The output schema is the
+same every time, and the `dataset` column identifies where each flagged ID came
+from, so a combined log reads as one review task rather than several. Which
+pairs to run is a study design question, not a technical one: if one file serves
+as the authoritative source of IDs, compare each of the others against it and
+leave it at that; if the files are meant to be integrated in sequence, compare
+each pair in the order they will be joined. Comparing every possible pair is an
+option, but on more than three or four datasets it produces overlapping rows
+that ask a reviewer to resolve the same ID more than once. Match the set of
+comparisons to the integration you actually intend to perform.
 
 ## Where this fits
 
-`create_id_log()` is a another checking step that gets integrating into the ohcleandat
-cleaning mechanics. The intended loop is: run the log, review it, apply the corrections to
-your semi-clean files, then run it again. When the all the rows within the log 
-have been filled out, the cleaning task is compelte.
+`create_id_log()` is another checking step that gets integrated into the ohcleandat
+cleaning mechanics. The intended loop is: run the log, review it, apply the
+corrections to your semi-clean files, then run it again. When all the rows
+within the log have been filled out, the cleaning task is complete.
 
 ## See also
 
-`dplyr::anti_join()`, which does the underlying comparison.
+`dplyr::anti_join()`, which does the underlying cross-dataset comparison.
