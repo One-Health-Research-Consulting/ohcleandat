@@ -1,42 +1,4 @@
 
-
-dataset_item_1 <- list(
-  semiclean_data = data.frame(primary_key = 1:10,
-                              foreign_key = letters[1:10]),
-  foreign_key = "foreign_key",
-  primary_key = "primary_key",
-  name = "dataset_1"
-)
-
-
-dataset_item_2 <- list(
-  semiclean_data = data.frame(primary_key = 1:10,
-                              foreign_key = letters[1:10]),
-  foreign_key = "foreign_key",
-  primary_key = "primary_key",
-  name = "dataset_2"
-)
-
-dataset_item_3 <- list(
-  semiclean_data = data.frame(blah = 1:10,
-                              bob = letters[2:11]),
-  foreign_key = "bob",
-  primary_key = "blah",
-  name = "dataset_3"
-)
-
-dataset_item_4 <- list(
-  semiclean_data = data.frame(blah = 1:10,
-                              gary = c(rep(letters[1],2),letters[3:10])
-                              ),
-  foreign_key = "gary",
-  primary_key = "blah",
-  name = "dataset_4"
-)
-
-dataset_list <- list(dataset_item_1,dataset_item_2,dataset_item_3, dataset_item_4)
-
-
 #' Create the full set of id validation logs
 #'
 #' Takes a list of datasets with shared foreign keys (identifiers that should match
@@ -48,6 +10,10 @@ dataset_list <- list(dataset_item_1,dataset_item_2,dataset_item_3, dataset_item_
 #' `create_id_log` flags duplicate foreign keys and any foreign keys not in both
 #' datasets. The purpose of this log is to ensure links between datasets created
 #' by foreign keys are correct and to help identify any potentially missing data.
+#'
+#' Foreign keys are identifiers that link two or more datasets.
+#'
+#' Primary keys are identifiers that uniquely identify items in a dataset.
 #'
 #' @param dataset_list List. A list of datasets where each item has the following
 #' fields semiclean_data, foreign_key, primary_key, and name.
@@ -139,7 +105,7 @@ create_full_id_log <- function(dataset_list){
 
 
   # get all unique pairs where order doesnt matter
-  dataset_pairs <- combn(1:length(dataset_list),2,simplify = FALSE)
+  dataset_pairs <- utils::combn(1:length(dataset_list),2,simplify = FALSE)
 
   id_logs <- purrr::map(dataset_pairs,function(pair){
     x <- pair[1]
