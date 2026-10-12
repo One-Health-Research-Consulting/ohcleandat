@@ -21,10 +21,20 @@ library(dplyr)
 
 ## The problem
 
-Before two datasets can be integrated, the IDs that link them have to match.
+Most studies that require `ohcleandat` involve collecting and integrating 
+multiple dataset stored in different formats (csv, excel, googlesheets, redcap,
+ODK, etc.). Before two or more datasets can be integrated, the IDs that link them 
+(foreign keys) have to be validated. 
+
 Some mismatches are expected in field-collected data: a household recorded in
-a sampling roster but not yet in the survey, a typo introduced during entry, a record
-entered twice.
+a sampling roster but not yet in the survey, a household opts out of a 
+component of the the study, or a sample from a household is lost 
+and cannot be used in a serosurvey. These are all legitimate reasons a linking
+ID may not be present in a particular dataset. However, some IDs may not match 
+because of data entry errors - a typo, a record entered twice - any number of
+issues can arise during collection. Both expected and unexpected mismatches
+need to be validated to ensure high quality data integration. 
+
 
 `create_id_log()` takes two "semi-clean" datasets and returns a **validation
 log** — one row per problem ID, formatted so a human can review it, decide what
@@ -148,10 +158,100 @@ create_id_log(
 
 ## Combining logs across multiple datasets
 
-Although `create_id_log()` compares two datasets at a time, a study rarely stops
-at two. When the same ID appears across several files — a household ID shared by
-the survey, the roster, and the visit records — run the function once per pair
-and combine the results with `dplyr::bind_rows()`. The output schema is the
+`create_id_log()` does pairwise comparisons of datasets, which is fine when
+there aren't very many datasets that share a foreign key, but when the same ID
+appears across several files — a household ID shared by
+the survey, the roster, seroprevalance data, environmental data, mosquito trapping data,
+and the visit records — making sure you capture all unique
+pairwise comparisons across all the datasets becomes difficult. 
+
+```{r}
+# number of unique pairs for 6 datasets
+utils::combn(1:6,2,simplify = FALSE) |>
+  length()
+
+```
+
+
+To handle more complex comparisons, use the `create_full_id_log()` function.
+This function takes a list of datasets, computes the number of unique pairs,
+and returns a combined id validation log for all pairs.
+
+
+```{r}
+# Here we make a list of six datasets and run the pairwise comparison for all 6
+# using create_full_id_log()
+
+
+ survey <- list(
+ semiclean_data = data.frame(primary_key = 1:10,
+                             foreign_key = letters[1:10],
+                             do_you_like_ohcleandat = sample(c("yes","no"),size = 10,replace = TRUE)),
+ foreign_key = "foreign_key",
+ primary_key = "primary_key",
+ name = "survey"
+ )
+
+
+ roster <- list(
+   semiclean_data = data.frame(primary_key = 1:10,
+                               foreign_key = letters[1:10],
+                               gender = sample(c("man","woman","prefer not to say"),10,replace = TRUE)),
+   foreign_key = "foreign_key",
+   primary_key = "primary_key",
+   name = "roster"
+ )
+
+
+ sero_prev <- list(
+   semiclean_data = data.frame(sample_id = 1:10,
+                               hhid = letters[2:11],
+                               pos = sample(c(TRUE,FALSE),size = 10, replace = TRUE)),
+   foreign_key = "hhid",
+   primary_key = "sample_id",
+   name = "sero_prev"
+ )
+
+
+ env_data <- list(
+   semiclean_data = data.frame(measurement_id = 1:10,
+                               house_hold_id = c(rep(letters[1],2),letters[3:10])
+   ),
+   foreign_key = "house_hold_id",
+   primary_key = "measurement_id",
+   name = "env_data.csv"
+ )
+ 
+  mos_data <- list(
+   semiclean_data = data.frame(mosquito_id = 1:10,
+                               hhold_id = c(rep(letters[1],2),letters[3:10]),
+                               genus = sample(c("Aedes","Culex"),10,TRUE)
+   ),
+   foreign_key = "hhold_id",
+   primary_key = "mosquito_id",
+   name = "mos_data"
+ )
+  
+   
+  visit_record <- list(
+   semiclean_data = data.frame(visit_id = 1:5,
+                               hhid = c(rep(letters[1],2),letters[3:5]),
+                               construction_material = sample(c("stick","straw","brick"), 5,TRUE)
+   ),
+   foreign_key = "hhid",
+   primary_key = "visit_id",
+   name = "visit_record"
+ )
+  
+ dataset_list <- list(survey,roster,sero_prev,env_data,mos_data,visit_record)
+ 
+ create_full_id_log(dataset_list) |>
+   head(n = 10)
+
+```
+
+
+The output schema is the
 same every time, and the `dataset` column identifies where each flagged ID came
 from, so a combined log reads as one review task rather than several. Which
 pairs to run is a study design question, not a technical one: if one file serves
@@ -166,8 +266,63 @@ comparisons to the integration you actually intend to perform.
 
 `create_id_log()` is another checking step that gets integrated into the ohcleandat
 cleaning mechanics. The intended loop is: run the log, review it, apply the
-corrections to your semi-clean files, then run it again. When all the rows
-within the log have been filled out, the cleaning task is complete.
+corrections to your semi-clean files, then run it again. When all the issues
+within the log have been resolved, the cleaning task is complete.
+
+
+```{r eval=FALSE}
+
+survey_data <- tar_plan(
+  
+  # read raw data
+  tar_target(
+    # get odk responses
+  ),
+  # read in logs
+  tar_target(),
+  
+  # make semi_clean data
+  tar_target(
+  ),
+)
+
+mosquito_data <- tar_plan(
+  
+  
+)
+
+
+env_data <- tar_plan(
+  
+  
+)
+
+
+integration_targets <- tar_plan(
+  # create the dataset list with the semiclean data. create_hhid_dataset_list is a custom function.
+  tar_target(dataset_list_hhid,
+             create_hhid_dataset_list(survey_semiclean,mos_semiclean,env_semiclean)
+             ),
+  # make the full id log 
+  tar_target(hhid_id_log, 
+             create_full_id_log(dataset_list)
+             ),
+  # upload the validation log to dropbox
+  targets::tar_target(
+    upload_log_fs_mosquito_field_dropbox,
+    ohcleandat::dropbox_upload(
+      log = hhid_id_log,
+      file_path = here::here("outputs/hhid_id_log.csv"),
+      dropbox_path = "dropbpx/validation_logs"
+    ),
+    cue = targets::tar_cue("always")
+  )
+)
+
+
+
+```
+
 
 ## See also
 
