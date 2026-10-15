@@ -9,7 +9,17 @@
 #' @export
 #'
 #' @return tibble appended validation log for upload
-combine_logs <- function(existing_log, new_log){
+combine_logs <- function(existing_log, new_log, is_id_log = FALSE){
+
+
+  # if id log (based on fields), remove any uncorrected entries in the existing
+  # log.
+  if(is_id_log & is.data.frame(existing_log)){
+    existing_log <- existing_log |>
+      dplyr::filter(!is.na(no_change),
+                    no_change != "")
+  }
+
 
   # Does the existing log exist (it wont on initial run)
   if (is.null(existing_log)) {
@@ -30,4 +40,6 @@ combine_logs <- function(existing_log, new_log){
 
   return(log_out)
 }
+
+
 
