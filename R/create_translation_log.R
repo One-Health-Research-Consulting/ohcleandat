@@ -32,7 +32,7 @@ create_translation_log <-
       unique()
 
     other_responses <- response_data |>
-      dplyr::select(id, tidyselect::contains(other_q)) |>
+      dplyr::select(id, tidyselect::all_of(other_q)) |>
       tidyr::pivot_longer(-id) |>
       dplyr::filter(!is.na(value)) |>
       dplyr::mutate(comments = purrr::map_chr(value, detect_language))
