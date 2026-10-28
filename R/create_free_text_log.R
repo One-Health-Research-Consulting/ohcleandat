@@ -9,7 +9,7 @@
 #' looks for specific types of data in the schema. If they are found,
 #' a new record is created. Even if a record is marked validated, its type will
 #' not change and so we must ensure the record is only added to the log if it is
-#' unvalidated in the current log. Any records that are added to the log but are unvalidated (in their original state) and duplicates, will be removed when logs are combined in `combine_logs`. 
+#' unvalidated in the current log. Any records that are added to the log but are unvalidated (in their original state) and duplicates, will be removed when logs are combined in `combine_logs`.
 #'
 #' @param response_data data.frame of ODK questionnaire responses
 #' @param form_schema data.frame or flattened ODK form schema
@@ -68,7 +68,7 @@ create_free_text_log <-
 
     # get free text responses
     other_responses <- response_data |>
-      dplyr::select(id, tidyselect::contains(other_q)) |>
+      dplyr::select(id, tidyselect::all_of(other_q)) |>
       tidyr::pivot_longer(-id) |>
       dplyr::filter(!is.na(value)) |>
       # add language to comments
