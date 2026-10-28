@@ -16,7 +16,7 @@ dropbox_upload(dataframe, file_path, dropbox_path, compress = TRUE)
 \item{compress}{logical. Should files over 300mb be compressed?}
 }
 \value{
-performs drop box upload
+Character. File path on dropbox.
 }
 \description{
 Upload a local file to dropbox and handle authentication. Automatically

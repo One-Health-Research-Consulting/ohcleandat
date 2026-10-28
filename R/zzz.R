@@ -10,7 +10,9 @@ utils::globalVariables(
   "user_initials",
   "name",
   "type",
+  "list_name",
   "label_english_(en)",
+  "label_zulu_(zu)",
   "choices_english_(en)",
   "choices",
   "id",
@@ -30,6 +32,8 @@ utils::globalVariables(
   "path", # used in download_googledrive_files in mutate
   "rowid",
   "entry_field",
-  "entry_field_dupe"
+  "entry_field_dupe",
+  "dup_id",
+  "relevant"
   )
 )

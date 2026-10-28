@@ -1,3 +1,15 @@
+# ohcleandat 1.1.6
+
+- handles type based validation more gracefully. 
+
+# ohcleandat 1.1.5
+- Adds a function for converting odk xlsx templates to RuODK schema tibbles.
+
+# ohcleandat 1.1.4
+
+# ohcleandat 1.1.3
+- dropbox_upload returns the path in dropbox where the file was uploaded. 
+
 # ohcleandat 1.1.2
 - validation logs vary in the number of columns they have based on type so
 we added a flexible col_type variable.

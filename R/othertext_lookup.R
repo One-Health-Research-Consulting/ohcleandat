@@ -58,3 +58,34 @@ othertext_lookup <- function(questionnaire = c("animal_owner")){
 }
 
 
+#' Create other text lookup from ODK excel template
+#'
+#' @param file_path String. Path to excel template file
+#'
+#' @returns tibble. Tibble with fields name and other name
+#' @importFrom rlang .data
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' othertext_lookup_from_odk_excel(file_path = "my/odk_template.xlsx")
+#' }
+#'
+othertext_lookup_from_odk_excel <- function(file_path){
+  xl_schema <- readxl::read_excel(file_path, sheet = "survey")
+
+  out <- xl_schema |>
+    dplyr::select(.data$name,.data$type, .data$relevant) |>
+    dplyr::filter(stringr::str_detect(string = type,pattern = "text")) |>
+    dplyr::filter(!is.na(.data$relevant)) |>
+    dplyr::rename("other_name" = "name") |>
+    dplyr::mutate( name = stringr::str_extract(.data$relevant,pattern = "selected\\(\\$\\{\\w*\\}")) |>
+    dplyr::mutate( name = stringr::str_replace_all(name, pattern = "selected\\(\\$\\{|\\}",replacement = "")) |>
+    dplyr::filter(!is.na(name)) |>
+    dplyr::select(name,other_name) |>
+    tibble::as_tibble()
+
+  return(out)
+}
+
+
