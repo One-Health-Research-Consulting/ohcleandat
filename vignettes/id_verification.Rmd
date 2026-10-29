@@ -245,8 +245,10 @@ and returns a combined id validation log for all pairs.
   
  dataset_list <- list(survey,roster,sero_prev,env_data,mos_data,visit_record)
  
- create_full_id_log(dataset_list) |>
+hhid_id_int_log  <- create_full_id_log(dataset_list) |>
    head(n = 10)
+
+
 
 ```
 
@@ -272,17 +274,49 @@ within the log have been resolved, the cleaning task is complete.
 
 ```{r eval=FALSE}
 
+
+# get all of the id logs and combine them into a single dataset!
+int_log_targets <- tar_plan(
+  # read in id validation logs
+  tar_target(hhid_log, get_dropbox_val_logs("hhid_log.csv"), 
+             path_name = "my_cool_project/validation_logs")),
+  tar_target(human_id_log, get_dropbox_val_logs("human_id_log.csv"),
+             path_name = "my_cool_project/validation_logs")),
+  tar_target(animal_id_log, get_dropbox_val_logs("animal_id_log.csv"),
+             path_name = "my_cool_project/validation_logs")),
+  tar_target(mos_id_log, get_dropbox_val_logs("mos_id_log.csv"),
+             path_name = "my_cool_project/validation_logs"))
+  # rbind logs
+  tar_target(all_ids_existing_log, rbind(hhid_log,human_id_log,animal_id_log,mos_id_log))
+  
+)
+
 survey_data <- tar_plan(
   
   # read raw data
   tar_target(
-    # get odk responses
+    survey_data_raw,
+     get_odk_responses(url ="https://odk.xyz.io/v1/projects/5/forms/survey.svc",
+      un = Sys.getenv("ODK_USERNAME"),
+      pw = Sys.getenv("ODK_PASSWORD"),
+      odkc_version = Sys.getenv("ODKC_VERSION")
+      )
   ),
-  # read in logs
-  tar_target(),
-  
+  # read in dataset validation log
+  tar_target(survey_existing_log, get_dropbox_val_logs(file_name = "survey_log.csv",
+                                              path_name = "my_cool_project/validation_logs")),
+  # join validation log to id validation log with join_id_log
+  tar_target(survey_log_with_ids, join_id_log(existing_log = survey_existing_log,
+                                              id_log = all_ids_existing_log,
+                                              dataset_name = "survey_data" ))
   # make semi_clean data
-  tar_target(
+  targets::tar_target(
+    survey_data_semiclean,
+    ohcleandat::correct_data(
+      validation_log = survey_log_with_ids,
+      data = survey_data_raw,
+      primary_key = "key"
+    )
   ),
 )
 
@@ -297,6 +331,10 @@ env_data <- tar_plan(
   
 )
 
+# make the id validation log from semi-clean data
+# combine new with existing using combine log
+# upload 
+
 
 integration_targets <- tar_plan(
   # create the dataset list with the semiclean data. create_hhid_dataset_list is a custom function.
@@ -307,9 +345,24 @@ integration_targets <- tar_plan(
   tar_target(hhid_id_log, 
              create_full_id_log(dataset_list)
              ),
+    targets::tar_target(
+    upload_id_verification_targets,
+    ohcleandat::dropbox_upload(
+      log = hhid_id_log,
+      file_path = here::here("outputs/hhid_id_log.csv"),
+      dropbox_path = "dropbpx/validation_logs"
+    ),
+    cue = targets::tar_cue("always")
+  )
+  # make full id log for all linking ids/foreign keys
+  #human id
+  #animal id
+  
+  # You could, if you desire, make a single, all encompassing id log that 
+  
   # upload the validation log to dropbox
   targets::tar_target(
-    upload_log_fs_mosquito_field_dropbox,
+    upload_id_verification_targets,
     ohcleandat::dropbox_upload(
       log = hhid_id_log,
       file_path = here::here("outputs/hhid_id_log.csv"),
