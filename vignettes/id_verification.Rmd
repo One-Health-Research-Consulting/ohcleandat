@@ -2,15 +2,15 @@
 title: "id_verification"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{id_verification}
+%\VignetteIndexEntry{id_verification}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
+  ---
+  
+  ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+collapse = TRUE,
+comment = "#>"
 )
 ```
 
@@ -183,70 +183,70 @@ and returns a combined id validation log for all pairs.
 # using create_full_id_log()
 
 
- survey <- list(
- semiclean_data = data.frame(primary_key = 1:10,
-                             foreign_key = letters[1:10],
-                             do_you_like_ohcleandat = sample(c("yes","no"),size = 10,replace = TRUE)),
- foreign_key = "foreign_key",
- primary_key = "primary_key",
- name = "survey"
- )
+survey <- list(
+  semiclean_data = data.frame(primary_key = 1:10,
+                              foreign_key = letters[1:10],
+                              do_you_like_ohcleandat = sample(c("yes","no"),size = 10,replace = TRUE)),
+  foreign_key = "foreign_key",
+  primary_key = "primary_key",
+  name = "survey"
+)
 
 
- roster <- list(
-   semiclean_data = data.frame(primary_key = 1:10,
-                               foreign_key = letters[1:10],
-                               gender = sample(c("man","woman","prefer not to say"),10,replace = TRUE)),
-   foreign_key = "foreign_key",
-   primary_key = "primary_key",
-   name = "roster"
- )
+roster <- list(
+  semiclean_data = data.frame(primary_key = 1:10,
+                              foreign_key = letters[1:10],
+                              gender = sample(c("man","woman","prefer not to say"),10,replace = TRUE)),
+  foreign_key = "foreign_key",
+  primary_key = "primary_key",
+  name = "roster"
+)
 
 
- sero_prev <- list(
-   semiclean_data = data.frame(sample_id = 1:10,
-                               hhid = letters[2:11],
-                               pos = sample(c(TRUE,FALSE),size = 10, replace = TRUE)),
-   foreign_key = "hhid",
-   primary_key = "sample_id",
-   name = "sero_prev"
- )
+sero_prev <- list(
+  semiclean_data = data.frame(sample_id = 1:10,
+                              hhid = letters[2:11],
+                              pos = sample(c(TRUE,FALSE),size = 10, replace = TRUE)),
+  foreign_key = "hhid",
+  primary_key = "sample_id",
+  name = "sero_prev"
+)
 
 
- env_data <- list(
-   semiclean_data = data.frame(measurement_id = 1:10,
-                               house_hold_id = c(rep(letters[1],2),letters[3:10])
-   ),
-   foreign_key = "house_hold_id",
-   primary_key = "measurement_id",
-   name = "env_data.csv"
- )
- 
-  mos_data <- list(
-   semiclean_data = data.frame(mosquito_id = 1:10,
-                               hhold_id = c(rep(letters[1],2),letters[3:10]),
-                               genus = sample(c("Aedes","Culex"),10,TRUE)
-   ),
-   foreign_key = "hhold_id",
-   primary_key = "mosquito_id",
-   name = "mos_data"
- )
-  
-   
-  visit_record <- list(
-   semiclean_data = data.frame(visit_id = 1:5,
-                               hhid = c(rep(letters[1],2),letters[3:5]),
-                               construction_material = sample(c("stick","straw","brick"), 5,TRUE)
-   ),
-   foreign_key = "hhid",
-   primary_key = "visit_id",
-   name = "visit_record"
- )
-  
- dataset_list <- list(survey,roster,sero_prev,env_data,mos_data,visit_record)
- 
+env_data <- list(
+  semiclean_data = data.frame(measurement_id = 1:10,
+                              house_hold_id = c(rep(letters[1],2),letters[3:10])
+  ),
+  foreign_key = "house_hold_id",
+  primary_key = "measurement_id",
+  name = "env_data.csv"
+)
+
+mos_data <- list(
+  semiclean_data = data.frame(mosquito_id = 1:10,
+                              hhold_id = c(rep(letters[1],2),letters[3:10]),
+                              genus = sample(c("Aedes","Culex"),10,TRUE)
+  ),
+  foreign_key = "hhold_id",
+  primary_key = "mosquito_id",
+  name = "mos_data"
+)
+
+
+visit_record <- list(
+  semiclean_data = data.frame(visit_id = 1:5,
+                              hhid = c(rep(letters[1],2),letters[3:5]),
+                              construction_material = sample(c("stick","straw","brick"), 5,TRUE)
+  ),
+  foreign_key = "hhid",
+  primary_key = "visit_id",
+  name = "visit_record"
+)
+
+dataset_list <- list(survey,roster,sero_prev,env_data,mos_data,visit_record)
+
 hhid_id_int_log  <- create_full_id_log(dataset_list) |>
-   head(n = 10)
+  head(n = 10)
 
 
 
@@ -271,41 +271,93 @@ cleaning mechanics. The intended loop is: run the log, review it, apply the
 corrections to your semi-clean files, then run it again. When all the issues
 within the log have been resolved, the cleaning task is complete.
 
+This is a highly simplified example, in practice you may want to use 
+separate targets files if you are working with many datasets.
+
+Potential file structure
+```
+- _targets.R
+- _intregration_targets.R
+- _survey_targets.R
+- _mos_targets.R
+...
+```
+
+```{r eval=FALSE}
+library(dm)
+
+# lets pretend this is what our data look like
+survey_data <- data.frame(hhid = letters[1:10], some_question = rbinom(n = 10,size = 1,prob = .3))
+
+mos_data <- data.frame(mos_id = as.character(1:10), genus = sample(c("Aedes","Culex"),size = 10,replace = TRUE), env_id = paste("env",1:10,sep = "_"), household_id = sample(letters[1:10],10))
+
+env_data <- data.frame(env_id = paste("env",1:10,sep = "_"), trap_id = 1:10, hhid = toupper(mos_data$household_id))
+
+project_data_no_keys <- dm::dm(survey_data,mos_data,env_data)
+
+# add primary keys
+project_data_pks <- project_data_no_keys |>
+   dm::dm_add_pk(table = survey_data, columns = hhid) |>
+   dm::dm_add_pk(table = mos_data, columns = mos_id) |>
+   dm::dm_add_pk(table = env_data, columns = env_id) 
+
+# have dm look for foreign keys
+dm::dm_enum_fk_candidates(project_data_pks,table = mos_data,ref_table = survey_data)
+
+## add foreign keys
+
+project_data_fks <- project_data_pks |>
+  dm::dm_add_fk(table = mos_data,columns = "household_id", ref_table = survey_data) |>
+  dm::dm_add_fk(table = mos_data,columns = "env_id", ref_table = env_data) |>
+  dm::dm_add_fk(table = env_data,columns = "hhid", ref_table = survey_data) |>
+  dm::dm_add_fk(table = env_data,columns = "trap_id", ref_table = mos_data) 
+
+# look at the data model
+dm::dm_get_all_fks(project_data_fks)
+
+# pak::pak("rich-iannone/DiagrammeR@v1.0.11") and restart if diagram doesnt work.
+
+project_data_fks |>
+  dm::dm_draw()
+
+```
+
 
 ```{r eval=FALSE}
 
 
-# get all of the id logs and combine them into a single dataset!
+# get all of the id logs and combine them into a single dataset
 int_log_targets <- tar_plan(
   # read in id validation logs
   tar_target(hhid_log, get_dropbox_val_logs("hhid_log.csv"), 
-             path_name = "my_cool_project/validation_logs")),
-  tar_target(human_id_log, get_dropbox_val_logs("human_id_log.csv"),
-             path_name = "my_cool_project/validation_logs")),
-  tar_target(animal_id_log, get_dropbox_val_logs("animal_id_log.csv"),
-             path_name = "my_cool_project/validation_logs")),
+             path_name = "my_cool_project/validation_logs"),
   tar_target(mos_id_log, get_dropbox_val_logs("mos_id_log.csv"),
-             path_name = "my_cool_project/validation_logs"))
+             path_name = "my_cool_project/validation_logs"),
+  tar_target(env_id_log, get_dropbox_val_logs("env_id_log.csv"),
+             path_name = "my_cool_project/validation_logs"),
+  tar_target(mos_id_log, get_dropbox_val_logs("mos_id_log.csv"),
+             path_name = "my_cool_project/validation_logs")
   # rbind logs
   tar_target(all_ids_existing_log, rbind(hhid_log,human_id_log,animal_id_log,mos_id_log))
   
 )
+
 
 survey_data <- tar_plan(
   
   # read raw data
   tar_target(
     survey_data_raw,
-     get_odk_responses(url ="https://odk.xyz.io/v1/projects/5/forms/survey.svc",
-      un = Sys.getenv("ODK_USERNAME"),
-      pw = Sys.getenv("ODK_PASSWORD"),
-      odkc_version = Sys.getenv("ODKC_VERSION")
-      )
+    get_odk_responses(url ="https://odk.xyz.io/v1/projects/5/forms/survey.svc",
+                      un = Sys.getenv("ODK_USERNAME"),
+                      pw = Sys.getenv("ODK_PASSWORD"),
+                      odkc_version = Sys.getenv("ODKC_VERSION")
+    )
   ),
   # read in dataset validation log
   tar_target(survey_existing_log, get_dropbox_val_logs(file_name = "survey_log.csv",
-                                              path_name = "my_cool_project/validation_logs")),
-  # join validation log to id validation log with join_id_log
+                                                       path_name = "my_cool_project/validation_logs")),
+  # join the existing validation log to the id validation log with `join_id_log`
   tar_target(survey_log_with_ids, join_id_log(existing_log = survey_existing_log,
                                               id_log = all_ids_existing_log,
                                               dataset_name = "survey_data" ))
@@ -318,16 +370,34 @@ survey_data <- tar_plan(
       primary_key = "key"
     )
   ),
+  
+  # see mechanics vignette
+  # upload semiclean data
+  # create rules
+  # make validation log
+  
+  
 )
 
 mosquito_data <- tar_plan(
-  
-  
+  # read raw data
+  # read in dataset validation log
+  # join the existing validation log to the id validation log with `join_id_log`
+  # make semi_clean data
+  # upload semiclean data
+  # create rules
+  # make validation log
 )
 
 
 env_data <- tar_plan(
-  
+  # read raw data
+  # read in dataset validation log
+  # join the existing validation log to the id validation log with `join_id_log`
+  # make semi_clean data
+  # upload semiclean data
+  # create rules
+  # make validation log
   
 )
 
@@ -337,43 +407,32 @@ env_data <- tar_plan(
 
 
 integration_targets <- tar_plan(
+  # make the household id log (hhid) across all three datasets
   # create the dataset list with the semiclean data. create_hhid_dataset_list is a custom function.
   tar_target(dataset_list_hhid,
              create_hhid_dataset_list(survey_semiclean,mos_semiclean,env_semiclean)
-             ),
-  # make the full id log 
-  tar_target(hhid_id_log, 
-             create_full_id_log(dataset_list)
-             ),
-    targets::tar_target(
-    upload_id_verification_targets,
-    ohcleandat::dropbox_upload(
-      log = hhid_id_log,
-      file_path = here::here("outputs/hhid_id_log.csv"),
-      dropbox_path = "dropbpx/validation_logs"
-    ),
-    cue = targets::tar_cue("always")
-  )
-  # make full id log for all linking ids/foreign keys
-  #human id
-  #animal id
-  
-  # You could, if you desire, make a single, all encompassing id log that 
-  
-  # upload the validation log to dropbox
+  ),
+  # make new full id log 
+  tar_target(hhid_id_log_new, 
+             create_full_id_log(dataset_list_hhid)
+  ),
+  # combine with previous id log
+  tar_target(hhid_log_combined,
+             combine_logs(hhid_log,hhid_id_log_new,is_id_log = TRUE)),
+  # upload combined log
   targets::tar_target(
     upload_id_verification_targets,
     ohcleandat::dropbox_upload(
-      log = hhid_id_log,
+      log = hhid_log_combined,
       file_path = here::here("outputs/hhid_id_log.csv"),
-      dropbox_path = "dropbpx/validation_logs"
+      dropbox_path = "dropbox/validation_logs"
     ),
     cue = targets::tar_cue("always")
   )
+  # mos id
+  # env id
+  
 )
-
-
-
 ```
 
 
