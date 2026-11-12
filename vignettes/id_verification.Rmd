@@ -287,11 +287,17 @@ Potential file structure
 library(dm)
 
 # lets pretend this is what our data look like
-survey_data <- data.frame(hhid = letters[1:10], some_question = rbinom(n = 10,size = 1,prob = .3))
+survey_data <- data.frame(hhid = letters[1:10],
+                          some_question = rbinom(n = 10,size = 1,prob = .3))
 
-mos_data <- data.frame(mos_id = as.character(1:10), genus = sample(c("Aedes","Culex"),size = 10,replace = TRUE), env_id = paste("env",1:10,sep = "_"), household_id = sample(letters[1:10],10))
+mos_data <- data.frame(mos_id = as.character(1:10),
+                       genus = sample(c("Aedes","Culex"),size = 10,replace = TRUE),
+                       env_id = paste("env",1:10,sep = "_"),
+                       household_id = sample(letters[1:10],10))
 
-env_data <- data.frame(env_id = paste("env",1:10,sep = "_"), trap_id = 1:10, hhid = toupper(mos_data$household_id))
+env_data <- data.frame(env_id = paste("env",1:10,sep = "_"),
+                       trap_id = 1:10,
+                       hhid = toupper(mos_data$household_id))
 
 project_data_no_keys <- dm::dm(survey_data,mos_data,env_data)
 
