@@ -53,6 +53,23 @@ correct_data <- function(validation_log, data, primary_key){
     new <- validation_log$new_val[i]
     overwrite <- ifelse("overwrite_old_value" %in% names(validation_log), validation_log$overwrite_old_value[i], "TRUE")
 
+    # removes leading or trailing white spaces
+    overwrite <- stringr::str_trim(overwrite,side = "both")
+
+    # make overwrite values either TRUE or FALSE
+    if(stringr::str_detect(overwrite,stringr::regex("^F$|FALSE",ignore_case = TRUE))){
+      overwrite <- "FALSE"
+    }
+
+    if(stringr::str_detect(overwrite,stringr::regex("^T$|TRUE",ignore_case = TRUE))){
+      overwrite <- "TRUE"
+    }
+
+    # break if not an accepted value
+    if(stringr::str_detect(overwrite,stringr::regex("^T$|TRUE|^F$|FALSE",ignore_case = TRUE),negate = TRUE)){
+      rlang::abort("overwrite must be T, TRUE, F, or FALSE. Check for white space in the log.")
+    }
+
     dat_chr <- dat_chr %>%
       dplyr::mutate(
         !!rlang::sym(col_nme) := dplyr::case_when(

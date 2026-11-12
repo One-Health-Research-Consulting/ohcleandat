@@ -12,7 +12,7 @@
 #' @param dropbox_path character. relative dropbox path
 #' @param compress logical. Should files over 300mb be compressed?
 #'
-#' @return performs drop box upload
+#' @return Character. File path on dropbox.
 #' @export
 #' @examples
 #' \dontrun{
@@ -41,4 +41,7 @@ dropbox_upload <- function(dataframe, file_path, dropbox_path,compress = TRUE) {
   # upload
   rdrop2::drop_upload(file_to_upload, dropbox_path)
 
+  out <- sprintf("%s/%s",dropbox_path,file_to_upload)
+
+  return(out)
 }

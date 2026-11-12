@@ -1,0 +1,11 @@
+rowid,log_response_id,entry,field,issue,old_value,no_change,new_val,user_initials,comments
+1,23,id_1,animal_id,Results: animal_id (ID Number) improperly formatted,abc-123,,,,
+2,51,id_2,animal_id,Results: animal_id (ID Number) improperly formatted,abc-130,,,,
+3,11,id_3,animal_id,Results: animal_id (ID Number) improperly formatted,abc-125,,,,
+4,39,id_4,animal_id,Results: animal_id (ID Number) improperly formatted,ABC-126,,,,
+5,12,id_5,animal_id,Results: animal_id (ID Number) improperly formatted,abc-127,,,,
+6,40,id_6,animal_id,Results: animal_id (ID Number) improperly formatted,abc-128,,,,
+7,13,id_7,animal_id,Results: animal_id (ID Number) improperly formatted,abc-129,,,,
+8,5,id_8,animal_id,Results: animal_id (ID Number) improperly formatted,abc-131,,,,
+9,34,id_9,animal_id,Results: animal_id (ID Number) improperly formatted,ABC-132,,,,
+10,35,id_10,animal_id,Results: animal_id (ID Number) improperly formatted,ABC-13e,,,,
