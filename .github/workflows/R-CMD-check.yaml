@@ -2,9 +2,13 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main, master, dev, release/*, feature/*, fix/*]
+    branches: [main]
   pull_request:
     branches: [main, master, dev, release/*, feature/*, fix/*]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true # Stops the active run immediately
 
 name: R-CMD-check
 
