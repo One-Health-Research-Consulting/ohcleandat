@@ -2,6 +2,7 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/404.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/LICENSE-text.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/articles/encryption.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/articles/id_verification.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/articles/idcheck.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/articles/index.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/articles/integration.html</loc></url>
@@ -18,6 +19,8 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/correct_data.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_free_text_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_freetext_log.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_full_id_log.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_id_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_other_choice_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_questionnaire_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_rules_from_template.html</loc></url>
@@ -38,6 +41,7 @@
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/guess_col_type.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/id_checker.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/index.html</loc></url>
+<url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/join_id_log.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/keep_validated_entries.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_report_urls.html</loc></url>
 <url><loc>https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_zip_path.html</loc></url>

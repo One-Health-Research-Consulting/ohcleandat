@@ -5,7 +5,7 @@ Downloads existing validation logs that are stored on dropbox
 ## Usage
 
 ``` r
-get_dropbox_val_logs(file_name, folder, path_name)
+get_dropbox_val_logs(file_name, folder = NULL, path_name, ...)
 ```
 
 ## Arguments
@@ -26,6 +26,10 @@ get_dropbox_val_logs(file_name, folder, path_name)
 - path_name:
 
   character the default drop box path
+
+- ...:
+
+  Additional arguments to pass to readxl::read_xlsx e.g. sheet.
 
 ## Value
 

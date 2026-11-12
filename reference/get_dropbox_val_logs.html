@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ohcleandat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/encryption.html">Encryption</a></li>
+    <li><a class="dropdown-item" href="../articles/id_verification.html">id_verification</a></li>
     <li><a class="dropdown-item" href="../articles/idcheck.html">ID Correction and Autobot</a></li>
     <li><a class="dropdown-item" href="../articles/integration.html">Integrating Different Datasets</a></li>
     <li><a class="dropdown-item" href="../articles/mechanics.html">Mechanics: Data Cleaning and Validation Pipeline</a></li>
@@ -46,7 +47,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_dropbox_val_logs</span><span class="op">(</span><span class="va">file_name</span>, <span class="va">folder</span>, <span class="va">path_name</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_dropbox_val_logs</span><span class="op">(</span><span class="va">file_name</span>, folder <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">path_name</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,6 +68,10 @@ dropbox its stored as "val_log.zip".</p></dd>
 
 <dt id="arg-path-name">path_name<a class="anchor" aria-label="anchor" href="#arg-path-name"></a></dt>
 <dd><p>character the default drop box path</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments to pass to readxl::read_xlsx e.g. sheet.</p></dd>
 
 </dl></div>
     <div class="section level2">

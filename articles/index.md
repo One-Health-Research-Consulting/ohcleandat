@@ -3,6 +3,7 @@
 ### All vignettes
 
 - [Encryption](https://One-Health-Research-Consulting.github.io/ohcleandat/articles/encryption.md):
+- [id_verification](https://One-Health-Research-Consulting.github.io/ohcleandat/articles/id_verification.md):
 - [ID Correction and
   Autobot](https://One-Health-Research-Consulting.github.io/ohcleandat/articles/idcheck.md):
 - [Integrating Different

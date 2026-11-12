@@ -16,6 +16,10 @@
   : Create Free Text Log
 - [`create_freetext_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_freetext_log.md)
   : create other choice log
+- [`create_full_id_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_full_id_log.md)
+  : Create the full set of id validation logs
+- [`create_id_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_id_log.md)
+  : Create ID validation log
 - [`create_other_choice_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_other_choice_log.md)
   : Create Other Choice Log
 - [`create_questionnaire_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/create_questionnaire_log.md)
@@ -54,6 +58,8 @@
   : Guess the column type
 - [`id_checker()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/id_checker.md)
   : ID Checker
+- [`join_id_log()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/join_id_log.md)
+  : Title
 - [`keep_validated_entries()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/keep_validated_entries.md)
   : Keep Validated Entries in Log for Further Validation
 - [`make_report_urls()`](https://One-Health-Research-Consulting.github.io/ohcleandat/reference/make_report_urls.md)

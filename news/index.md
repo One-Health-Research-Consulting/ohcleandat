@@ -1,5 +1,9 @@
 # Changelog
 
+## ohcleandat 1.2.0
+
+- Adds functions for checking foreign keys across datasets
+
 ## ohcleandat 1.1.7
 
 ## ohcleandat 1.1.6

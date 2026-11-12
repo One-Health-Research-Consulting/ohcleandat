@@ -1,0 +1,102 @@
+# Create ID validation log
+
+This function does two things:
+
+## Usage
+
+``` r
+create_id_log(
+  semiclean_x,
+  semiclean_y,
+  by,
+  primary_key_x,
+  primary_key_y,
+  name_x,
+  name_y
+)
+```
+
+## Arguments
+
+- semiclean_x:
+
+  data.frame or tibble containing foreign key to check for existence in
+  y
+
+- semiclean_y:
+
+  data.frame or tibble containing foreign key to check for existence in
+  x
+
+- by:
+
+  character containing match id, or if named different, a named
+  character vector like c("a" = "b") this function assumes that the
+  named character vector follows the convention of c("variable in
+  semiclean_x" = "variable in semiclean_y")
+
+- primary_key_x:
+
+  character vector of the row identifier for data.frame x
+
+- primary_key_y:
+
+  character vector of the row identifier for data.frame y
+
+- name_x:
+
+  character of file name for semiclean_x
+
+- name_y:
+
+  character of file name for semiclean_y
+
+## Value
+
+tibble formatted as a validation log for human review
+
+## Details
+
+1.  Pairwise comparison of foreign keys across two datasets. Foreign
+    keys are matching columns that exist in two different datasets that
+    allow you to link the two together (i.e. human, animal, household).
+
+A foreign key could also be a dataset's primary key. A primary key is
+the column that uniquely identifies every single row in a data set.
+
+1.  Flags duplicate foreign keys within a single data set.
+
+The unaligned comparisons and duplicated flagged get put in to a single
+validation log with one row per problem foreign key.
+
+This allows for foreign key cleaning across your data and sets you up
+for integration.
+
+## See also
+
+See the online documentation and vignette at
+<https://one-health-research-consulting.github.io/ohcleandat/articles/create_id_log_function.html>
+
+[`dplyr::anti_join`](https://dplyr.tidyverse.org/reference/filter-joins.html)
+
+## Examples
+
+``` r
+#testing no differences and no duplicates
+semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
+semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[1:10])
+
+test_no_mm<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
+                         "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
+
+#should be an empty log
+
+#testing 2 differences
+semiclean_x<-data.frame("primary_key_x" = 1:10, "hhid" = letters[1:10])
+semiclean_y<-data.frame("primary_key_y" = 1:10, "household_id" = letters[2:11])
+
+test_mm_2<-create_id_log(semiclean_x, semiclean_y, by = c("hhid"="household_id"), "primary_key_x",
+                        "primary_key_y", name_x = "semiclean_x.csv" , name_y = "semiclean_y.csv")
+
+#should have a log with 2 rows of IDs, one from y (household_id) and one from x (hhid)
+```
