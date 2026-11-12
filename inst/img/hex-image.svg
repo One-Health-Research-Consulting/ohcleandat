@@ -7,6 +7,9 @@
    id="svg2"
    sodipodi:docname="hex-image.svg"
    inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   inkscape:export-filename="hex-image.png"
+   inkscape:export-xdpi="241.905"
+   inkscape:export-ydpi="241.905"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -88,15 +91,24 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="3.9763134"
-     inkscape:cx="70.794219"
-     inkscape:cy="129.39121"
+     inkscape:zoom="4.1747189"
+     inkscape:cx="100.60558"
+     inkscape:cy="116.53479"
      inkscape:window-width="1648"
      inkscape:window-height="938"
      inkscape:window-x="172"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000;fill-opacity:0;stroke:#a0a0a9;stroke-width:3.954;stroke-linecap:butt;stroke-miterlimit:4.2;stroke-dasharray:none;stroke-opacity:1"
+     d="m 39.740383,112.76361 -5.695345,4.8908"
+     id="path6" />
+  <path
+     style="fill:#000000;fill-opacity:0;stroke:#a0a0a9;stroke-width:3.954;stroke-linecap:butt;stroke-miterlimit:4.2;stroke-dasharray:none;stroke-opacity:1"
+     d="m 138.36776,46.110101 -10.15654,5.220166"
+     id="path5"
+     inkscape:label="path5" />
   <path
      fill="#FFF"
      d="M39.425 133.768v-69.11l60-34.561 60 34.561v69.11l-60 34.56z"
@@ -124,6 +136,11 @@
      d="M 75.446769,42.50168 39.23232,63.878265 38.226363,109.6493 c 0,0 39.986788,-18.861688 37.220406,-67.14762 z"
      id="path16" />
   <path
+     style="fill:none;fill-opacity:1;stroke:#272727;stroke-width:2.8636;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 155.86309,101.53345 C 100.94743,67.673612 40.967226,114.4958 40.967226,114.4958"
+     id="path8"
+     sodipodi:nodetypes="cc" />
+  <path
      fill="#050507"
      d="M98.925 32.983l57.5 33.119v66.221l-57.5 33.119-57.5-33.119V66.102l57.5-33.119zm0-5.771l-62.5 36v72.001l62.5 36 62.5-36V63.212l-62.5-36z"
      id="path2"
@@ -133,11 +150,6 @@
      style="fill:none;fill-opacity:1;stroke:#272727;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
      d="M 40.238277,108.64335 C 76.955705,88.524206 76.201238,44.765084 76.201238,44.765084"
      id="path7"
-     sodipodi:nodetypes="cc" />
-  <path
-     style="fill:none;fill-opacity:1;stroke:#272727;stroke-width:2.8636;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-     d="M 155.86309,101.53345 C 100.94743,67.673612 40.967226,114.4958 40.967226,114.4958"
-     id="path8"
      sodipodi:nodetypes="cc" />
   <path
      style="mix-blend-mode:color-burn;fill:url(#radialGradient89);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
