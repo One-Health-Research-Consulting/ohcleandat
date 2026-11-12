@@ -5,6 +5,7 @@
 #'
 #' @param existing_log tibble existing validation log
 #' @param new_log tibble newly generated validation log
+#' @param is_id_log Logical. Are you combining id logs output from `create_id_log()`?
 #'
 #' @export
 #'

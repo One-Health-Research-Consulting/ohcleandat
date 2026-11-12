@@ -48,6 +48,6 @@ Remotes:
     ropensci/ruODK
 URL: https://One-Health-Research-Consulting.github.io/ohcleandat/
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.1.1

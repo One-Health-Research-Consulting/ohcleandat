@@ -2,12 +2,12 @@
 title: "id_verification"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{id_verification}
+  %\VignetteIndexEntry{id_verification}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
-  ```{r, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"

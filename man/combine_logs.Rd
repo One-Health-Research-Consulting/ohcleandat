@@ -4,12 +4,14 @@
 \alias{combine_logs}
 \title{Combine Validation Logs}
 \usage{
-combine_logs(existing_log, new_log)
+combine_logs(existing_log, new_log, is_id_log = FALSE)
 }
 \arguments{
 \item{existing_log}{tibble existing validation log}
 
 \item{new_log}{tibble newly generated validation log}
+
+\item{is_id_log}{Logical. Are you combining id logs output from \code{create_id_log()}?}
 }
 \value{
 tibble appended validation log for upload

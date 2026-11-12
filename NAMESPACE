@@ -24,6 +24,7 @@ export(get_precision)
 export(get_species_letter)
 export(guess_col_type)
 export(id_checker)
+export(join_id_log)
 export(make_report_urls)
 export(make_zip_path)
 export(obfuscate_gps)
@@ -40,4 +41,7 @@ export(update_structural_metadata)
 export(validation_checks)
 export(write_rds)
 importFrom(dplyr,"%>%")
-importFrom(rlang,":=")
+importFrom(rlang,
+  ":=",
+  .data
+)
