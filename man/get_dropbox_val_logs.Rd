@@ -4,7 +4,7 @@
 \alias{get_dropbox_val_logs}
 \title{Get Dropbox Validation Logs}
 \usage{
-get_dropbox_val_logs(file_name, folder, path_name)
+get_dropbox_val_logs(file_name, folder = NULL, path_name, ...)
 }
 \arguments{
 \item{file_name}{character file name with extension of the validation log.
@@ -16,6 +16,8 @@ dropbox its stored as "val_log.zip".}
 \item{folder}{character the folder the log is saved in on drop box. Can be NULL if not in subfolder.}
 
 \item{path_name}{character the default drop box path}
+
+\item{...}{Additional arguments to pass to readxl::read_xlsx e.g. sheet.}
 }
 \value{
 tibble a Validation Log

@@ -13,6 +13,7 @@
 #'  dropbox its stored as "val_log.zip".
 #' @param folder character the folder the log is saved in on drop box. Can be NULL if not in subfolder.
 #' @param path_name character the default drop box path
+#' @param ... Additional arguments to pass to readxl::read_xlsx e.g. sheet.
 #'
 #' @return tibble a Validation Log
 #' @export
@@ -22,7 +23,7 @@
 #' }
 #'
 get_dropbox_val_logs <-
-  function(file_name, folder, path_name) {
+  function(file_name, folder = NULL, path_name,...) {
 
     # path handling when log isnt in a dedicated subfolder on drop box
     if (is.null(folder)) {
@@ -57,7 +58,7 @@ get_dropbox_val_logs <-
     }
 
     if (stringr::str_detect(file_name, ".xls|.xlsx")) {
-      df <- readxl::read_xlsx(here::here(local_path))
+      df <- readxl::read_xlsx(here::here(local_path),...)
     }
 
     if (stringr::str_detect(file_name, ".csv")) {
