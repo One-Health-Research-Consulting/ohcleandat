@@ -70,32 +70,7 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
   dataset_x<-basename(name_x)
   dataset_y<-basename(name_y)
 
-  safe_anti_join <- function(a, b, join_by, keep_cols, from, to) {
-    tryCatch(
-      dplyr::anti_join(a, b, by = join_by) |>
-        dplyr::select(tidyselect::all_of(keep_cols)),
-      error = function(e) {
-        if (grepl("incompatible types", conditionMessage(e))) {
-          rlang::abort(
-            c(
-              paste0("The ID columns linking '", from, "' and '", to, "' are stored as different types (i.e. one is an integer column and one is a character column)."),
-              "i" = "This function assumes that the ID columns are the same in both datasets to be matched please check your datasets for why this error is happening.",
-              "!" = "Check for leading zeros (e.g. '007' vs 7) or the use of the letter 'O' as a zero to ensure that ID columns are being read in from their source as the same type."
-            ),
-            parent = e
-          )
-        } else {
-          rlang::abort(
-            c(
-              paste0("Could not compare IDs in '", from, "' against '", to, "'."),
-              "i" = "Check that the names in `by` and the primary keys exist in both datasets."
-            ),
-            parent = e
-          )
-        }
-      }
-    )
-  }
+
 
 
   anti_x <- safe_anti_join(semiclean_x, semiclean_y, by,   x_names, dataset_x, dataset_y)
@@ -193,4 +168,182 @@ create_id_log <- function(semiclean_x, semiclean_y, by, primary_key_x, primary_k
 
   return(complete_validation_log)
 
+}
+
+
+## create an id log for the primary key of dataset x from a dm object.
+## The primary key for dataset x must be set using `dm::dm_add_pk`.
+## the id log will reflect all foreign keys set using `dm::dm_add_fk`.
+
+create_id_log_dm <- function(dm_obj, name_x){
+
+  dm::dm_zoom_to(dm_obj,!!rlang::sym(name_x))
+  name_x = "survey_data"
+
+  dm::dm_zoom_to(dm_obj,table = name_x)
+  fks_x <- dm::dm_get_all_fks(project_data_fks) |>
+    dplyr::filter(parent_table == name_x)
+
+  child_tables <- fks_x$child_table |> unique()
+
+  pks_child_tables <- dm::dm_get_all_pks(project_data_fks) |>
+    dplyr::filter(table %in% child_tables)
+
+
+
+  ## need to compare parent to children
+  ## need to compare across children?
+
+  # get all unique pairs where order doesnt matter
+  # dataset_pairs <- utils::combn(1:length(dataset_list),2,simplify = FALSE)
+
+  # make by statement
+  by <- fks_x$child_fk_cols[[1]]
+  names(by) <- fks_x$parent_key_cols[[1]]
+
+  by_y <- setNames(names(by),by)
+
+  # get parent table name
+  x_table <- fks_x$parent_table[[1]]
+
+  # pull child table primary key
+  y_table <- fks_x$child_table[[1]]
+
+  y_pk <- pks_child_tables |>
+    dplyr::filter(table == {{y_table}}) |>
+    dplyr::pull(pk_col) |>
+    unlist()
+
+
+
+
+  anti_x <- dplyr::anti_join(dm_obj[[x_table]], dm_obj[[y_table]], by) |>
+    dplyr::select(tidyselect::all_of(names(by)))
+
+
+  anti_x <- safe_anti_join(dm_obj[[x_table]], dm_obj[[y_table]], by, names(by), x_table, y_table)
+  anti_y <- safe_anti_join(dm_obj[[y_table]], dm_obj[[x_table]], by_y, y_pk, y_table, x_table)
+
+  validation_log_x<-anti_x|>
+    dplyr::select(!tidyselect::all_of(x_names))
+
+  validation_log_y<-anti_y|>
+    dplyr::select(!tidyselect::all_of(y_names))
+
+  if(nrow(anti_x)>0){
+    validation_log_x<-anti_x|>
+      dplyr::mutate(dataset = dataset_x,
+                    entry = dplyr::pull(anti_x, primary_key_x),
+                    field = names(by),
+                    issue = paste(names(by), "in", dataset_x, "does not match any", by, "in", dataset_y),
+                    old_value = dplyr::pull(anti_x, by_y),
+                    no_change = '',
+                    new_val = '',
+                    user_initials = '',
+                    comments = ''
+      ) |>
+      dplyr::select(!tidyselect::all_of(x_names))}
+
+  if(nrow(anti_y)>0){
+    #browser()
+    validation_log_y<-anti_y|>
+      dplyr::mutate(dataset = dataset_y,
+                    entry =dplyr::pull(anti_y, primary_key_y),
+                    field = by,
+                    issue = paste(by, "in", dataset_y, "does not match any", names(by), "in", dataset_x),
+                    old_value = dplyr::pull(anti_y, by),
+                    no_change = '',
+                    new_val = '',
+                    user_initials = '',
+                    comments = ''
+      ) |>
+      dplyr::select(!tidyselect::all_of(y_names))}
+
+  dupes_x <- semiclean_x |>
+    dplyr::group_by(dplyr::across(tidyselect::all_of(names(by)))) |>
+    dplyr::filter(dplyr::n() > 1) |>
+    dplyr::ungroup() |>
+    dplyr::select(tidyselect::all_of(x_names)) |>
+    dplyr::mutate(
+      dataset       = dataset_x,
+      entry         = dplyr::pull(dplyr::pick(primary_key_x), primary_key_x),
+      field         = names(by),
+      issue         = paste("Duplicate", names(by), "in", dataset_x),
+      old_value     = dplyr::pull(dplyr::pick(names(by)), names(by)),
+      no_change     = '',
+      new_val       = '',
+      user_initials = '',
+      comments      = ''
+    ) |>
+    dplyr::select(!tidyselect::all_of(x_names))
+
+  dupes_y <- semiclean_y |>
+    dplyr::group_by(dplyr::across(tidyselect::all_of(by))) |>
+    dplyr::filter(dplyr::n() > 1) |>
+    dplyr::ungroup() |>
+    dplyr::select(tidyselect::all_of(y_names)) |>
+    dplyr::mutate(
+      dataset       = dataset_y,
+      entry         = dplyr::pull(dplyr::pick(primary_key_y), primary_key_y),
+      field         = by,
+      issue         = paste("Duplicate", by, "in", dataset_y),
+      old_value     = dplyr::pull(dplyr::pick(names(by_y)), names(by_y)),
+      no_change     = '',
+      new_val       = '',
+      user_initials = '',
+      comments      = ''
+    ) |>
+    dplyr::select(!tidyselect::all_of(y_names))
+
+  log_list <- list(validation_log_x, validation_log_y, dupes_x, dupes_y) |>
+    purrr::keep(~ nrow(.x) > 0)
+
+  complete_validation_log <- dplyr::bind_rows(log_list)
+
+
+  # want to keep system as simple as possible to make sure working properly
+  # can add ID look up and key if data gets restructured before ID logs are created
+
+  # id_key<-read.csv(file = data_id_key)
+  #
+  # #changing the names of the IDs using id key so that the field names match what is written
+  # #in the semiclean
+  #
+  # f <- e |>
+  #   dplyr::left_join(id_key, by = c("field" = "idclean", "dataset" = "database")) |>
+  #   dplyr::mutate(field = dplyr::coalesce(idraw, field)) |>
+  #   dplyr::select(-idraw)
+
+
+  return(complete_validation_log)
+
+}
+
+
+
+safe_anti_join <- function(a, b, join_by, keep_cols, from, to) {
+  tryCatch(
+    dplyr::anti_join(a, b, by = join_by) |>
+      dplyr::select(tidyselect::all_of(keep_cols)),
+    error = function(e) {
+      if (grepl("incompatible types", conditionMessage(e))) {
+        rlang::abort(
+          c(
+            paste0("The ID columns linking '", from, "' and '", to, "' are stored as different types (i.e. one is an integer column and one is a character column)."),
+            "i" = "This function assumes that the ID columns are the same in both datasets to be matched please check your datasets for why this error is happening.",
+            "!" = "Check for leading zeros (e.g. '007' vs 7) or the use of the letter 'O' as a zero to ensure that ID columns are being read in from their source as the same type."
+          ),
+          parent = e
+        )
+      } else {
+        rlang::abort(
+          c(
+            paste0("Could not compare IDs in '", from, "' against '", to, "'."),
+            "i" = "Check that the names in `by` and the primary keys exist in both datasets."
+          ),
+          parent = e
+        )
+      }
+    }
+  )
 }
